@@ -6,8 +6,8 @@ module.exports = {
       colors: {
         primary: "#f7f4ef",
         secondary: "#040d34",
-        accent: "#409fbf",
-        "accent-dark": "#4092bf", // Added accent-dark color
+        accent: "#1DD2FF",
+        "accent-dark": "#1AB4DB", // Added accent-dark color
       },
     },
   },

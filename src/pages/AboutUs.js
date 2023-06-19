@@ -18,15 +18,14 @@ const AboutUs = () => {
             <h1 className="text-4xl md:text-6xl font-bold text-center mb-6">
               Welcome to Our Company
             </h1>
-            <p className="text-xl md:text-2xl text-center max-w-lg mb-12">
-              We are a passionate team dedicated to providing the best shopping
-              experience in your neighborhood.
+            <p className="text-xl md:text-2xl text-center max-w-2xl mb-12">
+              We are a passionate team dedicated to delivering hot, nutritious
+              meals to individuals in need, ensuring their well-being and
+              fostering a sense of community.
             </p>
-            <button className="px-3 py-2 rounded-md bg-accent uppercase text-white m-2">
-              Contact us
-            </button>
+
             <motion.img
-              src={hero}
+              src="https://images.unsplash.com/photo-1472653431158-6364773b2a56?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80 "
               alt="Hero Image"
               ref={refSection1}
               className="rounded-lg shadow-lg"
@@ -61,13 +60,12 @@ const AboutUs = () => {
               transition={{ duration: 0.5 }}
             >
               <p className="text-lg md:text-xl text-center">
-                At Our Company, we are driven by our dedication to support and
-                uplift local stores in the neighborhood. We provide a platform
-                that connects customers with a diverse range of local
-                businesses, showcasing their products and services to a wider
-                audience. We are passionate about helping these stores thrive
-                and succeed by increasing their visibility and fostering a sense
-                of community engagement.
+                MerryMeal is a compassionate and dedicated charitable
+                organization that focuses on providing nutritious meals to
+                individuals who are unable to cook for themselves or maintain
+                their nutritional status. Our primary goal is to ensure that
+                qualified adults living at home have access to hot noon meals,
+                promoting their well-being and overall health.
               </p>
             </motion.div>
             <div className="max-w-4xl text-justify">
@@ -82,11 +80,12 @@ const AboutUs = () => {
                 }
                 transition={{ duration: 0.5, delay: 0.2 }}
               >
-                <span className="font-bold">Our vision</span> is to become the
-                leading platform for connecting people with local stores in
-                their neighborhood. We aim to provide a convenient and
-                personalized shopping experience that supports local businesses
-                and fosters a strong sense of community.
+                <span className="font-bold">Our vision</span> is to create a
+                society where no one goes hungry or lacks proper nutrition. We
+                aspire to be a leading force in addressing the nutritional needs
+                of vulnerable individuals and promoting their well-being.
+                Through our efforts, we envision a future where everyone has
+                access to wholesome meals, regardless of their circumstances.
               </motion.p>
               <motion.p
                 className="text-lg md:text-xl"
@@ -99,12 +98,13 @@ const AboutUs = () => {
                 }
                 transition={{ duration: 0.5, delay: 0.4 }}
               >
-                <span className="font-bold">Our mission</span> is to empower
-                individuals to discover and support local stores in their
-                neighborhood. We strive to create a platform that offers a wide
-                range of products, exceptional customer service, and innovative
-                solutions. Through our efforts, we aim to contribute to the
-                growth and sustainability of local businesses.
+                <span className="font-bold">Our mission</span> is to deliver
+                nutritious meals to qualified adults living at home, ensuring
+                they receive the sustenance they need to thrive. We strive to
+                address the challenges faced by individuals who are unable to
+                cook for themselves, making a positive impact on their lives.Our
+                dedicated team works diligently to prepare and deliver hot noon
+                meals, bringing nourishment and a sense of care to our members.
               </motion.p>
             </div>
           </div>
@@ -122,7 +122,7 @@ const AboutUs = () => {
               {/* Partner 1 */}
 
               <motion.img
-                src={partner1}
+                src="https://static.vecteezy.com/system/resources/previews/006/735/689/original/vintage-grilled-barbecue-logo-retro-bbq-fire-grill-food-and-restaurant-icon-red-fire-icon-free-vector.jpg"
                 alt="Partner 1"
                 ref={refSection3}
                 className="rounded-lg shadow-lg object-fill"
@@ -138,7 +138,7 @@ const AboutUs = () => {
 
               {/* Partner 2 */}
               <motion.img
-                src={partner2}
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmuRhTohUgknm04uhPuGboFm9B0CTdYfWrFg&usqp=CAU"
                 alt="Partner 2"
                 ref={refSection3}
                 className="rounded-lg shadow-lg object-fill"
@@ -154,7 +154,7 @@ const AboutUs = () => {
 
               {/* Partner 3 */}
               <motion.img
-                src={partner3}
+                src="https://i.etsystatic.com/9264928/r/il/9fcb2e/1947415219/il_fullxfull.1947415219_f61b.jpg"
                 alt="Partner 3"
                 ref={refSection3}
                 className="rounded-lg shadow-lg object-fill"
@@ -170,7 +170,7 @@ const AboutUs = () => {
 
               {/* Partner 4 */}
               <motion.img
-                src={partner4}
+                src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/food-delivery-logo-design-template-a342a3b7515a10c800c6885bce8b3ae9_screen.jpg?ts=1619678752"
                 alt="Partner 4"
                 ref={refSection3}
                 className="rounded-lg shadow-lg object-fill"
