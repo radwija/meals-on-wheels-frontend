@@ -20,8 +20,8 @@ export const DonationPage = () => {
                         <p>
                             Your kindness brings comfort and support to those in need. By donating, you ensure timely and nutritious meal delivery to individuals facing age, disease, or disability. Your generosity makes a difference.
                         </p>
-                        <div className='mt-4'>
-                            <button className='bg-accent-dark text-white py-3 px-7 rounded-lg drop-shadow hover:bg-accent transition-colors duration-200'>Donate now</button>
+                        <div className='mt-7'>
+                            <button className='bg-accent-dark text-white py-2 px-7 rounded-lg drop-shadow hover:bg-accent transition-colors duration-200'>Donate now</button>
                         </div>
                     </div>
                 </div>
