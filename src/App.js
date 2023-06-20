@@ -4,13 +4,13 @@ import Profile from "./pages/Profile";
 import AboutUs from "./pages/AboutUs";
 import Registration from "./pages/Registration";
 import { Footer } from "./components/Footer";
+import { DonationPage } from "./pages/DonationPage";
 
 function App() {
   return (
     <div className="App">
-      <Registration />
-      <AboutUs />
-      <Footer />
+      <DonationPage />
+      {/* <Footer /> */}
     </div>
   );
 }
