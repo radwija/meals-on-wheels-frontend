@@ -4,6 +4,12 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 
 export const DonationPage = () => {
     const [amount, setAmount] = useState("0");
+    const [isTypingAmount, setTypingAmount] = useState("0");
+
+    React.useEffect(() => {
+        const timeOutId = setTimeout(() => setTypingAmount(false), 500);
+        return () => clearTimeout(timeOutId);
+    }, [isTypingAmount]);
 
     return (
         <div className='bg-primary min-h-screen'>
@@ -24,27 +30,29 @@ export const DonationPage = () => {
                         <p>
                             Your kindness brings comfort and support to those in need. By donating, you ensure timely and nutritious meal delivery to individuals facing age, disease, or disability. Your generosity makes a difference.
                         </p>
-                        <div className='mt-7 '>
+                        <div className='mt-7'>
                             <input
                                 className="shadow appearance-none border rounded w-full mb-4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 type="number"
                                 placeholder="Amount"
-                                onChange={(e) => setAmount(`${e.target.value}`)}
+                                onChange={(e) => {
+                                    setAmount(`${e.target.value}`)
+                                    setTypingAmount(true)
+                                }}
                             />
-                            <PayPalButtons
+                            {!isTypingAmount && <PayPalButtons
                                 style={{ layout: "horizontal" }}
                                 createOrder={(data, actions) => {
-                                    return actions.order
-                                        .create({
-                                            purchase_units: [
-                                                {
-                                                    amount: {
-                                                        currency_code: "USD",
-                                                        value: amount,
-                                                    },
+                                    return actions.order.create({
+                                        purchase_units: [
+                                            {
+                                                amount: {
+                                                    currency_code: "USD",
+                                                    value: amount,
                                                 },
-                                            ],
-                                        })
+                                            },
+                                        ],
+                                    })
                                         .then((orderId) => {
                                             // Your code here after create the order
                                             return orderId;
@@ -71,7 +79,7 @@ export const DonationPage = () => {
                                 onError={(data) => {
                                     console.log(data)
                                 }}
-                            />
+                            />}
                         </div>
                     </div>
                 </div>
