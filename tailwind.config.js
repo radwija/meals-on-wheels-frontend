@@ -10,6 +10,9 @@ module.exports = {
         "accent-dark": "#1AB4DB", // Added accent-dark color
         footer: "#F8F8F8", // Added accent-dark color
       },
+      screens: {
+        xs: "360px",
+      },
     },
   },
   plugins: [],
