@@ -61,13 +61,11 @@ export const DonationPage = () => {
                                 onApprove={(data, actions) => {
                                     return actions.order.capture().then(function (details) {
                                         alert(`name: ${details.payer.name.given_name} ${details.payer.name.surname}`)
-                                        console.log(`name: ${details.payer.name.given_name}`)
+                                        console.log(`${details.payer.name.given_name} ${details.payer.name.surname}`)
+                                        console.log(details.payer.email_address)
                                         console.log(`payer id: ${details.payer.payer_id}`)
-                                        console.log(`phone: ${details.payer.phone.phone_number.national_number}`)
-                                        console.log(`address: ${details.payer.address.address_line_1}`)
-
+                                        console.log(amount)
                                         console.log(`create time: ${details.create_time}`)
-                                        console.log(`source: ${details.payment_source}`)
                                         console.log(`expiration time: ${details.expiration_time}`)
                                         console.log(`status: ${details.status}`)
 
