@@ -39,7 +39,7 @@ const Registration = () => {
   return (
     <div className="grid grid-cols-12 h-screen">
       <div
-        className="col-span-5 bg-cover  shadow-md grid place-items-center relative"
+        className="xs:hidden md:col-span-5 bg-cover  shadow-md md:grid place-items-center relative"
         style={{
           background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')`,
           backgroundPosition: "center",
@@ -49,7 +49,7 @@ const Registration = () => {
           Become part of our community
         </p>
       </div>
-      <div className="col-span-7 bg-primary grid place-items-center">
+      <div className="xs:col-span-12 md:col-span-7 bg-primary grid place-items-center">
         <form
           className="p-8 text-left flex flex-col"
           onSubmit={formik.handleSubmit}
