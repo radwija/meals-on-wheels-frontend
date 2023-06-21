@@ -5,11 +5,12 @@ import AboutUs from "./pages/AboutUs";
 import Registration from "./pages/Registration";
 import { Footer } from "./components/Footer";
 import Partnership from "./pages/Partnership";
+import Login from "./pages/Login";
 
 function App() {
   return (
     <div className="App">
-      <Partnership />
+      <Login />
       <Footer />
     </div>
   );
