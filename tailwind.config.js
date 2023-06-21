@@ -8,6 +8,7 @@ module.exports = {
         secondary: "#3464ec",
         accent: "#1DD2FF",
         "accent-dark": "#1AB4DB", // Added accent-dark color
+        footer: "#F8F8F8", // Added accent-dark color
       },
     },
   },
