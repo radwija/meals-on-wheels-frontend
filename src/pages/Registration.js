@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
+import { getDistance } from "../api/map.-api";
 const Registration = () => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const [distance, setDistance] = useState("");
+
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -34,6 +37,15 @@ const Registration = () => {
     }),
     onSubmit: async (values) => {
       try {
+        const distance = await getDistance(values.address);
+        setDistance(distance);
+        setSuccess("Distance: " + distance);
+      } catch (error) {
+        setError(error.message);
+        setDistance(null);
+        setSuccess(null);
+      }
+      try {
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("address", values.address);
@@ -43,6 +55,7 @@ const Registration = () => {
         formData.append("password", values.password);
         formData.append("file", values.file);
         formData.append("image", values.image);
+        formData.append("distance", distance);
 
         const response = await axios.post(
           "http://localhost:8080/api/auth/register",
@@ -183,7 +196,7 @@ const Registration = () => {
                 id="gender"
                 name="gender"
                 class="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
-                value={values.address}
+                value={values.gender}
                 onChange={handleChange}
                 onBlur={handleBlur}
               >
@@ -203,7 +216,7 @@ const Registration = () => {
                 id="role"
                 name="role"
                 class="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
-                value={values.address}
+                value={values.role}
                 onChange={handleChange}
                 onBlur={handleBlur}
               >
