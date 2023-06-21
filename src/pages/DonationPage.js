@@ -41,7 +41,10 @@ export const DonationPage = () => {
                                 }}
                             />
                             {!isTypingAmount && <PayPalButtons
-                                style={{ layout: "horizontal" }}
+                                style={{
+                                    layout: "horizontal",
+                                    tagline: false,
+                                }}
                                 createOrder={(data, actions) => {
                                     return actions.order.create({
                                         purchase_units: [
