@@ -3,66 +3,70 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "axios";
 const Registration = () => {
-  const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
-  const [gender, setGender] = useState("MALE");
-  const [role, setRole] = useState("ROLE_MEMBER");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [file, setFile] = useState(null);
-  const [image, setImage] = useState(null);
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      address: "",
+      gender: "MALE",
+      role: "ROLE_MEMBER",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      file: null,
+      image: null,
+    },
+    validationSchema: Yup.object({
+      name: Yup.string().required("Please provide your full name"),
+      address: Yup.string().required("Please provide your address"),
+      gender: Yup.string().required("Please select a gender"),
+      role: Yup.string().required("Please select a role"),
+      email: Yup.string()
+        .email("Invalid email address")
+        .required("Please provide your email"),
+      password: Yup.string().required("Please provide a password"),
+      confirmPassword: Yup.string()
+        .oneOf([Yup.ref("password"), null], "Passwords must match")
+        .required("Please confirm your password"),
+      file: Yup.mixed().required("Please provide a qualification file"),
+      image: Yup.mixed().required("Please provide a photo"),
+    }),
+    onSubmit: async (values) => {
+      try {
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("address", values.address);
+        formData.append("gender", values.gender);
+        formData.append("role", values.role);
+        formData.append("email", values.email);
+        formData.append("password", values.password);
+        formData.append("file", values.file);
+        formData.append("image", values.image);
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData();
-
-    formData.append("name", name);
-    formData.append("address", address);
-    formData.append("gender", gender);
-    formData.append("role", role);
-    formData.append("email", email);
-    formData.append("password", password);
-    formData.append("file", file);
-    formData.append("image", image);
-
-    axios
-      .post("http://localhost:8080/api/auth/register", formData)
-      .then((resp) => {
-        console.log(resp.data);
+        const response = await axios.post(
+          "http://localhost:8080/api/auth/register",
+          formData
+        );
+        console.log(response.data);
         setError("");
         setSuccess("Registration successful");
-      })
-      .catch((err) => {
-        console.log(err);
-        if (err.response && err.response.data.error) {
-          setError(err.response.data.error);
-        } else if ("File size too big, make sure it under 1 mb") {
-          setError(err.response.data);
+      } catch (error) {
+        console.error(error);
+        setSuccess("");
+        if (error.response && error.response.data.error) {
+          setError("File size too big, make sure it's under 1 MB");
+        } else if (error.response && error.response.data) {
+          setError(error.response.data);
         } else {
           setError("No Response From Server");
         }
-      });
-  };
+      }
+    },
+  });
 
-  // try {
-  //   let resp = await axios.post(UPLOAD_ENDPOINT, formData, {
-  //     headers: {
-  //       "content-type": "multipart/form-data",
-  //     },
-  //   })
-  //   console.log(resp)
-  // } catch (e) {
-  //   // todo: email already used, warn user
-  //   console.error(e) //can be removed
-  // }
-  // setStatus(resp.status === 200 ? "Thank you!" : "Error.")
-  // if (resp.status === 200) {
-  //   // todo: succesful registration, inform user
-  //   navigate("/login?msg=true") //can be removed
-  // }
+  const { handleSubmit, handleChange, handleBlur, values, touched, errors } =
+    formik;
 
   return (
     <div className="grid grid-cols-12 h-screen">
@@ -83,12 +87,22 @@ const Registration = () => {
             Registration
           </h1>
           {success && (
-            <h2 className="text-2xl bg-green-700 text-green-300 font-semibold p-3 rounded-md capitalize">
-              {success}, click here to login
-            </h2>
+            <div
+              className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+              role="alert"
+            >
+              <strong className="font-bold">Registration Successful! </strong>
+              <span className="block sm:inline px-1">
+                Your account has been created successfully.
+              </span>
+              <span className="block sm:inline mt-2">
+                Please note that your account will be reviewed and activated by
+                our administrators within the next 24 hours.
+              </span>
+            </div>
           )}
           {error && (
-            <h2 className="text-2xl bg-red-700 text-red-300 font-semibold p-3 rounded-md capitalize">
+            <h2 className="text-2xl bg-red-100 border border-red-400 text-red-700 font-semibold p-2  mb-4">
               {error}
             </h2>
           )}
@@ -105,11 +119,13 @@ const Registration = () => {
               type="text"
               name="name"
               placeholder="Full Name"
-              onChange={(e) => setName(e.target.value)}
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {!name ? (
-              <div className="text-red-500 ps-2">This field is required</div>
-            ) : null}
+            {touched.name && errors.name && (
+              <div className="text-red-500 ps-2">{errors.name}</div>
+            )}
           </div>
           <div class="mb-4 grid grid-cols-12 gap-3">
             <div className="col-span-6">
@@ -125,11 +141,13 @@ const Registration = () => {
                 type="email"
                 name="email"
                 placeholder="Email"
-                onChange={(e) => setEmail(e.target.value)}
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {!email ? (
-                <div className="text-red-500 ps-2">This field is required</div>
-              ) : null}
+              {touched.email && errors.email && (
+                <div className="text-red-500 ps-2">{errors.email}</div>
+              )}
             </div>
             <div className="col-span-6">
               <label
@@ -144,11 +162,13 @@ const Registration = () => {
                 type="text"
                 name="address"
                 placeholder="Address"
-                onChange={(e) => setAddress(e.target.value)}
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {!address ? (
-                <div className="text-red-500 ps-2">This field is required</div>
-              ) : null}
+              {touched.address && errors.address && (
+                <div className="text-red-500 ps-2">{errors.address}</div>
+              )}
             </div>
           </div>
           <div class="mb-4 grid grid-cols-12 gap-3">
@@ -163,7 +183,9 @@ const Registration = () => {
                 id="gender"
                 name="gender"
                 class="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
-                onChange={(e) => setGender(e.target.value)}
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
               >
                 <option disabled>Choose a gender</option>
                 <option value="MALE">Male</option>
@@ -181,7 +203,9 @@ const Registration = () => {
                 id="role"
                 name="role"
                 class="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
-                onChange={(e) => setRole(e.target.value)}
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
               >
                 <option disabled>Choose a role</option>
                 <option value="ROLE_MEMBER">Member</option>
@@ -204,11 +228,14 @@ const Registration = () => {
                 id="qualification"
                 type="file"
                 name="file"
-                onChange={(e) => setFile(e.target.files[0])}
+                onChange={(event) =>
+                  formik.setFieldValue("file", event.target.files[0])
+                }
+                onBlur={handleBlur}
               />
-              {!file ? (
-                <div className="text-red-500 ps-2">This field is required</div>
-              ) : null}
+              {touched.file && errors.file && (
+                <div className="text-red-500 ps-2">{errors.file}</div>
+              )}
             </div>
             <div className="col-span-6">
               <label
@@ -222,12 +249,14 @@ const Registration = () => {
                 id="photo"
                 type="file"
                 name="image"
-                placeholder="photo"
-                onChange={(e) => setImage(e.target.files[0])}
+                onChange={(event) =>
+                  formik.setFieldValue("image", event.target.files[0])
+                }
+                onBlur={handleBlur}
               />
-              {!image ? (
-                <div className="text-red-500 ps-2">This field is required</div>
-              ) : null}
+              {touched.image && errors.image && (
+                <div className="text-red-500 ps-2">{errors.image}</div>
+              )}
             </div>
           </div>
           <div class="mb-4 grid grid-cols-12 gap-3">
@@ -244,11 +273,13 @@ const Registration = () => {
                 type="password"
                 placeholder="Password"
                 name="password"
-                onChange={(e) => setPassword(e.target.value)}
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {!password ? (
-                <div className="text-red-500 ps-2">This field is required</div>
-              ) : null}
+              {touched.password && errors.password && (
+                <div className="text-red-500 ps-2">{errors.password}</div>
+              )}
             </div>
             <div className="col-span-6">
               <label
@@ -261,14 +292,15 @@ const Registration = () => {
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="confirmPassword"
                 type="password"
-                placeholder="Confirm Password"
-                onChange={(e) => setConfirmPassword(e.target.value)}
+                value={values.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {!confirmPassword ? (
-                <div className="text-red-500 ps-2">This field is required</div>
-              ) : confirmPassword !== password ? (
-                <div className="text-red-500 ps-2">This field is required</div>
-              ) : null}
+              {touched.confirmPassword && errors.confirmPassword && (
+                <div className="text-red-500 ps-2">
+                  {errors.confirmPassword}
+                </div>
+              )}
             </div>
           </div>
           <button
