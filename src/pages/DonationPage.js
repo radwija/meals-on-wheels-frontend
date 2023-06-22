@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import donation_bg from "../assets/images/donation_bg.jpg"
 import { PayPalButtons } from "@paypal/react-paypal-js";
+import CurrencyInput from 'react-currency-input-field';
 
 export const DonationPage = () => {
     const [amount, setAmount] = useState("0");
@@ -31,15 +32,18 @@ export const DonationPage = () => {
                             Your kindness brings comfort and support to those in need. By donating, you ensure timely and nutritious meal delivery to individuals facing age, disease, or disability. Your generosity makes a difference.
                         </p>
                         <div className='mt-7'>
-                            <input
+                            <CurrencyInput
                                 className="shadow appearance-none border rounded w-full mb-4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                type="number"
-                                placeholder="Amount"
+                                name="amount"
+                                prefix="$ "
+                                placeholder="$ 0.00"
+                                decimalsLimit={2}
                                 onChange={(e) => {
-                                    setAmount(`${e.target.value}`)
+                                    setAmount(`${e.target.value.replace(/\$|,|\s/g, "")}`)
                                     setTypingAmount(true)
                                 }}
                             />
+
                             {!isTypingAmount && <PayPalButtons
                                 style={{
                                     layout: "horizontal",
