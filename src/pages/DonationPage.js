@@ -66,6 +66,7 @@ export const DonationPage = () => {
                                         alert(`name: ${details.payer.name.given_name} ${details.payer.name.surname}`)
                                         console.log(`${details.payer.name.given_name} ${details.payer.name.surname}`)
                                         console.log(details.payer.email_address)
+                                        console.log(data.paymentSource)
                                         console.log(`payer id: ${details.payer.payer_id}`)
                                         console.log(amount)
                                         console.log(`create time: ${details.create_time}`)
