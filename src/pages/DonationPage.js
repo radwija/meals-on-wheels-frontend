@@ -45,6 +45,7 @@ export const DonationPage = () => {
                                     layout: "horizontal",
                                     tagline: false,
                                 }}
+                                disabled={amount === "" || amount === "0" || parseFloat(amount) < parseFloat("0.01")}
                                 createOrder={(data, actions) => {
                                     return actions.order.create({
                                         purchase_units: [
