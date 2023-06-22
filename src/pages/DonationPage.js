@@ -36,6 +36,7 @@ export const DonationPage = () => {
                                 className="shadow appearance-none border rounded w-full mb-4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="amount"
                                 prefix="$ "
+                                allowNegativeValue={false}
                                 placeholder="$ 0.00"
                                 decimalsLimit={2}
                                 onChange={(e) => {
