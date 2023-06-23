@@ -3,8 +3,12 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../assets/mow_logo.png";
 import { authenticate } from "../api/login-api";
+import { useSignIn } from "react-auth-kit";
+import { useNavigate } from "react-router";
 const Login = () => {
   const [error, setError] = useState("");
+  const signIn = useSignIn();
+  const navigate = useNavigate();
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -23,8 +27,17 @@ const Login = () => {
         setError(res);
       } else {
         setError("");
+        signIn({
+          token: res.accessToken,
+          tokenType: "Bearer",
+          expiresIn: 3600,
+          authState: {
+            email: res.email,
+            role: res.role,
+          },
+        });
+        navigate("/profile");
       }
-      console.log("this is the response: " + JSON.stringify(res));
     },
   });
   return (
