@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../assets/mow_logo.png";
+import { authenticate } from "../api/login-api";
 const Login = () => {
+  const [error, setError] = useState("");
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -15,8 +17,14 @@ const Login = () => {
 
       password: Yup.string().required("Please enter a password"),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      const res = await authenticate(values.email, values.password);
+      if (typeof res === "string") {
+        setError(res);
+      } else {
+        setError("");
+      }
+      console.log("this is the response: " + JSON.stringify(res));
     },
   });
   return (
@@ -30,6 +38,16 @@ const Login = () => {
           <h1 className="font-bold text-4xl border-b-4 pb-2 mb-2 w-fit border-black">
             Welcome Back
           </h1>
+          {error && (
+            <div
+              class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-lg"
+              role="alert"
+            >
+              <strong class="font-bold">Error! </strong>
+              <span class="block sm:inline">{error}</span>
+            </div>
+          )}
+
           <form
             className="p-8 text-left flex flex-col w-3/4"
             onSubmit={formik.handleSubmit}
