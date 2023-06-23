@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "../api/axios";
 import { getDistance } from "../api/map.-api";
+import { Link } from "react-router-dom";
 const Registration = () => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
@@ -319,9 +320,11 @@ const Registration = () => {
           >
             Register
           </button>
-          <p className="font-extralight text-center py-3">
-            Already have an account? Login
-          </p>
+          <Link to="/login">
+            <p className="font-extralight text-center py-3 cursor-pointer">
+              Already have an account? Login
+            </p>
+          </Link>
         </form>
       </div>
     </div>

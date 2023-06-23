@@ -1,6 +1,28 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import axios from "../api/axios";
+import { useAuthUser } from "react-auth-kit";
+import { useNavigate } from "react-router";
+import { getProfile } from "../api/profile-api";
 
 const Profile = () => {
+  const auth = useAuthUser();
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const roleName = role.substring(5).toLowerCase();
+  const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
+    }
+    const userEmail = auth().email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <>
       <div className="h-full bg-primary p-8">
@@ -27,22 +49,48 @@ const Profile = () => {
             </button>
           </div>
           <div className="w-full h-[250px]">
-            <img
-              src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg"
-              className="w-full h-full rounded-tl-lg rounded-tr-lg"
-              alt=""
-            />
+            {profile.background ? (
+              <img
+                src={`data:image/jpeg;base64,${profile.background}`}
+                alt="pfp"
+                className="w-full h-full rounded-tl-lg rounded-tr-lg"
+              />
+            ) : (
+              <img
+                src="https://vojislavd.com/ta-template-demo/assets/img/profile-background.jpg"
+                className="w-full h-full rounded-tl-lg rounded-tr-lg"
+                alt=""
+              />
+            )}
           </div>
           <div className="flex flex-col items-center -mt-20">
-            <img
-              src="https://vojislavd.com/ta-template-demo/assets/img/profile.jpg"
-              className="w-40 border-4 border-white rounded-full"
-              alt=""
-            />
+            {profile.picture ? (
+              <img
+                src={`data:image/jpeg;base64,${profile.picture}`}
+                alt="pfp"
+                className="w-40 border-4 border-white rounded-full"
+              />
+            ) : (
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-24 w-24"
+                viewBox="0 0 20 20"
+                fill="currentColor"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                  clipRule="evenodd"
+                />
+              </svg>
+            )}
+
             <div className="flex items-center space-x-2 mt-2">
-              <p className="text-2xl font-semibold">Amanda Ross</p>
+              <p className="text-2xl font-semibold">{profile.name}</p>
             </div>
-            <p className="text-gray-700">Member Of Meals On Wheels</p>
+            <p className="text-gray-700 capitalize">
+              {roleName} Of Meals On Wheels
+            </p>
           </div>
           <div className="flex-1 flex flex-col items-center lg:items-end justify-end px-8 mt-2">
             <div className="flex items-center space-x-4 mt-2">
@@ -69,27 +117,33 @@ const Profile = () => {
               </h4>
               <ul className="mt-2 text-gray-700">
                 <li className="flex border-y py-2">
-                  <span className="font-bold w-24">Full name:</span>
-                  <span className="text-gray-700">Amanda S. Ross</span>
+                  <span className="font-bold w-24 text-left">Full name</span>
+                  <span className="text-gray-700">: {profile.name}</span>
                 </li>
                 <li className="flex border-b py-2">
-                  <span className="font-bold w-24">Email:</span>
-                  <span className="text-gray-700">amandaross@example.com</span>
+                  <span className="font-bold w-24 text-left">Email</span>
+                  <span className="text-gray-700">: {profile.email}</span>
                 </li>
+
+                {profile.gender && (
+                  <li className="flex border-b py-2">
+                    <span className="font-bold w-24 text-left">Gender</span>
+                    <span className="text-gray-700">: {profile.gender}</span>
+                  </li>
+                )}
                 <li className="flex border-b py-2">
-                  <span className="font-bold w-24">Gender:</span>
-                  <span className="text-gray-700">Male</span>
+                  <span className="font-bold w-24 text-left">Address</span>
+                  <span className="text-gray-700">: {profile.address}</span>
                 </li>
-                <li className="flex border-b py-2">
-                  <span className="font-bold w-24">Address:</span>
-                  <span className="text-gray-700">
-                    Jl. Diponegoro No.100 Dauh Puri Kelod, Denpasar Barat, Bali
-                  </span>
-                </li>
-                <li className="flex border-b py-2">
-                  <span className="font-bold w-24">Birthday:</span>
-                  <span className="text-gray-700">24 Jul, 1991</span>
-                </li>
+                {auth()?.role[0] === "ROLE_PARTNER" ? null : (
+                  <li className="flex border-b py-2">
+                    <span className="font-bold w-24 text-left">Birthday</span>
+                    <span className="text-gray-700">
+                      :{" "}
+                      {profile.birthDay ? profile.birthDay : "No birthday data"}
+                    </span>
+                  </li>
+                )}
               </ul>
             </div>
           </div>

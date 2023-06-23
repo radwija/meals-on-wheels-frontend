@@ -12,7 +12,7 @@ export const applyPartnership = async (partner) => {
     const response = await axios.post("api/partner/apply", formData, {
       headers: { "Content-Type": "multipart/form-data" },
     });
-    if (response?.data?.status) return response.data.status;
+    if (response?.data.status) return response.data.status;
   } catch (error) {
     if (error.response && error.response.data.error) {
       return "File size too big, make sure it's under 1 MB";
