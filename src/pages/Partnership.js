@@ -1,8 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
+import { applyPartnership } from "../api/partnership-api";
 
 const Partnership = () => {
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   const formik = useFormik({
     initialValues: {
       companyName: "",
@@ -26,8 +30,22 @@ const Partnership = () => {
         .oneOf([Yup.ref("password")], "Password did not matches")
         .required("Please enter a password"),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      const res = await applyPartnership(values);
+      if (typeof res === "string") {
+        // Error occurred
+        console.log("Error:", res);
+        // Handle the error accordingly
+        setError(res);
+        setSuccess("");
+      } else {
+        // Success
+        console.log("Success:", res);
+        // Handle the success response accordingly
+        setSuccess("success");
+        setError("");
+        formik.resetForm();
+      }
     },
   });
   return (
@@ -53,6 +71,28 @@ const Partnership = () => {
           <h1 className=" text-left font-bold text-2xl border-b-4 border-black pb-4 w-fit mb-4">
             Apply For Partnership
           </h1>
+          {success && (
+            <div
+              className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+              role="alert"
+            >
+              <strong className="font-bold">
+                Partnership request sent Successful!{" "}
+              </strong>
+              <span className="block sm:inline px-1">
+                Your account has been created successfully.
+              </span>
+              <span className="block sm:inline mt-2">
+                Please note that your account will be reviewed and activated by
+                our administrators within the next 24 hours.
+              </span>
+            </div>
+          )}
+          {error && (
+            <h2 className="text-2xl bg-red-100 border border-red-400 text-red-700 font-semibold p-2  mb-4">
+              {error}
+            </h2>
+          )}
           <div class="mb-4">
             <label
               class="block text-gray-700 text-sm font-bold mb-2"
@@ -132,9 +172,10 @@ const Partnership = () => {
                 id="photo"
                 type="file"
                 placeholder="photo"
-                onChange={formik.handleChange}
+                onChange={(event) =>
+                  formik.setFieldValue("photo", event.target.files[0])
+                }
                 onBlur={formik.handleBlur}
-                value={formik.values.photo}
               />
               {formik.touched.photo && formik.errors.photo ? (
                 <div className="text-red-500 ps-2">{formik.errors.photo}</div>

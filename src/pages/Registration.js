@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import axios from "axios";
+import axios from "../api/axios";
 import { getDistance } from "../api/map.-api";
 const Registration = () => {
   const [success, setSuccess] = useState("");
@@ -57,10 +57,7 @@ const Registration = () => {
         formData.append("image", values.image);
         formData.append("distance", distance);
 
-        const response = await axios.post(
-          "http://localhost:8080/api/auth/register",
-          formData
-        );
+        const response = await axios.post("api/auth/register", formData);
         console.log(response.data);
         setError("");
         setSuccess("Registration successful");
