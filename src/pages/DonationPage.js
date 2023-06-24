@@ -35,20 +35,23 @@ export const DonationPage = () => {
                         </p>
                         <div className='mt-7'>
                             <p>Please enter amount ($ 9,999,999.99 maximum)</p>
-                            <CurrencyInput
-                                className="shadow appearance-none border rounded w-full mb-4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                                name="amount"
-                                prefix="$ "
-                                allowNegativeValue={false}
-                                placeholder="$ 0.00"
-                                decimalsLimit={2}
-                                onChange={(e) => {
-                                    setAmount(`${e.target.value.replace(amountRegex, "")}`)
-                                    setTypingAmount(true)
-                                }}
-                            />
+                            <div className="flex items-center mb-2">
+                                <div className="text-3xl font-normal mr-2 text-yellow-400 ">$</div>
+                                <CurrencyInput
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    name="amount"
+                                    allowNegativeValue={false}
+                                    placeholder="0.00"
+                                    decimalsLimit={2}
+                                    onChange={(e) => {
+                                        setAmount(`${e.target.value.replace(amountRegex, "")}`)
+                                        setTypingAmount(true)
+                                    }}
+                                />
+                            </div>
+                            <div className="text-red-500" hidden={!(parseFloat(amount) > parseFloat("9999999.99"))}>Input is out of maximum</div>
 
-                            {!isTypingAmount && <PayPalButtons
+                            {!isTypingAmount && <PayPalButtons className="mt-5"
                                 style={{
                                     layout: "horizontal",
                                     tagline: false,
