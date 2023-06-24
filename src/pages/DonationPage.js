@@ -4,6 +4,8 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import CurrencyInput from 'react-currency-input-field';
 
 export const DonationPage = () => {
+    const amountRegex = /\$|,|\s/g;
+    const onlyNumberRegex = /[^0-9]+/;
     const [amount, setAmount] = useState("0");
     const [isTypingAmount, setTypingAmount] = useState("0");
 
@@ -41,7 +43,7 @@ export const DonationPage = () => {
                                 placeholder="$ 0.00"
                                 decimalsLimit={2}
                                 onChange={(e) => {
-                                    setAmount(`${e.target.value.replace(/\$|,|\s/g, "")}`)
+                                    setAmount(`${e.target.value.replace(amountRegex, "")}`)
                                     setTypingAmount(true)
                                 }}
                             />
@@ -51,7 +53,7 @@ export const DonationPage = () => {
                                     layout: "horizontal",
                                     tagline: false,
                                 }}
-                                disabled={amount === "" || amount === "0" || parseFloat(amount) < parseFloat("0.01") || parseFloat(amount) > parseFloat("9999999.99")}
+                                disabled={amount.replace(onlyNumberRegex, "").length === 0 || amount === "" || amount === "0" || parseFloat(amount) < parseFloat("0.01") || parseFloat(amount) > parseFloat("9999999.99")}
                                 createOrder={(data, actions) => {
                                     return actions.order.create({
                                         purchase_units: [
