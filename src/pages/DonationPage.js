@@ -3,13 +3,29 @@ import donation_bg from "../assets/images/donation_bg.jpg"
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import CurrencyInput from 'react-currency-input-field';
 import { saveDonationApi } from "../api/donation-api";
+import { error } from "jquery";
 
 
 export const DonationPage = () => {
     const saveDonation = (donation) => {
         saveDonationApi(donation)
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 500) {
+                        alert("Donation failed! There something wrong in our system")
+                    } else if (response.status === 400) {
+                        alert("Bad request | Code error: 400")
+                    }
+                }
+                setAmountSource("")
+                alert("Thank you! Donation done successfully!")
+            })
+            .catch(error => {
+                alert("Donation failed! There something wrong in our system")
+            })
         setAmountSource("")
     }
+
 
     const onlyNumberRegex = /[^0-9]+/;
     const [amountSource, setAmountSource] = useState("");
