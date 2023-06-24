@@ -36,7 +36,7 @@ export const DonationPage = () => {
                         <div className='mt-7'>
                             <p>Please enter amount ($ 9,999,999.99 maximum)</p>
                             <div className="flex items-center mb-2">
-                                <div className="text-3xl font-normal mr-2 text-yellow-400 ">$</div>
+                                <div className="text-3xl font-medium mr-2 text-yellow-400 ">$</div>
                                 <CurrencyInput
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     name="amount"
