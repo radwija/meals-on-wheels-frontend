@@ -8,10 +8,21 @@ export const DonationPage = () => {
     const onlyNumberRegex = /[^0-9]+/;
     const [amount, setAmount] = useState("0");
     const [isTypingAmount, setTypingAmount] = useState("0");
+    let amountLength = null
     const amountValidation = () => {
-        if (amount.replace(onlyNumberRegex, "").length === 0 || amount === "" || amount === "0" || parseFloat(amount) < parseFloat("0.01") || parseFloat(amount) > parseFloat("9999999.99")) {
+        if (
+            amount.replace(onlyNumberRegex, "").length === 0 ||
+            amount === "" ||
+            amount === "0" ||
+            parseFloat(amount) < parseFloat("0.01") ||
+            parseFloat(amount) > parseFloat("9999999.99")
+        ) {
             return true
+        } else if ((amount.length === 10 && amount.split(".")[1]?.length === 2)) {
+            amountLength = 10
+            return false
         }
+
         return false
     }
 
@@ -53,6 +64,7 @@ export const DonationPage = () => {
                                     // maxLength={ }
                                     placeholder="0.00"
                                     decimalsLimit={2}
+                                    maxLength={amountLength}
                                     onChange={(e) => {
                                         setAmount(`${e.target.value.replace(amountRegex, "")}`)
                                         setTypingAmount(true)
