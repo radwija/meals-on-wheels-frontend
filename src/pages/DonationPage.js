@@ -4,23 +4,20 @@ import { PayPalButtons } from "@paypal/react-paypal-js";
 import CurrencyInput from 'react-currency-input-field';
 
 export const DonationPage = () => {
-    const amountRegex = /\$|,|\s/g;
     const onlyNumberRegex = /[^0-9]+/;
-    const [amount, setAmount] = useState("0");
+    const [amount, setAmount] = useState("");
     const [isTypingAmount, setTypingAmount] = useState("0");
-    let amountLength = null
     const amountValidation = () => {
-        if (
-            amount.replace(onlyNumberRegex, "").length === 0 ||
+        console.log(amount)
+        console.log(amount?.length)
+        if (amount === undefined ||
+            amount?.replace(onlyNumberRegex, "").length === 0 ||
             amount === "" ||
             amount === "0" ||
             parseFloat(amount) < parseFloat("0.01") ||
             parseFloat(amount) > parseFloat("9999999.99")
         ) {
             return true
-        } else if ((amount.length === 10 && amount.split(".")[1]?.length === 2)) {
-            amountLength = 10
-            return false
         }
 
         return false
@@ -64,11 +61,11 @@ export const DonationPage = () => {
                                     // maxLength={ }
                                     placeholder="0.00"
                                     decimalsLimit={2}
-                                    maxLength={amountLength}
-                                    onChange={(e) => {
-                                        setAmount(`${e.target.value.replace(amountRegex, "")}`)
-                                        setTypingAmount(true)
+                                    onValueChange={(value) => {
+                                        setAmount(value);
+                                        setTypingAmount(true);
                                     }}
+
                                 />
                             </div>
                             <div className="text-red-500" hidden={!(parseFloat(amount) > parseFloat("9999999.99"))}>Input is out of maximum</div>
