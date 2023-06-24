@@ -6,22 +6,9 @@ import { saveDonationApi } from "../api/donation-api";
 
 
 export const DonationPage = () => {
-    const [donation, setDonation] = useState({
-        payerName: "",
-        email: "",
-        amount: 0,
-        paymentSource: "",
-        transactionDate: "",
-    })
-    const [payerName, setPayerName] = useState("")
-    const [email, setEmail] = useState("")
-    const [amount, setAmount] = useState("")
-    const [paymentSource, setPaymentSource] = useState("")
-    const [transactionDate, setTransactionDate] = useState("")
-
-
     const saveDonation = (donation) => {
         saveDonationApi(donation)
+        setAmountSource("")
     }
 
     const onlyNumberRegex = /[^0-9]+/;
@@ -76,14 +63,13 @@ export const DonationPage = () => {
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     name="amount"
                                     allowNegativeValue={false}
-                                    // maxLength={ }
                                     placeholder="0.00"
                                     decimalsLimit={2}
                                     onValueChange={(value) => {
                                         setAmountSource(value);
                                         setTypingAmount(true);
                                     }}
-
+                                    value={amountSource}
                                 />
                             </div>
                             <div className="text-red-500" hidden={!(parseFloat(amountSource) > parseFloat("9999999.99"))}>Input is out of maximum</div>
@@ -112,17 +98,7 @@ export const DonationPage = () => {
                                 }}
                                 onApprove={(data, actions) => {
                                     return actions.order.capture().then(function (details) {
-                                        alert(`name: ${details.payer.name.given_name} ${details.payer.name.surname}`)
-                                        console.log(`${details.payer.name.given_name} ${details.payer.name.surname}`) // Payer name
-                                        console.log(details.payer.email_address) // email
-                                        console.log(data.paymentSource) // source
-                                        console.log(`payer id: ${details.payer.payer_id}`)
-                                        console.log(amountSource) // amount
-                                        console.log(`create time: ${details.create_time}`) // date
-                                        console.log(`expiration time: ${details.expiration_time}`)
-                                        console.log(`status: ${details.status}`)
-
-                                        const donationRaw = {
+                                        const rawDonation = {
                                             payerName: `${details.payer.name.given_name} ${details.payer.name.surname}`,
                                             email: details.payer.email_address,
                                             amount: parseFloat(amountSource),
@@ -130,17 +106,7 @@ export const DonationPage = () => {
                                             transactionDate: details.create_time
                                         }
 
-                                        // setDonation({
-                                        //     ...donation, donationRaw: {
-                                        //         payerName: donationRaw.payerName,
-                                        //         email: donationRaw.email,
-                                        //         amount: donationRaw.amount,
-                                        //         paymentSource: donationRaw.paymentSource,
-                                        //         transactionDate: donationRaw.transactionDate
-                                        //     }
-                                        // })
-                                        console.log(donationRaw)
-                                        saveDonation(donationRaw)
+                                        saveDonation(rawDonation)
                                     })
                                 }}
                                 onCancel={(data) => {
