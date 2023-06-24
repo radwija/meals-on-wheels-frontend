@@ -8,6 +8,12 @@ export const DonationPage = () => {
     const onlyNumberRegex = /[^0-9]+/;
     const [amount, setAmount] = useState("0");
     const [isTypingAmount, setTypingAmount] = useState("0");
+    const amountValidation = () => {
+        if (amount.replace(onlyNumberRegex, "").length === 0 || amount === "" || amount === "0" || parseFloat(amount) < parseFloat("0.01") || parseFloat(amount) > parseFloat("9999999.99")) {
+            return true
+        }
+        return false
+    }
 
     React.useEffect(() => {
         const timeOutId = setTimeout(() => setTypingAmount(false), 500);
@@ -28,12 +34,15 @@ export const DonationPage = () => {
                         backgroundPosition: "center"
                     }}
                 >
-                    <div className='text-left w-3/5'>
-                        <h1 className='text-xl font-bold pb-3'>Give Comfort and Support</h1>
+                    <div className='text-left w-[600px]'>
+                        <h1 className=' text-xl font-bold pb-3'>Give Comfort and Support</h1>
                         <p>
                             Your kindness brings comfort and support to those in need. By donating, you ensure timely and nutritious meal delivery to individuals facing age, disease, or disability. Your generosity makes a difference.
                         </p>
-                        <div className='mt-7'>
+                        <div className='mt-7 p-4 bg-slate-900'
+                            style={{
+                                borderRadius: "10px"
+                            }}>
                             <p className="mb-2">Please enter amount ($ 9,999,999.99 maximum)</p>
                             <div className="flex items-center mb-2">
                                 <div className="text-3xl font-medium mr-2 text-yellow-400 ">$</div>
@@ -41,6 +50,7 @@ export const DonationPage = () => {
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     name="amount"
                                     allowNegativeValue={false}
+                                    // maxLength={ }
                                     placeholder="0.00"
                                     decimalsLimit={2}
                                     onChange={(e) => {
@@ -56,7 +66,7 @@ export const DonationPage = () => {
                                     layout: "horizontal",
                                     tagline: false,
                                 }}
-                                disabled={amount.replace(onlyNumberRegex, "").length === 0 || amount === "" || amount === "0" || parseFloat(amount) < parseFloat("0.01") || parseFloat(amount) > parseFloat("9999999.99")}
+                                disabled={amountValidation()}
                                 createOrder={(data, actions) => {
                                     return actions.order.create({
                                         purchase_units: [
