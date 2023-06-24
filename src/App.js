@@ -1,9 +1,7 @@
-import logo from "./logo.svg";
 import "./App.css";
-import Profile from "./pages/Profile";
-import AboutUs from "./pages/AboutUs";
 import Registration from "./pages/Registration";
 import { Footer } from "./components/Footer";
+import Login from "./pages/Login";
 import { DonationPage } from "./pages/DonationPage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 

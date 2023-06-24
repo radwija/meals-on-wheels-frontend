@@ -1,45 +1,87 @@
-import React from "react";
+import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-
+import axios from "../api/axios";
+import { getDistance } from "../api/map.-api";
 const Registration = () => {
+  const [success, setSuccess] = useState("");
+  const [error, setError] = useState("");
+  const [distance, setDistance] = useState("");
+
   const formik = useFormik({
     initialValues: {
-      fullName: "",
+      name: "",
       address: "",
+      gender: "MALE",
+      role: "ROLE_MEMBER",
       email: "",
-      gender: "",
-      role: "",
       password: "",
       confirmPassword: "",
-      qualification: null,
-      photo: null,
+      file: null,
+      image: null,
     },
     validationSchema: Yup.object({
-      fullName: Yup.string().required("Please provide your full name"),
+      name: Yup.string().required("Please provide your full name"),
       address: Yup.string().required("Please provide your address"),
+      gender: Yup.string().required("Please select a gender"),
+      role: Yup.string().required("Please select a role"),
       email: Yup.string()
         .email("Invalid email address")
         .required("Please provide your email"),
-      gender: Yup.string().required("Please select your gender"),
-      role: Yup.string().required("Please select your role"),
-      qualification: Yup.string().required("Please provide your qualification"),
-      photo: Yup.string().required("Please provide your photo"),
-      password: Yup.string()
-        .min(6, "Password must be 6 character or more")
-        .required("Please enter a password"),
+      password: Yup.string().required("Please provide a password"),
       confirmPassword: Yup.string()
-        .oneOf([Yup.ref("password")], "Password did not matches")
-        .required("Please enter a password"),
+        .oneOf([Yup.ref("password"), null], "Passwords must match")
+        .required("Please confirm your password"),
+      file: Yup.mixed().required("Please provide a qualification file"),
+      image: Yup.mixed().required("Please provide a photo"),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
+    onSubmit: async (values) => {
+      try {
+        const distance = await getDistance(values.address);
+        setDistance(distance);
+        setSuccess("Distance: " + distance);
+      } catch (error) {
+        setError(error.message);
+        setDistance(null);
+        setSuccess(null);
+      }
+      try {
+        const formData = new FormData();
+        formData.append("name", values.name);
+        formData.append("address", values.address);
+        formData.append("gender", values.gender);
+        formData.append("role", values.role);
+        formData.append("email", values.email);
+        formData.append("password", values.password);
+        formData.append("file", values.file);
+        formData.append("image", values.image);
+        formData.append("distance", distance);
+
+        const response = await axios.post("api/auth/register", formData);
+        console.log(response.data);
+        setError("");
+        setSuccess("Registration successful");
+      } catch (error) {
+        console.error(error);
+        setSuccess("");
+        if (error.response && error.response.data.error) {
+          setError("File size too big, make sure it's under 1 MB");
+        } else if (error.response && error.response.data) {
+          setError(error.response.data);
+        } else {
+          setError("No Response From Server");
+        }
+      }
     },
   });
+
+  const { handleSubmit, handleChange, handleBlur, values, touched, errors } =
+    formik;
+
   return (
     <div className="grid grid-cols-12 h-screen">
       <div
-        className="col-span-5 bg-cover  shadow-md grid place-items-center relative"
+        className="xs:hidden md:col-span-5 bg-cover  shadow-md md:grid place-items-center relative"
         style={{
           background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')`,
           backgroundPosition: "center",
@@ -49,14 +91,31 @@ const Registration = () => {
           Become part of our community
         </p>
       </div>
-      <div className="col-span-7 bg-primary grid place-items-center">
-        <form
-          className="p-8 text-left flex flex-col"
-          onSubmit={formik.handleSubmit}
-        >
+      <div className="xs:col-span-12 md:col-span-7 bg-primary grid place-items-center">
+        <form className="p-8 text-left flex flex-col" onSubmit={handleSubmit}>
           <h1 className=" text-left font-bold text-2xl border-b-4 border-black pb-4 w-fit mb-4">
             Registration
           </h1>
+          {success && (
+            <div
+              className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4"
+              role="alert"
+            >
+              <strong className="font-bold">Registration Successful! </strong>
+              <span className="block sm:inline px-1">
+                Your account has been created successfully.
+              </span>
+              <span className="block sm:inline mt-2">
+                Please note that your account will be reviewed and activated by
+                our administrators within the next 24 hours.
+              </span>
+            </div>
+          )}
+          {error && (
+            <h2 className="text-2xl bg-red-100 border border-red-400 text-red-700 font-semibold p-2  mb-4">
+              {error}
+            </h2>
+          )}
           <div class="mb-4">
             <label
               class="block text-gray-700 text-sm font-bold mb-2"
@@ -68,15 +127,14 @@ const Registration = () => {
               class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               id="fullName"
               type="text"
+              name="name"
               placeholder="Full Name"
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              value={formik.values.fullName}
+              value={values.name}
+              onChange={handleChange}
+              onBlur={handleBlur}
             />
-            {formik.touched.fullName && formik.errors.fullName ? (
-              <div className="text-red-500 ps-2">{formik.errors.fullName}</div>
-            ) : (
-              "null"
+            {touched.name && errors.name && (
+              <div className="text-red-500 ps-2">{errors.name}</div>
             )}
           </div>
           <div class="mb-4 grid grid-cols-12 gap-3">
@@ -91,14 +149,15 @@ const Registration = () => {
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="email"
                 type="email"
+                name="email"
                 placeholder="Email"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.email}
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {formik.touched.email && formik.errors.email ? (
-                <div className="text-red-500 ps-2">{formik.errors.email}</div>
-              ) : null}
+              {touched.email && errors.email && (
+                <div className="text-red-500 ps-2">{errors.email}</div>
+              )}
             </div>
             <div className="col-span-6">
               <label
@@ -111,14 +170,15 @@ const Registration = () => {
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="address"
                 type="text"
+                name="address"
                 placeholder="Address"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.address}
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {formik.touched.address && formik.errors.address ? (
-                <div className="text-red-500 ps-2">{formik.errors.address}</div>
-              ) : null}
+              {touched.address && errors.address && (
+                <div className="text-red-500 ps-2">{errors.address}</div>
+              )}
             </div>
           </div>
           <div class="mb-4 grid grid-cols-12 gap-3">
@@ -131,14 +191,15 @@ const Registration = () => {
               </label>
               <select
                 id="gender"
+                name="gender"
                 class="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.gender}
+                value={values.gender}
+                onChange={handleChange}
+                onBlur={handleBlur}
               >
                 <option disabled>Choose a gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
               </select>
             </div>
             <div className="col-span-6">
@@ -150,16 +211,17 @@ const Registration = () => {
               </label>
               <select
                 id="role"
+                name="role"
                 class="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.role}
+                value={values.role}
+                onChange={handleChange}
+                onBlur={handleBlur}
               >
                 <option disabled>Choose a role</option>
-                <option value="Member">Member</option>
-                <option value="Caregiver">Caregiver</option>
-                <option value="Driver">Driver</option>
-                <option value="Volunteer">Volunteer</option>
+                <option value="ROLE_MEMBER">Member</option>
+                <option value="ROLE_CAREGIVER">Caregiver</option>
+                <option value="ROLE_DRIVER">Driver</option>
+                <option value="ROLE_VOLUNTEER">Volunteer</option>
               </select>
             </div>
           </div>
@@ -175,15 +237,15 @@ const Registration = () => {
                 class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="qualification"
                 type="file"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.qualification}
+                name="file"
+                onChange={(event) =>
+                  formik.setFieldValue("file", event.target.files[0])
+                }
+                onBlur={handleBlur}
               />
-              {formik.touched.qualification && formik.errors.qualification ? (
-                <div className="text-red-500 ps-2">
-                  {formik.errors.qualification}
-                </div>
-              ) : null}
+              {touched.file && errors.file && (
+                <div className="text-red-500 ps-2">{errors.file}</div>
+              )}
             </div>
             <div className="col-span-6">
               <label
@@ -196,14 +258,15 @@ const Registration = () => {
                 class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="photo"
                 type="file"
-                placeholder="photo"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.photo}
+                name="image"
+                onChange={(event) =>
+                  formik.setFieldValue("image", event.target.files[0])
+                }
+                onBlur={handleBlur}
               />
-              {formik.touched.photo && formik.errors.photo ? (
-                <div className="text-red-500 ps-2">{formik.errors.photo}</div>
-              ) : null}
+              {touched.image && errors.image && (
+                <div className="text-red-500 ps-2">{errors.image}</div>
+              )}
             </div>
           </div>
           <div class="mb-4 grid grid-cols-12 gap-3">
@@ -219,15 +282,14 @@ const Registration = () => {
                 id="password"
                 type="password"
                 placeholder="Password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.password}
+                name="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {formik.touched.password && formik.errors.password ? (
-                <div className="text-red-500 ps-2">
-                  {formik.errors.password}
-                </div>
-              ) : null}
+              {touched.password && errors.password && (
+                <div className="text-red-500 ps-2">{errors.password}</div>
+              )}
             </div>
             <div className="col-span-6">
               <label
@@ -240,17 +302,15 @@ const Registration = () => {
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="confirmPassword"
                 type="password"
-                placeholder="Confirm Password"
-                onChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                value={formik.values.confirmPassword}
+                value={values.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
               />
-              {formik.touched.confirmPassword &&
-              formik.errors.confirmPassword ? (
+              {touched.confirmPassword && errors.confirmPassword && (
                 <div className="text-red-500 ps-2">
-                  {formik.errors.confirmPassword}
+                  {errors.confirmPassword}
                 </div>
-              ) : null}
+              )}
             </div>
           </div>
           <button
