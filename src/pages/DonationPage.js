@@ -8,8 +8,6 @@ export const DonationPage = () => {
     const [amount, setAmount] = useState("");
     const [isTypingAmount, setTypingAmount] = useState("0");
     const amountValidation = () => {
-        console.log(amount)
-        console.log(amount?.length)
         if (amount === undefined ||
             amount?.replace(onlyNumberRegex, "").length === 0 ||
             amount === "" ||
