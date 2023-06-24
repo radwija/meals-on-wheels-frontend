@@ -34,7 +34,7 @@ export const DonationPage = () => {
                             Your kindness brings comfort and support to those in need. By donating, you ensure timely and nutritious meal delivery to individuals facing age, disease, or disability. Your generosity makes a difference.
                         </p>
                         <div className='mt-7'>
-                            <p>Please enter amount ($ 9,999,999.99 maximum)</p>
+                            <p className="mb-2">Please enter amount ($ 9,999,999.99 maximum)</p>
                             <div className="flex items-center mb-2">
                                 <div className="text-3xl font-medium mr-2 text-yellow-400 ">$</div>
                                 <CurrencyInput
