@@ -32,6 +32,7 @@ export const DonationPage = () => {
                             Your kindness brings comfort and support to those in need. By donating, you ensure timely and nutritious meal delivery to individuals facing age, disease, or disability. Your generosity makes a difference.
                         </p>
                         <div className='mt-7'>
+                            <p>Please enter amount ($ 9,999,999.99 maximum)</p>
                             <CurrencyInput
                                 className="shadow appearance-none border rounded w-full mb-4 py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                 name="amount"
@@ -50,7 +51,7 @@ export const DonationPage = () => {
                                     layout: "horizontal",
                                     tagline: false,
                                 }}
-                                disabled={amount === "" || amount === "0" || parseFloat(amount) < parseFloat("0.01")}
+                                disabled={amount === "" || amount === "0" || parseFloat(amount) < parseFloat("0.01") || parseFloat(amount) > parseFloat("9999999.99")}
                                 createOrder={(data, actions) => {
                                     return actions.order.create({
                                         purchase_units: [
@@ -70,12 +71,12 @@ export const DonationPage = () => {
                                 onApprove={(data, actions) => {
                                     return actions.order.capture().then(function (details) {
                                         alert(`name: ${details.payer.name.given_name} ${details.payer.name.surname}`)
-                                        console.log(`${details.payer.name.given_name} ${details.payer.name.surname}`)
-                                        console.log(details.payer.email_address)
-                                        console.log(data.paymentSource)
+                                        console.log(`${details.payer.name.given_name} ${details.payer.name.surname}`) // Payer name
+                                        console.log(details.payer.email_address) // email
+                                        console.log(data.paymentSource) // source
                                         console.log(`payer id: ${details.payer.payer_id}`)
-                                        console.log(amount)
-                                        console.log(`create time: ${details.create_time}`)
+                                        console.log(amount) // amount
+                                        console.log(`create time: ${details.create_time}`) // date
                                         console.log(`expiration time: ${details.expiration_time}`)
                                         console.log(`status: ${details.status}`)
 
