@@ -23,6 +23,11 @@ export const saveDonationApi = async (donation) => {
         })
 }
 
+/*  
+*   Ensuring that backend is running to prevent any donation activity.
+*   User balance still can be decreased but the donation information not stored into database 
+*   if backend is not running (preventing lost money).
+*/
 export const isDonationApiAvailable = async () => {
     try {
         const response = await fetch(`${BASE_URL}api/donation`);
@@ -33,15 +38,17 @@ export const isDonationApiAvailable = async () => {
             };
         } else {
             if (response.status === 404) {
+                console.log(response.status)
                 return {
                     isDisabled: true,
-                    text: "404: Unable to donate, there is trouble in our system :("
+                    text: "Error: Unable to donate, there is trouble in our system :("
                 };
             }
             else if (response.status === 400) {
+                console.log(response.status)
                 return {
                     isDisabled: true,
-                    text: "400: Unable to donate, there is trouble in our system :("
+                    text: "Error: Unable to donate, there is trouble in our system :("
                 };
             }
         }
