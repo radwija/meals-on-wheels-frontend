@@ -8,6 +8,8 @@ import AboutUs from "./pages/AboutUs";
 import Partnership from "./pages/Partnership";
 import Profile from "./pages/Profile";
 import { RequireAuth } from "react-auth-kit";
+import { DonationPage } from "./pages/DonationPage";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 
 function App() {
   return (
@@ -19,6 +21,11 @@ function App() {
           <Route path="/partnership" element={<Partnership />} />
           <Route path="/registration" element={<Registration />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/donation" element={
+            <PayPalScriptProvider options={{ clientId: "AX67VeMM2VPi4OP3a21N0e2NpVtfcWcEip_AvG2dZ4ZUi6fhCrn6WR51pdGmI9vrVecbvagqDq6GRIsk" }}>
+              <DonationPage />
+            </PayPalScriptProvider>
+          } />
 
           {"PRIVATE ROUTES"}
           <Route
