@@ -2,27 +2,14 @@ import React, { useState } from "react";
 import donation_bg from "../assets/images/donation_bg.jpg"
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import CurrencyInput from 'react-currency-input-field';
-import { saveDonationApi } from "../api/donation-api";
+import { saveDonationApi, isDonationApiAvailable } from "../api/donation-api";
 import { error } from "jquery";
 
 
 export const DonationPage = () => {
     const saveDonation = (donation) => {
         saveDonationApi(donation)
-            .then(response => {
-                if (!response.ok) {
-                    if (response.status === 500) {
-                        alert("Donation failed! There something wrong in our system")
-                    } else if (response.status === 400) {
-                        alert("Bad request | Code error: 400")
-                    }
-                }
-                setAmountSource("")
-                alert("Thank you! Donation done successfully!")
-            })
-            .catch(error => {
-                alert("Donation failed! There something wrong in our system")
-            })
+
         setAmountSource("")
     }
 
@@ -44,7 +31,34 @@ export const DonationPage = () => {
         return false
     }
 
+    const [donationText, setDonationText] = useState("");
+    const [isDisabled, setDisabled] = useState(true);
+
     React.useEffect(() => {
+        // const fetchData = async () => {
+        //     try {
+        //         const donationApiAvailable = await isDonationApiAvailable();
+        //         setDonationText(donationApiAvailable.text);
+        //         setDisabled(donationApiAvailable.isDisabled);
+        //         console.log(donationApiAvailable.text);
+        //         console.log(donationApiAvailable.isDisabled);
+        //     } catch (error) {
+        //         console.error(error);
+        //     }
+        // };
+
+        // fetchData();
+
+        const fetchData = async () => {
+            const donationApiAvailable = await isDonationApiAvailable();
+            setDonationText(donationApiAvailable.text);
+            console.log(`text: ${donationApiAvailable.text}`);
+            setDisabled(donationApiAvailable.isDisabled);
+            console.log(`status: ${donationApiAvailable.isDisabled}`);
+        };
+
+        fetchData();
+
         const timeOutId = setTimeout(() => setTypingAmount(false), 500);
         return () => clearTimeout(timeOutId);
     }, [isTypingAmount]);
@@ -72,7 +86,7 @@ export const DonationPage = () => {
                             style={{
                                 borderRadius: "10px"
                             }}>
-                            <p className="mb-2">Please enter amount ($ 9,999,999.99 maximum)</p>
+                            <p className="mb-2">{donationText}</p>
                             <div className="flex items-center mb-2">
                                 <div className="text-3xl font-medium mr-2 text-yellow-400 ">$</div>
                                 <CurrencyInput
