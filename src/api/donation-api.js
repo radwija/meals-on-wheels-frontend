@@ -1,8 +1,7 @@
-import { error } from 'jquery'
 import axios, { BASE_URL } from './axios'
 
 export const saveDonationApi = async (donation) => {
-    return await axios.post("api/donation/save-donation", {
+    return await axios.post("api/donation", {
         payerName: donation.payerName,
         email: donation.email,
         amount: donation.amount,
@@ -24,48 +23,33 @@ export const saveDonationApi = async (donation) => {
         })
 }
 
-// Checking API active and preventing donators/supporters balance decreased
-// export const isDonationApiAvailable = async () => {
-//     axios.get("api/donation")
-//         .then(res => {
-//             if (!res.ok) {
-//                 return {
-//                     isDisabled: true,
-//                     text: "Unable to donate, there is trouble in our system :("
-//                 }
-//             }
-//             return {
-//                 isDisabled: false,
-//                 text: "Please enter amount ($ 9,999,999 maximum)"
-//             }
-//         })
-//         .catch(error => {
-//             return {
-//                 isDisabled: true,
-//                 text: "Unable to donate, there is trouble in our system :("
-//             }
-//         })
-// }
-
 export const isDonationApiAvailable = async () => {
     try {
-        const response = await fetch(`${BASE_URL}api/donation}`);
+        const response = await fetch(`${BASE_URL}api/donation`);
         if (response.ok) {
             return {
                 isDisabled: false,
                 text: "Please enter amount ($ 9,999,999 maximum)"
             };
         } else {
-            if (response.status === 404)
+            if (response.status === 404) {
                 return {
                     isDisabled: true,
-                    text: "Unable to donate, there is trouble in our system :("
+                    text: "404: Unable to donate, there is trouble in our system :("
                 };
+            }
+            else if (response.status === 400) {
+                return {
+                    isDisabled: true,
+                    text: "400: Unable to donate, there is trouble in our system :("
+                };
+            }
         }
     } catch (error) {
+        console.log(`Error: ${error}`)
         return {
             isDisabled: true,
-            text: "Unable to donate, there is trouble in our system :("
+            text: "Error: Unable to donate, there is trouble in our system :("
         };
     }
 };

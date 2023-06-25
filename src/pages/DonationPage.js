@@ -3,7 +3,6 @@ import donation_bg from "../assets/images/donation_bg.jpg"
 import { PayPalButtons } from "@paypal/react-paypal-js";
 import CurrencyInput from 'react-currency-input-field';
 import { saveDonationApi, isDonationApiAvailable } from "../api/donation-api";
-import { error } from "jquery";
 
 
 export const DonationPage = () => {
@@ -35,28 +34,11 @@ export const DonationPage = () => {
     const [isDisabled, setDisabled] = useState(true);
 
     React.useEffect(() => {
-        // const fetchData = async () => {
-        //     try {
-        //         const donationApiAvailable = await isDonationApiAvailable();
-        //         setDonationText(donationApiAvailable.text);
-        //         setDisabled(donationApiAvailable.isDisabled);
-        //         console.log(donationApiAvailable.text);
-        //         console.log(donationApiAvailable.isDisabled);
-        //     } catch (error) {
-        //         console.error(error);
-        //     }
-        // };
-
-        // fetchData();
-
         const fetchData = async () => {
             const donationApiAvailable = await isDonationApiAvailable();
             setDonationText(donationApiAvailable.text);
-            console.log(`text: ${donationApiAvailable.text}`);
             setDisabled(donationApiAvailable.isDisabled);
-            console.log(`status: ${donationApiAvailable.isDisabled}`);
         };
-
         fetchData();
 
         const timeOutId = setTimeout(() => setTypingAmount(false), 500);
@@ -92,6 +74,7 @@ export const DonationPage = () => {
                                 <CurrencyInput
                                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                                     name="amount"
+                                    disabled={isDisabled}
                                     allowNegativeValue={false}
                                     placeholder="0.00"
                                     decimalsLimit={2}
