@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import EditProfileForm from "../form/EditProfileForm";
 import EditPictureForm from "../form/EditPictureForm";
-const EditPictureModal = (props) => {
+const EditPictureModal = ({ email, role, onUpdateProfile }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -53,7 +53,12 @@ const EditPictureModal = (props) => {
             </svg>
           </button>
         </div>
-        <EditPictureForm />
+        <EditPictureForm
+          closeModal={closeModal}
+          email={email}
+          onUpdateProfile={onUpdateProfile}
+          role={role}
+        />
       </Modal>
     </div>
   );

@@ -11,6 +11,7 @@ import { RequireAuth } from "react-auth-kit";
 import { DonationPage } from "./pages/DonationPage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { LandingPage } from "./pages/LandingPage";
+import ContactUs from "./pages/ContactUs";
 
 function App() {
   return (
@@ -20,14 +21,23 @@ function App() {
         {"PUBLIC ROUTES"}
         <Route path="/" element={<LandingPage />} />
         <Route path="/about-us" element={<AboutUs />} />
+        <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/partnership" element={<Partnership />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/donation" element={
-          <PayPalScriptProvider options={{ clientId: "AX67VeMM2VPi4OP3a21N0e2NpVtfcWcEip_AvG2dZ4ZUi6fhCrn6WR51pdGmI9vrVecbvagqDq6GRIsk" }}>
-            <DonationPage />
-          </PayPalScriptProvider>
-        } />
+        <Route
+          path="/donation"
+          element={
+            <PayPalScriptProvider
+              options={{
+                clientId:
+                  "AX67VeMM2VPi4OP3a21N0e2NpVtfcWcEip_AvG2dZ4ZUi6fhCrn6WR51pdGmI9vrVecbvagqDq6GRIsk",
+              }}
+            >
+              <DonationPage />
+            </PayPalScriptProvider>
+          }
+        />
 
         {"PRIVATE ROUTES"}
         <Route

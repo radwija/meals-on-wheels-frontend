@@ -54,3 +54,52 @@ export const updateProfile = async (user, role) => {
     }
   }
 };
+
+export const updatePicture = async (email, role, picture) => {
+  try {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("role", role);
+    formData.append("picture", picture);
+
+    const response = await axios.post("api/me/update-picture", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    if (error.response && error.response.data.error) {
+      return "Update Failed";
+    } else if (error.response && error.response.data) {
+      return error.response.data;
+    } else {
+      return "No Response From Server";
+    }
+  }
+};
+export const updateBackground = async (email, role, background) => {
+  try {
+    const formData = new FormData();
+    formData.append("email", email);
+    formData.append("role", role);
+    formData.append("background", background);
+
+    const response = await axios.post("api/me/update-background", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+      withCredentials: true,
+    });
+
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    if (error.response && error.response.data.error) {
+      return "Update Failed";
+    } else if (error.response && error.response.data) {
+      return error.response.data;
+    } else {
+      return "No Response From Server";
+    }
+  }
+};
