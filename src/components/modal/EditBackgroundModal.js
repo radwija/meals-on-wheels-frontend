@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import EditProfileForm from "../form/EditProfileForm";
 import EditBackgroundForm from "../form/EditBackgroundForm";
-const EditBackgroundModal = (props) => {
+const EditBackgroundModal = ({ email, role, onUpdateProfile }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {
@@ -38,7 +38,7 @@ const EditBackgroundModal = (props) => {
         className="modal-content rounded-md"
       >
         <div className="flex justify-between items-center mb-4">
-          <h2 className="text-2xl font-bold">Edit Picture</h2>
+          <h2 className="text-2xl font-bold">Edit Background</h2>
           <button onClick={closeModal}>
             <svg
               className="cursor-pointer"
@@ -53,7 +53,12 @@ const EditBackgroundModal = (props) => {
             </svg>
           </button>
         </div>
-        <EditBackgroundForm />
+        <EditBackgroundForm
+          closeModal={closeModal}
+          email={email}
+          onUpdateProfile={onUpdateProfile}
+          role={role}
+        />
       </Modal>
     </div>
   );

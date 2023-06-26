@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Modal from "react-modal";
 import EditProfileForm from "../form/EditProfileForm";
-const EditProfileModal = ({ user, role, onUpdateProfile }) => {
+const EditProfileModal = ({ user, role, onUpdateProfile, picture }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const openModal = () => {

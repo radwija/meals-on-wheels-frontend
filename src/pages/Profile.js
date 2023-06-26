@@ -38,7 +38,11 @@ const Profile = () => {
         <div className="h-full bg-primary p-8">
           <div className="bg-white rounded-lg shadow-xl pb-8">
             <div className="absolute right-12 mt-4 rounded">
-              <EditBackgroundModal />
+              <EditBackgroundModal
+                email={profile?.email}
+                role={role}
+                onUpdateProfile={handleUpdateProfile}
+              />
             </div>
             <div className="w-full h-[250px]">
               {profile?.background ? (
@@ -61,7 +65,7 @@ const Profile = () => {
                   <img
                     src={`data:image/jpeg;base64,${profile?.picture}`}
                     alt="pfp"
-                    className="w-40 border-4 border-white rounded-full"
+                    className="w-40 h-40 object-cover object-center border-4 border-white rounded-full"
                   />
                 ) : (
                   <div className="h-28 w-28 border-4 flex justify-center items-center bg-white rounded-full">
@@ -79,7 +83,11 @@ const Profile = () => {
                     </svg>
                   </div>
                 )}
-                <EditPictureModal />
+                <EditPictureModal
+                  email={profile?.email}
+                  role={role}
+                  onUpdateProfile={handleUpdateProfile}
+                />
               </div>
 
               <div className="flex items-center space-x-2 mt-2">
