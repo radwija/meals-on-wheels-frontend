@@ -7,7 +7,6 @@ import { useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 const Login = () => {
-
   const [error, setError] = useState("");
   const signIn = useSignIn();
   const navigate = useNavigate();
