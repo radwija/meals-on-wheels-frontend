@@ -3,6 +3,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { applyPartnership } from "../api/partnership-api";
 import Layout from "../components/Layout";
+import { Link } from "react-router-dom";
 
 const Partnership = () => {
   const [error, setError] = useState("");
@@ -85,8 +86,8 @@ const Partnership = () => {
                   Your account has been created successfully.
                 </span>
                 <span className="block sm:inline mt-2">
-                  Please note that your account will be reviewed and activated by
-                  our administrators within the next 24 hours.
+                  Please note that your account will be reviewed and activated
+                  by our administrators within the next 24 hours.
                 </span>
               </div>
             )}
@@ -170,9 +171,10 @@ const Partnership = () => {
                   Photo Or Logo Upload
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="photo"
                   type="file"
+                  accept=".jpg,.jpeg,.png,.avif,.webp"
                   placeholder="photo"
                   onChange={(event) =>
                     formik.setFieldValue("photo", event.target.files[0])
@@ -225,7 +227,7 @@ const Partnership = () => {
                   value={formik.values.confirmPassword}
                 />
                 {formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword ? (
+                formik.errors.confirmPassword ? (
                   <div className="text-red-500 ps-2">
                     {formik.errors.confirmPassword}
                   </div>
@@ -238,9 +240,11 @@ const Partnership = () => {
             >
               Apply
             </button>
-            <p className="font-extralight text-center py-3">
-              Already have an account? Login
-            </p>
+            <Link to="/login">
+              <p className="font-extralight text-center py-3">
+                Already have an account? Login
+              </p>
+            </Link>
           </form>
         </div>
       </div>
