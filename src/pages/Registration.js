@@ -119,15 +119,15 @@ const Registration = () => {
                 {error}
               </h2>
             )}
-            <div class="mb-4">
+            <div className="mb-4">
               <label
-                class="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold mb-2"
                 for="fullName"
               >
                 Full Name
               </label>
               <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="fullName"
                 type="text"
                 name="name"
@@ -140,16 +140,16 @@ const Registration = () => {
                 <div className="text-red-500 ps-2">{errors.name}</div>
               )}
             </div>
-            <div class="mb-4 grid grid-cols-12 gap-3">
+            <div className="mb-4 grid grid-cols-12 gap-3">
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="email"
                 >
                   Email
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="email"
                   type="email"
                   name="email"
@@ -164,13 +164,13 @@ const Registration = () => {
               </div>
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="address"
                 >
                   Address
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="address"
                   type="text"
                   name="address"
@@ -184,18 +184,18 @@ const Registration = () => {
                 )}
               </div>
             </div>
-            <div class="mb-4 grid grid-cols-12 gap-3">
+            <div className="mb-4 grid grid-cols-12 gap-3">
               <div className="col-span-6">
                 <label
                   for="gender"
-                  class="block mb-2 text-sm font-bold text-gray-700"
+                  className="block mb-2 text-sm font-bold text-gray-700"
                 >
                   Gender
                 </label>
                 <select
                   id="gender"
                   name="gender"
-                  class="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
+                  className="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
                   value={values.gender}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -208,14 +208,14 @@ const Registration = () => {
               <div className="col-span-6">
                 <label
                   for="role"
-                  class="block mb-2 text-sm font-bold text-gray-700"
+                  className="block mb-2 text-sm font-bold text-gray-700"
                 >
                   Role
                 </label>
                 <select
                   id="role"
                   name="role"
-                  class="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
+                  className="border text-gray-700 bg-white text-sm rounded-lg block w-full p-2.5 cursor-pointer"
                   value={values.role}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -228,16 +228,16 @@ const Registration = () => {
                 </select>
               </div>
             </div>
-            <div class="mb-4 grid grid-cols-12 gap-3">
+            <div className="mb-4 grid grid-cols-12 gap-3">
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="qualification"
                 >
                   Qualification File Upload
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="qualification"
                   type="file"
                   name="file"
@@ -252,13 +252,13 @@ const Registration = () => {
               </div>
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="photo"
                 >
                   Photo Upload
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="photo"
                   type="file"
                   accept=".jpg,.jpeg,.png,.avif,.webp"
@@ -273,16 +273,16 @@ const Registration = () => {
                 )}
               </div>
             </div>
-            <div class="mb-4 grid grid-cols-12 gap-3">
+            <div className="mb-4 grid grid-cols-12 gap-3">
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="password"
                 >
                   Password
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="password"
                   type="password"
                   placeholder="Password"
@@ -297,13 +297,13 @@ const Registration = () => {
               </div>
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="password"
                 >
                   Confirm Password
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="confirmPassword"
                   type="password"
                   value={values.confirmPassword}
