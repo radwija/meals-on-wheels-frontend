@@ -6,8 +6,8 @@ import { authenticate } from "../api/login-api";
 import { useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
+import { Link } from "react-router-dom";
 const Login = () => {
-
   const [error, setError] = useState("");
   const signIn = useSignIn();
   const navigate = useNavigate();
@@ -46,7 +46,7 @@ const Login = () => {
     <Layout>
       <div className="grid grid-cols-12 h-screen">
         <div className="col-span-12 bg-primary grid place-items-center ">
-          <div className="grid place-items-center w-1/2 border-2 rounded-xl drop-shadow-md bg-white">
+          <div className="grid place-items-center xs:w-full md:w-1/2 border-2 rounded-xl drop-shadow-md bg-white">
             <div className="grid place-items-center">
               <img src={logo} alt="logo" className="object-contain h-40 " />
               <h2 className="font-semibold text-2xl">Meals On Wheels</h2>
@@ -117,9 +117,11 @@ const Login = () => {
               >
                 Login
               </button>
-              <p className="font-extralight text-center py-3">
-                Don't have an account? Register
-              </p>
+              <Link to="/registration">
+                <p className="font-extralight text-center py-3 cursor-pointer">
+                  Don't have an account? Register
+                </p>
+              </Link>
             </form>
           </div>
         </div>

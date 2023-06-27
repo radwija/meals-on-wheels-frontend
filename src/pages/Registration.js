@@ -82,7 +82,7 @@ const Registration = () => {
 
   return (
     <Layout>
-      <div className="grid grid-cols-12 h-screen">
+      <div className="grid grid-cols-12 h-screen ">
         <div
           className="xs:hidden md:col-span-5 bg-cover  shadow-md md:grid place-items-center relative"
           style={{
@@ -109,8 +109,8 @@ const Registration = () => {
                   Your account has been created successfully.
                 </span>
                 <span className="block sm:inline mt-2">
-                  Please note that your account will be reviewed and activated by
-                  our administrators within the next 24 hours.
+                  Please note that your account will be reviewed and activated
+                  by our administrators within the next 24 hours.
                 </span>
               </div>
             )}

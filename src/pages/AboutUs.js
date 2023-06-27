@@ -84,10 +84,11 @@ const AboutUs = () => {
                 >
                   <span className="font-bold">Our vision</span> is to create a
                   society where no one goes hungry or lacks proper nutrition. We
-                  aspire to be a leading force in addressing the nutritional needs
-                  of vulnerable individuals and promoting their well-being.
-                  Through our efforts, we envision a future where everyone has
-                  access to wholesome meals, regardless of their circumstances.
+                  aspire to be a leading force in addressing the nutritional
+                  needs of vulnerable individuals and promoting their
+                  well-being. Through our efforts, we envision a future where
+                  everyone has access to wholesome meals, regardless of their
+                  circumstances.
                 </motion.p>
                 <motion.p
                   className="text-lg md:text-xl"
@@ -104,9 +105,10 @@ const AboutUs = () => {
                   nutritious meals to qualified adults living at home, ensuring
                   they receive the sustenance they need to thrive. We strive to
                   address the challenges faced by individuals who are unable to
-                  cook for themselves, making a positive impact on their lives.Our
-                  dedicated team works diligently to prepare and deliver hot noon
-                  meals, bringing nourishment and a sense of care to our members.
+                  cook for themselves, making a positive impact on their
+                  lives.Our dedicated team works diligently to prepare and
+                  deliver hot noon meals, bringing nourishment and a sense of
+                  care to our members.
                 </motion.p>
               </div>
             </div>
