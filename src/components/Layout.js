@@ -5,10 +5,12 @@ import { LandingPage } from "../pages/LandingPage";
 const Layout = (props) => {
   return (
     <div>
-      <Outlet />
-      {props.children}
+      {/* <Outlet /> */}
+      <div className="min-h-screen">
+        {props.children}
+      </div>
       <Footer />
-    </div>
+    </div >
   );
 };
 

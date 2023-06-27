@@ -23,11 +23,7 @@ export const saveDonationApi = async (donation) => {
         })
 }
 
-/*  
-*   Ensuring that backend is running to prevent any donation activity.
-*   User balance still can be decreased but the donation information not stored into database 
-*   if backend is not running (preventing lost money).
-*/
+// Ensuring that backend is running to prevent any untracked payment activities.
 export const isDonationApiAvailable = async () => {
     try {
         const response = await fetch(`${BASE_URL}api/donation`);
