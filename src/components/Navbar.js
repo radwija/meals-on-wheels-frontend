@@ -1,6 +1,6 @@
 import React from 'react'
 
-import mow_logo from "../assets/mow_logo.png"
+import mow_navbar_logo from "../assets/mow_navbar_logo.png"
 import { Link, useLocation } from 'react-router-dom'
 export const Navbar = () => {
     const location = useLocation();
@@ -8,7 +8,7 @@ export const Navbar = () => {
         <nav class="fixed mx-auto w-full top-0 z-20 bg-white border-b border-gray-200">
             <div div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4" >
                 <Link href="https://flowbite.com/" class="flex items-center">
-                    <img src={mow_logo} class="h-8" alt="MOW Logo Navbar" />
+                    <img src={mow_navbar_logo} class="h-8" alt="MOW Logo Navbar" />
                 </Link>
                 <div class="flex items-center md:order-2">
                     <button type="button" class="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
