@@ -36,6 +36,7 @@ const Login = () => {
           authState: {
             email: res.email,
             role: res.role,
+            token: res.accessToken,
           },
         });
         navigate("/profile");

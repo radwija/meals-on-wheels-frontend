@@ -9,7 +9,7 @@ const itemVariants = {
 const ContactUs = () => {
   return (
     <Layout>
-      <div className="h-screen bg-primary">
+      <div className=" bg-primary ">
         <div className="h-96  gradeint-bg  flex justify-center items-center">
           <motion.div className="text-center text-white">
             <motion.h1
@@ -30,7 +30,7 @@ const ContactUs = () => {
             </motion.p>
           </motion.div>
         </div>
-        <div className="grid grid-cols-12 place-items-center place-content-center ph-5 pt-16">
+        <div className="grid grid-cols-12 place-items-center place-content-center px-5  py-10">
           <motion.div
             className="xs:col-span-12 xs:my-3 xs:shadow-md xs:rounded-md xs:p-3 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center gap-3 "
             variants={itemVariants}
@@ -53,9 +53,9 @@ const ContactUs = () => {
               Customer Support
             </h2>
             <p className="font-medium text-lg text-center px-3">
-              Our dedicated customer support team is available 24/7 to assist you.
-              Call our customer support hotline at +62 868-162-862 for immediate
-              assistance.
+              Our dedicated customer support team is available 24/7 to assist
+              you. Call our customer support hotline at +62 868-162-862 for
+              immediate assistance.
             </p>
           </motion.div>
           <motion.div
@@ -85,9 +85,9 @@ const ContactUs = () => {
               Connect With Us
             </h2>
             <p className="font-medium text-lg text-center px-3">
-              Want to get in touch with us? We're here to help!, Have a question,
-              suggestion, or just want to say hello? Send us an email at
-              mealsonwheels@gmail.com
+              Want to get in touch with us? We're here to help!, Have a
+              question, suggestion, or just want to say hello? Send us an email
+              at mealsonwheels@gmail.com
             </p>
           </motion.div>
           <motion.div
@@ -117,8 +117,8 @@ const ContactUs = () => {
             </h2>
             <p className="font-medium text-lg text-center px-3">
               Looking to visit us in person? We'd love to see you at our office
-              located at Jl. Raya Puputan No.86, Dangin Puri Klod, Kec. Denpasar
-              Tim., Kota Denpasar, Bali.
+              located at Jl. Raya Puputan No.86, Dangin Puri Klod, Kota
+              Denpasar, Bali.
             </p>
           </motion.div>
         </div>
