@@ -4,16 +4,19 @@ import mow_navbar_logo from "../assets/mow_navbar_logo.png"
 import { Link, useLocation } from 'react-router-dom'
 import { useSignOut, useAuthUser } from 'react-auth-kit'
 import { getProfile } from "../api/profile-api";
+import { useNavigate } from "react-router";
 
 export const Navbar = () => {
     const auth = useAuthUser();
     const role = auth()?.role[0];
     const roleName = role?.substring(5).toLowerCase();
     const signOut = useSignOut();
+    const navigate = useNavigate();
 
     const [profile, setProfile] = useState({});
     const handleSignOut = () => {
         signOut();
+        navigate("/login");
     }
     const fetchData = async () => {
         if (!auth()) {
@@ -36,20 +39,28 @@ export const Navbar = () => {
                     <img src={mow_navbar_logo} className="h-8" alt="MOW Logo Navbar" />
                 </Link>
                 <div className="flex items-center md:order-2">
-                    <span>{roleName}</span>
-                    <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                        <span className="sr-only">Open user menu</span>
-                        <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
-                    </button>
+                    {
+                        auth() ?
+                            <div className="flex">
+                                <div className="capitalize">{roleName}</div>
+                                <button type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" id="user-menu-button" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                                    <span className="sr-only">Open user menu</span>
+                                    <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
+                                </button>
+                            </div> :
+                            <></>
+                    }
 
-                    {!auth() ?
-                        <div>
-                            <Link to={"/login"}>Login</Link>
-                            <Link to={"/registration"}>Register</Link>
-                        </div> :
-                        <div>
-                            <button onClick={() => handleSignOut()}>Sign Out</button>
-                        </div>
+
+                    {
+                        !auth() ?
+                            <div>
+                                <Link to={"/login"}>Login</Link>
+                                <Link to={"/registration"}>Register</Link>
+                            </div> :
+                            <div>
+                                <button onClick={() => handleSignOut()}>Sign Out</button>
+                            </div>
                     }
 
                     {/* <!-- Dropdown menu --> */}
