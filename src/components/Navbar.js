@@ -24,6 +24,7 @@ export const Navbar = () => {
     const fetchData = async () => {
         if (!auth()) {
             // User is not authenticated and cookies are expired
+            navigate("/login");
         }
         const userEmail = auth()?.email;
         const res = await getProfile(userEmail, role);
