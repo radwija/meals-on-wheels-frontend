@@ -8,7 +8,7 @@ const Layout = (props) => {
     <div>
       <Navbar />
       {/* <Outlet /> */}
-      <div className="min-h-screen pt-[65px]">
+      <div className="min-h-screen md:pt-[65px] sm:pt-[73px] pt-[73px]">
         {props.children}
       </div>
       <Footer />

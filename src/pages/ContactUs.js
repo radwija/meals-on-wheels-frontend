@@ -74,7 +74,7 @@ const ContactUs = () => {
                 width="70"
                 height="70"
                 fill="#f7f4ef"
-                class="bi bi-envelope-at-fill"
+                className="bi bi-envelope-at-fill"
                 viewBox="0 0 16 16"
               >
                 <path d="M2 2A2 2 0 0 0 .05 3.555L8 8.414l7.95-4.859A2 2 0 0 0 14 2H2Zm-2 9.8V4.698l5.803 3.546L0 11.801Zm6.761-2.97-6.57 4.026A2 2 0 0 0 2 14h6.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.606-3.446l-.367-.225L8 9.586l-1.239-.757ZM16 9.671V4.697l-5.803 3.546.338.208A4.482 4.482 0 0 1 12.5 8c1.414 0 2.675.652 3.5 1.671Z" />
@@ -106,7 +106,7 @@ const ContactUs = () => {
                 width="70"
                 height="70"
                 fill="#f7f4ef"
-                class="bi bi-geo-alt-fill"
+                className="bi bi-geo-alt-fill"
                 viewBox="0 0 16 16"
               >
                 <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
