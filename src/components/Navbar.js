@@ -13,7 +13,7 @@ export const Navbar = () => {
     const roleName = role?.substring(5).toLowerCase();
     const signOut = useSignOut();
     const navigate = useNavigate();
-
+    const userEmail = auth()?.email;
     const location = useLocation();
 
     const [profile, setProfile] = useState({});
@@ -24,9 +24,8 @@ export const Navbar = () => {
     const fetchData = async () => {
         if (!auth()) {
             // User is not authenticated and cookies are expired
-            navigate("/login");
         }
-        const userEmail = auth()?.email;
+
         const res = await getProfile(userEmail, role);
         setProfile(res);
         // Rest of your code here
@@ -71,7 +70,6 @@ export const Navbar = () => {
                     <img src={mow_navbar_logo} className="h-8 mr-3" alt="Flowbite Logo" />
                 </Link>
                 <div className="flex items-center md:order-2">
-                    <Link onClick={() => handleSignOut()} className="block mr-0 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</Link>
                     {
                         !auth() ?
                             <div>
@@ -79,52 +77,67 @@ export const Navbar = () => {
                                 <Link className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-accent focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" to={"/registration"}>Register</Link>
                             </div>
                             :
-                            <button id="user-menu-button" type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                                <span className="sr-only">Open user menu</span>
-                                <div className="w-8 h-8">
-                                    {profile?.picture ? (
-                                        <img
-                                            src={`data:image/jpeg;base64,${profile?.picture}`}
-                                            alt="pfp"
-                                            className="w-8 h-8 object-cover object-center border-1 border-white rounded-full"
-                                        />
-                                    ) : (
-                                        <div className="w-8 h-8 border-4 flex justify-center items-center bg-white rounded-full">
-                                            <svg
-                                                xmlns="http://www.w3.org/2000/svg"
-                                                className="h-20"
-                                                viewBox="0 0 20 20"
-                                                fill="currentColor"
-                                            >
-                                                <path
-                                                    fillRule="evenodd"
-                                                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                                    clipRule="evenodd"
-                                                />
-                                            </svg>
-                                        </div>
-                                    )}
-                                </div>
-                                {/* <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" /> */}
-                            </button>
+                            <div className="hidden md:flex  items-center">
+                                <span className="capitalize mr-3">{roleName}</span>
+                                <button id="user-menu-button" type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                                    <span className="sr-only">Open user menu</span>
+                                    <div className="w-8 h-8">
+                                        {profile?.picture ? (
+                                            <img
+                                                src={`data:image/jpeg;base64,${profile?.picture}`}
+                                                alt="pfp"
+                                                className="w-8 h-8 object-cover object-center border-1 border-white rounded-full"
+                                            />
+                                        ) : (
+                                            <div className="w-8 h-8 border-4 flex justify-center items-center bg-white rounded-full">
+                                                <svg
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    className="h-20"
+                                                    viewBox="0 0 20 20"
+                                                    fill="currentColor"
+                                                >
+                                                    <path
+                                                        fillRule="evenodd"
+                                                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                        clipRule="evenodd"
+                                                    />
+                                                </svg>
+                                            </div>
+                                        )}
+                                    </div>
+                                    {/* <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" /> */}
+                                </button>
+                            </div>
                     }
                     {/* <!-- Dropdown menu --> */}
                     {
                         auth() ?
                             <div id="user-dropdown" className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" >
                                 <div className="px-4 py-3">
-                                    <span className="block text-sm text-gray-900 dark:text-white">Bonnie Green</span>
-                                    <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+                                    <span className="block text-sm text-gray-900 dark:text-white">{profile?.name}</span>
+                                    <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{userEmail}</span>
                                 </div>
                                 <ul className="py-2" aria-labelledby="user-menu-button">
                                     <li>
                                         <Link to={"#"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</Link>
                                     </li>
                                     <li>
-                                        <Link to={"#"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</Link>
+                                        <Link to={"/profile"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</Link>
                                     </li>
+                                    {
+                                        role === "ROLE_MEMBER" ?
+                                            <>
+                                                <li>
+                                                    <Link to={"/feedback"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Feedback</Link>
+                                                </li>
+                                                <li>
+                                                    <Link to={"/order-history"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Order History</Link>
+                                                </li>
+                                            </> :
+                                            <></>
+                                    }
                                     <li>
-                                        <Link onClick={() => handleSignOut()} className="block mr-0 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</Link>
+                                        <button onClick={() => handleSignOut()} className="block mr-0 text-left w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>
                                     </li>
                                 </ul>
                             </div>
