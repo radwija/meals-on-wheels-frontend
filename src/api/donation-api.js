@@ -16,7 +16,7 @@ export const saveDonationApi = async (donation) => {
                 alert("Bad request | Code error: 400")
             }
         }
-        alert("Thank you for donating! Your donation information saved!")
+        alert("Thank you for donating! Your donation information recorded!")
     })
         .catch(error => {
             alert("Donation failed! There something wrong in our system")
