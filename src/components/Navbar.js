@@ -32,6 +32,7 @@ export const Navbar = () => {
     };
     useEffect(() => {
         fetchData();
+        // Profile Toggle
     }, []);
 
     const options = {
@@ -46,21 +47,11 @@ export const Navbar = () => {
         }
     };
 
-    // // Navbar Toggle
-    // const $targetEl = document.getElementById('mobile-menu-2');
-    // const $triggerEl = document.getElementById('triggerEl');
+    // Navbar Toggle
+    const $targetEl = document.getElementById('mobile-menu-2');
+    const $triggerEl = document.getElementById('triggerEl');
 
-    // const collapseNavbar = new Collapse($targetEl, $triggerEl, options);
-
-    // // show the target element
-    // collapseNavbar.expand();
-
-    // // hide the target element
-    // collapseNavbar.collapse();
-
-    // // toggle the visibility of the target element
-    // collapseNavbar.toggle();
-
+    const collapseNavbar = new Collapse($targetEl, $triggerEl, options);
 
     // // Profile Toggle
     // const $profileTarget = document.getElementById('user-dropdown');
@@ -68,25 +59,15 @@ export const Navbar = () => {
 
     // const collapseProfile = new Collapse($profileTarget, $profileTrigger, options);
 
-    // // show the target element
-    // collapseProfile.expand();
-
-    // // hide the target element
-    // collapseProfile.collapse();
-
-    // // toggle the visibility of the target element
-    // collapseProfile.toggle();
-
 
 
 
     return (
 
-        <nav className="bg-white border-gray-200 dark:bg-gray-900">
+        <nav className="fixed mx-auto w-full top-0 z-20 bg-white border-b border-gray-200">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <Link to="https://flowbite.com/" className="flex items-center">
-                    <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
-                    <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
+                    <img src={mow_navbar_logo} className="h-8 mr-3" alt="Flowbite Logo" />
                 </Link>
                 <div className="flex items-center md:order-2">
                     {
@@ -151,19 +132,39 @@ export const Navbar = () => {
                 <div id="mobile-menu-2" className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1">
                     <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
                         <li>
-                            <Link to={"#"} className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 md:dark:text-blue-500" aria-current="page">Home</Link>
+                            <Link to={"/"} className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                                ${location.pathname === '/' ? 'text-accent' : ''
+                                }`}>
+                                Home
+                            </Link>
                         </li>
                         <li>
-                            <Link to={"#"} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">About</Link>
+                            <Link to={"/donation"} className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                                ${location.pathname === '/donation' ? 'text-accent' : ''
+                                }`}>
+                                Donate
+                            </Link>
                         </li>
                         <li>
-                            <Link to={"#"} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Services</Link>
+                            <Link to={"/partnership"} className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                                ${location.pathname === '/partnership' ? 'text-accent' : ''
+                                }`}>
+                                Partnership
+                            </Link>
                         </li>
                         <li>
-                            <Link to={"#"} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Pricing</Link>
+                            <Link to={"/about-us"} className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                                ${location.pathname === '/about-us' ? 'text-accent' : ''
+                                }`}>
+                                About Us
+                            </Link>
                         </li>
                         <li>
-                            <Link to={"#"} className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700">Contact</Link>
+                            <Link to={"/contact-us"} className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                                ${location.pathname === '/contact-us' ? 'text-accent' : ''
+                                }`}>
+                                Contact Us
+                            </Link>
                         </li>
                     </ul>
                 </div>
