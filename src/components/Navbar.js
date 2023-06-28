@@ -77,8 +77,8 @@ export const Navbar = () => {
                                 <Link className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-accent focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" to={"/registration"}>Register</Link>
                             </div>
                             :
-                            <div className="hidden md:flex  items-center">
-                                <span className="capitalize mr-3">{roleName}</span>
+                            <div className="md:flex  items-center">
+                                <span className="hidden md:flex sm:hidden capitalize mr-3">{roleName}</span>
                                 <button id="user-menu-button" type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                                     <span className="sr-only">Open user menu</span>
                                     <div className="w-8 h-8">
