@@ -53,11 +53,11 @@ export const Navbar = () => {
 
     const collapseNavbar = new Collapse($targetEl, $triggerEl, options);
 
-    // // Profile Toggle
-    // const $profileTarget = document.getElementById('user-dropdown');
-    // const $profileTrigger = document.getElementById('user-menu-button');
+    // Profile Toggle
+    const $profileTarget = document.getElementById('user-dropdown');
+    const $profileTrigger = document.getElementById('user-menu-button');
 
-    // const collapseProfile = new Collapse($profileTarget, $profileTrigger, options);
+    const collapseProfile = new Collapse($profileTarget, $profileTrigger, options);
 
 
 
