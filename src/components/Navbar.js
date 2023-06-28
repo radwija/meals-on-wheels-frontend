@@ -25,9 +25,13 @@ export const Navbar = () => {
         if (!auth()) {
             // User is not authenticated and cookies are expired
         }
+        try {
+            const res = await getProfile(userEmail, role);
+            setProfile(res);
+        } catch (error) {
+            console.log(error)
+        }
 
-        const res = await getProfile(userEmail, role);
-        setProfile(res);
         // Rest of your code here
     };
     useEffect(() => {
