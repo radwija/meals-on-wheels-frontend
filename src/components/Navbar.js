@@ -58,7 +58,7 @@ export const Navbar = () => {
                             <div>
                                 <Link className="text-white bg-accent-dark hover:bg-accent focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" to={"/login"}>Login</Link>
                                 {/* <Link className="bg-accent-dark text-white py-2.5 px-5 mr-2 mb-2 text-sm font-medium mx-10 rounded-lg drop-shadow hover:bg-accent transition-colors duration-200" to={"/login"}>Login</Link> */}
-                                <Link className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-accent focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" to={"/registration"}>Register</Link>
+                                <Link className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-accent focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" to={"/registration"}>Sign Out</Link>
                             </div> :
                             <div>
                                 <button onClick={() => handleSignOut()}>Sign Out</button>
