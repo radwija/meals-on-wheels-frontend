@@ -34,17 +34,6 @@ export const Navbar = () => {
         fetchData();
     }, []);
 
-
-    // Navbar
-    const $targetEl = document.getElementById('mobile-menu-2');
-    const $triggerEl = document.getElementById('triggerEl');
-
-
-    // optionally set a trigger element (eg. a button, hamburger icon)
-    const $profileTarget = document.getElementById('user-dropdown');
-    const $profileTrigger = document.getElementById('user-menu-button');
-
-    // optional options with default values and callback functions
     const options = {
         onCollapse: () => {
             console.log('element has been collapsed')
@@ -57,16 +46,40 @@ export const Navbar = () => {
         }
     };
 
-    // const collapse = new Collapse($targetEl, $triggerEl, options);
+    // // Navbar Toggle
+    // const $targetEl = document.getElementById('mobile-menu-2');
+    // const $triggerEl = document.getElementById('triggerEl');
+
+    // const collapseNavbar = new Collapse($targetEl, $triggerEl, options);
 
     // // show the target element
-    // collapse.expand();
+    // collapseNavbar.expand();
 
     // // hide the target element
-    // collapse.collapse();
+    // collapseNavbar.collapse();
 
     // // toggle the visibility of the target element
-    // collapse.toggle();
+    // collapseNavbar.toggle();
+
+
+    // // Profile Toggle
+    // const $profileTarget = document.getElementById('user-dropdown');
+    // const $profileTrigger = document.getElementById('user-menu-button');
+
+    // const collapseProfile = new Collapse($profileTarget, $profileTrigger, options);
+
+    // // show the target element
+    // collapseProfile.expand();
+
+    // // hide the target element
+    // collapseProfile.collapse();
+
+    // // toggle the visibility of the target element
+    // collapseProfile.toggle();
+
+
+
+
     return (
 
         <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -76,34 +89,42 @@ export const Navbar = () => {
                     <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
                 </Link>
                 <div className="flex items-center md:order-2">
-                    <button id="user-menu-button" type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
-                        <span className="sr-only">Open user menu</span>
-                        <div className="w-8 h-8">
-                            {profile?.picture ? (
-                                <img
-                                    src={`data:image/jpeg;base64,${profile?.picture}`}
-                                    alt="pfp"
-                                    className="w-8 h-8 object-cover object-center border-1 border-white rounded-full"
-                                />
-                            ) : (
-                                <div className="w-8 h-8 border-4 flex justify-center items-center bg-white rounded-full">
-                                    <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        className="h-20"
-                                        viewBox="0 0 20 20"
-                                        fill="currentColor"
-                                    >
-                                        <path
-                                            fillRule="evenodd"
-                                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                                            clipRule="evenodd"
+                    {
+                        !auth() ?
+                            <div>
+                                <Link className="text-white bg-accent-dark hover:bg-accent focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800" to={"/login"}>Login</Link>
+                                <Link className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-accent focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" to={"/registration"}>Register</Link>
+                            </div>
+                            :
+                            <button id="user-menu-button" type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                                <span className="sr-only">Open user menu</span>
+                                <div className="w-8 h-8">
+                                    {profile?.picture ? (
+                                        <img
+                                            src={`data:image/jpeg;base64,${profile?.picture}`}
+                                            alt="pfp"
+                                            className="w-8 h-8 object-cover object-center border-1 border-white rounded-full"
                                         />
-                                    </svg>
+                                    ) : (
+                                        <div className="w-8 h-8 border-4 flex justify-center items-center bg-white rounded-full">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                className="h-20"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </div>
+                                    )}
                                 </div>
-                            )}
-                        </div>
-                        {/* <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" /> */}
-                    </button>
+                                {/* <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" /> */}
+                            </button>
+                    }
                     {/* <!-- Dropdown menu --> */}
                     <div id="user-dropdown" className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" >
                         <div className="px-4 py-3">
@@ -118,13 +139,13 @@ export const Navbar = () => {
                                 <Link to={"#"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</Link>
                             </li>
                             <li>
-                                <button onClick={() => handleSignOut()} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</button>
+                                <Link onClick={() => handleSignOut()} className="block mr-0 px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Sign out</Link>
                             </li>
                         </ul>
                     </div>
                     <button id="triggerEl" data-collapse-toggle="mobile-menu-2" type="button" className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600" aria-controls="mobile-menu-2" aria-expanded="false">
                         <span className="sr-only">Open main menu</span>
-                        <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path></svg>
+                        <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path></svg>
                     </button>
                 </div>
                 <div id="mobile-menu-2" className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1">
