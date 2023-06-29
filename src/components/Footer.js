@@ -31,7 +31,7 @@ export const Footer = () => {
               Contact Us
             </li>
           </Link>
-          <Link to="/">
+          <Link to="/terms-and-conditions">
             <li className="hover:text-accent hover:scale-110 transition-all duration-300 cursor-pointer ">
               Terms and Conditions
             </li>

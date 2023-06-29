@@ -12,6 +12,7 @@ import { DonationPage } from "./pages/DonationPage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { LandingPage } from "./pages/LandingPage";
 import ContactUs from "./pages/ContactUs";
+import { TermsAndConditions } from "./pages/TermsAndConditions";
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="/contact-us" element={<ContactUs />} />
         <Route path="/partnership" element={<Partnership />} />
         <Route path="/registration" element={<Registration />} />
+        <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/login" element={<Login />} />
         <Route
           path="/donation"
