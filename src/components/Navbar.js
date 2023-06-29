@@ -58,15 +58,6 @@ export const Navbar = () => {
 
     const collapseNavbar = new Collapse($targetEl, $triggerEl, options);
 
-    // Profile Toggle
-    // const $profileTarget = document.getElementById('user-dropdown');
-    // const $profileTrigger = document.getElementById('user-menu-button');
-
-    // const collapseProfile = new Collapse($profileTarget, $profileTrigger, options);
-
-
-
-
     return (
 
         <nav className="fixed mx-auto w-full top-0 z-20 bg-white border-b border-gray-200">
@@ -117,7 +108,7 @@ export const Navbar = () => {
                     {/* <!-- Dropdown menu --> */}
                     {
                         auth() && isExpanded ?
-                            <div id="user-dropdown" className={`z-50 ${isExpanded ? 'absolute top-12' : ''} my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`} >
+                            <div id="user-dropdown" className="z-50 absolute top-12 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600 animate-spin" >
                                 <div className="px-4 py-3">
                                     <span className="block text-sm text-gray-900 dark:text-white">{profile?.name}</span>
                                     <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{userEmail}</span>
