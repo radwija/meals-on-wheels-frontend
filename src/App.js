@@ -12,6 +12,7 @@ import { DonationPage } from "./pages/DonationPage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { LandingPage } from "./pages/LandingPage";
 import ContactUs from "./pages/ContactUs";
+import AdminDashboard from "./pages/AdminPanel/AdminDashboard";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/partnership" element={<Partnership />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/admin" element={<AdminDashboard />} />
         <Route
           path="/donation"
           element={
