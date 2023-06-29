@@ -15,6 +15,7 @@ export const Navbar = () => {
     const navigate = useNavigate();
     const userEmail = auth()?.email;
     const location = useLocation();
+    const [isExpanded, setExpanded] = React.useState(false);
 
     const [profile, setProfile] = useState({});
     const handleSignOut = () => {
@@ -58,10 +59,10 @@ export const Navbar = () => {
     const collapseNavbar = new Collapse($targetEl, $triggerEl, options);
 
     // Profile Toggle
-    const $profileTarget = document.getElementById('user-dropdown');
-    const $profileTrigger = document.getElementById('user-menu-button');
+    // const $profileTarget = document.getElementById('user-dropdown');
+    // const $profileTrigger = document.getElementById('user-menu-button');
 
-    const collapseProfile = new Collapse($profileTarget, $profileTrigger, options);
+    // const collapseProfile = new Collapse($profileTarget, $profileTrigger, options);
 
 
 
@@ -83,7 +84,7 @@ export const Navbar = () => {
                             :
                             <div className="md:flex  items-center">
                                 <span className="hidden md:flex sm:hidden capitalize mr-3">{roleName}</span>
-                                <button id="user-menu-button" type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
+                                <button onClick={() => setExpanded(!isExpanded)} id="user-menu-button" type="button" className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600" aria-expanded="false" data-dropdown-toggle="user-dropdown" data-dropdown-placement="bottom">
                                     <span className="sr-only">Open user menu</span>
                                     <div className="w-8 h-8">
                                         {profile?.picture ? (
@@ -115,8 +116,8 @@ export const Navbar = () => {
                     }
                     {/* <!-- Dropdown menu --> */}
                     {
-                        auth() ?
-                            <div id="user-dropdown" className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" >
+                        auth() && isExpanded ?
+                            <div id="user-dropdown" className={`z-50 ${isExpanded ? 'absolute top-12' : ''} my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`} >
                                 <div className="px-4 py-3">
                                     <span className="block text-sm text-gray-900 dark:text-white">{profile?.name}</span>
                                     <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">{userEmail}</span>
