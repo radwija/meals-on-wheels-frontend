@@ -11,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const [isSubmiting, setIsSubmiting] = useState(false);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,6 +25,7 @@ const Login = () => {
       password: Yup.string().required("Please enter a password"),
     }),
     onSubmit: async (values) => {
+      setIsSubmiting(true);
       const res = await authenticate(values.email, values.password);
       if (typeof res === "string") {
         setError(res);
@@ -39,6 +41,7 @@ const Login = () => {
             token: res.accessToken,
           },
         });
+        setIsSubmiting(false);
         navigate("/profile");
       }
     },
@@ -114,7 +117,8 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="bg-accent-dark text-white py-3 mx-10 rounded-lg drop-shadow mt-4 hover:bg-accent transition-colors duration-200"
+                disabled={isSubmiting ? true : false}
+                className="bg-accent-dark text-white py-3 mx-10 rounded-lg drop-shadow mt-4 hover:bg-accent transition-colors duration-200 disabled:bg-accent-dark disabled:hover:scale-100"
               >
                 Login
               </button>
