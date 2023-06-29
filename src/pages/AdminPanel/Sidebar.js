@@ -9,6 +9,8 @@ import {
   faIdCardAlt,
   faTachometerAlt,
   faBowlFood,
+  faChevronUp,
+  faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
@@ -23,6 +25,12 @@ const Sidebar = () => {
     setDarkMode(!isDarkMode);
   };
 
+  const [isUsersDropdownOpen, setUsersDropdownOpen] = useState(false);
+
+  const toggleUsersDropdown = () => {
+    setUsersDropdownOpen(!isUsersDropdownOpen);
+  };
+
   return (
     <div className={`flex ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
       {/* Sidebar */}
@@ -35,7 +43,7 @@ const Sidebar = () => {
           <ul>
             <li className="px-6 py-3">
               <Link
-                to="/dashboard"
+                to="/admin"
                 className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
                   }`}
               >
@@ -44,68 +52,75 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="px-6 py-3">
-              <Link
-                to="/users"
-                className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+              <div
+                className={`cursor-pointer ${isDarkMode ? 'text-white' : 'text-gray-800'
                   }`}
+                onClick={toggleUsersDropdown}
               >
                 <FontAwesomeIcon icon={faUsers} className="mr-3" />
                 Users
-              </Link>
-              <ul className="pl-6 py-2">
-                <li>
-                  <Link
-                    to="/users/partners"
-                    className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
-                      }`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faUserFriends}
-                      className="mr-2 text-sm"
-                    />
-                    Partners
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/users/drivers"
-                    className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
-                      }`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faTruck}
-                      className="mr-2 text-sm"
-                    />
-                    Drivers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/users/volunteers"
-                    className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
-                      }`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faUserFriends}
-                      className="mr-2 text-sm"
-                    />
-                    Volunteers
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/users/members"
-                    className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
-                      }`}
-                  >
-                    <FontAwesomeIcon
-                      icon={faIdCardAlt}
-                      className="mr-2 text-sm"
-                    />
-                    Members
-                  </Link>
-                </li>
-              </ul>
+                <FontAwesomeIcon
+                  icon={isUsersDropdownOpen ? faChevronUp : faChevronDown}
+                  className={`ml-2 text-xs ${isDarkMode ? 'text-white' : 'text-gray-800'
+                    }`}
+                />
+              </div>
+              {isUsersDropdownOpen && (
+                <ul className="pl-6 py-2">
+                  <li>
+                    <Link
+                      to="/users/partners"
+                      className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faUserFriends}
+                        className="mr-2 text-sm"
+                      />
+                      Partners
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/users/drivers"
+                      className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faTruck}
+                        className="mr-2 text-sm"
+                      />
+                      Drivers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/users/volunteers"
+                      className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faUserFriends}
+                        className="mr-2 text-sm"
+                      />
+                      Volunteers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/users/members"
+                      className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faIdCardAlt}
+                        className="mr-2 text-sm"
+                      />
+                      Members
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </li>
             <li className="px-6 py-3">
               <Link
@@ -150,8 +165,6 @@ const Sidebar = () => {
             </span>
           </button>
         </div>
-
-
       </div>
 
       {/* Main Content */}
