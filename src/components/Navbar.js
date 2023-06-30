@@ -84,7 +84,7 @@ export const Navbar = ({ isProfileUpdated }) => {
             alt="Meals On Wheels"
           />
         </Link>
-        <div className="flex items-center md:order-2">
+        <div className="flex items-center lg:order-2">
           {!auth() ? (
             <div>
               <Link
@@ -101,15 +101,15 @@ export const Navbar = ({ isProfileUpdated }) => {
               </Link>
             </div>
           ) : (
-            <div className="md:flex  items-center">
-              <span className="hidden md:flex sm:hidden capitalize mr-3">
+            <div className="lg:flex  items-center">
+              <span className="hidden lg:flex sm:hidden capitalize mr-3">
                 {roleName}
               </span>
               <button
                 onClick={() => handleProfileExpand()}
                 id="user-menu-button"
                 type="button"
-                className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
+                className="flex mr-3 text-sm bg-gray-800 rounded-full lg:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
                 aria-expanded="false"
                 data-dropdown-toggle="user-dropdown"
                 data-dropdown-placement="bottom"
@@ -214,7 +214,7 @@ export const Navbar = ({ isProfileUpdated }) => {
             id="triggerEl"
             data-collapse-toggle="mobile-menu-2"
             type="button"
-            className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+            className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
             aria-controls="mobile-menu-2"
             aria-expanded="false"
           >
@@ -240,11 +240,11 @@ export const Navbar = ({ isProfileUpdated }) => {
             isBurgerExpanded === true ? "" : "hidden"
           } w-full lg:flex lg:w-auto lg:order-1`}
         >
-          <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+          <ul className="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <Link
                 to={"/"}
-                className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${
                                   location.pathname === "/" ? "text-accent" : ""
                                 }`}
@@ -255,7 +255,7 @@ export const Navbar = ({ isProfileUpdated }) => {
             <li>
               <Link
                 to={"/donation"}
-                className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${
                                   location.pathname === "/donation"
                                     ? "text-accent"
@@ -268,7 +268,7 @@ export const Navbar = ({ isProfileUpdated }) => {
             <li>
               <Link
                 to={"/partnership"}
-                className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${
                                   location.pathname === "/partnership"
                                     ? "text-accent"
@@ -281,7 +281,7 @@ export const Navbar = ({ isProfileUpdated }) => {
             <li>
               <Link
                 to={"/about-us"}
-                className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${
                                   location.pathname === "/about-us"
                                     ? "text-accent"
@@ -294,7 +294,7 @@ export const Navbar = ({ isProfileUpdated }) => {
             <li>
               <Link
                 to={"/contact-us"}
-                className={`block py-2 pl-3 pr-4 text-gray-900 rounded md:hover:bg-transparent hover:text-accent md:p-0 md:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700 
+                className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${
                                   location.pathname === "/contact-us"
                                     ? "text-accent"
