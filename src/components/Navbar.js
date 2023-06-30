@@ -35,6 +35,7 @@ export const Navbar = () => {
     const [profile, setProfile] = useState({});
     const handleSignOut = () => {
         signOut();
+        window.location.reload(false);
         navigate("/login");
     }
     const fetchData = async () => {
