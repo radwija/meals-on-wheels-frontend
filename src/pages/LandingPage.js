@@ -1,5 +1,6 @@
 import React from 'react'
 import Layout from '../components/Layout'
+import { Link } from 'react-router-dom'
 
 export const LandingPage = () => {
     return (
@@ -15,7 +16,7 @@ export const LandingPage = () => {
                     <img src="https://images.pexels.com/photos/6646768/pexels-photo-6646768.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="https://images.pexels.com/photos/6646768/pexels-photo-6646768.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" />
                 </div>
             </section>
-            <section>
+            <section className='my-40'>
                 <div className='p-10' style={{
                     background: `
                     linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
@@ -30,6 +31,25 @@ export const LandingPage = () => {
                         <img className='rounded-full h-20 w-20' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmuRhTohUgknm04uhPuGboFm9B0CTdYfWrFg&usqp=CAU" alt="" />
                         <img className='rounded-full h-20 w-20' src="https://i.etsystatic.com/9264928/r/il/9fcb2e/1947415219/il_fullxfull.1947415219_f61b.jpg" alt="" />
                         <img className='rounded-full h-20 w-20' src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/food-delivery-logo-design-template-a342a3b7515a10c800c6885bce8b3ae9_screen.jpg?ts=1619678752" alt="" />
+                    </div>
+                </div>
+            </section>
+            {/* <section className='h-screen sm:flex sm:flex-wrap sm:flex-col md:grid md:grid-cols-12 p-5 '>
+            </section> */}
+            <section className='mt-20'>
+                <div className='p-40' style={{
+                    background: `
+                    linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                    url(https://images.pexels.com/photos/3865544/pexels-photo-3865544.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)`,
+                    backgroundPosition: "center",
+                    backgroundSize: "cover",
+                    backgroundRepeat: "no-repeat"
+                }}>
+                    <p className='text-center text-white text-4xl md:text-5xl font-normal'>Keep Up with our Services</p>
+                    <p className='text-center text-white text-4xl md:text-5xl font-normal mb-20'>News and Events</p>
+                    <div className='mx-auto text-center'>
+                        <p className='mb-10 text-white'>Let's join us!</p>
+                        <Link to={'registration'} className='text-1xl font-normal text-white bg-accent-dark hover:bg-accent focus:ring-4 focus:ring-blue-300 rounded-lg px-20 py-4 mb-2 focus:outline-none'>Register</Link>
                     </div>
                 </div>
             </section>
