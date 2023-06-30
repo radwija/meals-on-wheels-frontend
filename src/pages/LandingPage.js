@@ -1,8 +1,13 @@
 import React from 'react'
 import Layout from '../components/Layout'
 import { Link } from 'react-router-dom'
+import { motion } from "framer-motion";
 
 export const LandingPage = () => {
+    const itemVariants = {
+        hidden: { opacity: 0, y: 50 },
+        visible: { opacity: 1, y: 0 },
+    };
     return (
         <Layout>
             <section className='h-screen mt-10 sm:flex sm:flex-wrap sm:flex-col md:grid md:grid-cols-12 p-5 '>
@@ -34,8 +39,41 @@ export const LandingPage = () => {
                     </div>
                 </div>
             </section>
-            {/* <section className='h-screen sm:flex sm:flex-wrap sm:flex-col md:grid md:grid-cols-12 p-5 '>
-            </section> */}
+
+            <section>
+                <h1 className='text-center text-4xl md:text-5xl font-semibold'>Who We Are </h1>
+                <p className='text-center mt-5 mx-10 md:mx-32'>MerryMeal is a compassionate and dedicated charitable organization that focuses on providing nutritious meals to individuals who are unable to cook for themselves or maintain their nutritional status. Our primary goal is to ensure that qualified adults living at home have access to hot noon meals, promoting their well-being and overall health.</p>
+                <div className="grid grid-cols-12 gap-10 place-items-center place-content-center px-5  py-10">
+                    <motion.div
+                        className="xs:col-span-12 xs:my-3 xs:shadow-md xs:rounded-md xs:p-3 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center gap-3 "
+                        variants={itemVariants}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.6, stagger: 0.2 }}
+                    >
+                        <img src="https://images.pexels.com/photos/8060428/pexels-photo-8060428.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
+                    </motion.div>
+                    <motion.div
+                        className="xs:col-span-12 xs:my-3 xs:shadow-md xs:rounded-md xs:p-3 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center gap-3 "
+                        variants={itemVariants}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.6, stagger: 0.2 }}
+                    >
+                        <img src="https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
+                    </motion.div>
+                    <motion.div
+                        className="xs:col-span-12 xs:my-3 xs:shadow-md xs:rounded-md xs:p-3 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center gap-3 "
+                        variants={itemVariants}
+                        initial="hidden"
+                        animate="visible"
+                        transition={{ delay: 0.6, stagger: 0.2 }}
+                    >
+                        <img src="https://images.pexels.com/photos/8060427/pexels-photo-8060427.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
+                    </motion.div>
+                </div>
+            </section>
+
             <section className='mt-20'>
                 <div className='p-40' style={{
                     background: `
