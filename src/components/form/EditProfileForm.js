@@ -5,6 +5,7 @@ import { updateProfile } from "../../api/profile-api";
 
 const EditProfileForm = ({ closeModal, user, role, onUpdateProfile }) => {
   const [error, setError] = useState("");
+  const [isSubmiting, setIsSubmiting] = useState(false);
   let validationSchema = Yup.object({
     fullName: Yup.string().required("Full name is required"),
     address: Yup.string().required("Address is required"),
@@ -18,6 +19,7 @@ const EditProfileForm = ({ closeModal, user, role, onUpdateProfile }) => {
   }
 
   const handleSubmit = async (values) => {
+    setIsSubmiting(true);
     let res;
     if (role === "ROLE_PARTNER") {
       // Exclude gender and birthday fields for partner role
@@ -30,6 +32,7 @@ const EditProfileForm = ({ closeModal, user, role, onUpdateProfile }) => {
       setError(res);
     } else {
       onUpdateProfile();
+      setIsSubmiting(false);
       closeModal();
     }
   };
@@ -147,7 +150,8 @@ const EditProfileForm = ({ closeModal, user, role, onUpdateProfile }) => {
         <div className="flex justify-end">
           <button
             type="submit"
-            className="px-3 py-2 text-white rounded-md shadow-md bg-accent hover:scale-110 hover:bg-accent-dark transition-all duration-300"
+            disabled={isSubmiting ? true : false}
+            className="px-3 py-2 text-white rounded-md shadow-md bg-accent hover:scale-110 hover:bg-accent-dark transition-all duration-300 disabled:bg-accent-dark disabled:hover:scale-100"
           >
             Save Changes
           </button>

@@ -171,7 +171,7 @@ const Partnership = () => {
                   Photo Or Logo Upload
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="photo"
                   type="file"
                   accept=".jpg,.jpeg,.png,.avif,.webp"
@@ -227,7 +227,7 @@ const Partnership = () => {
                   value={formik.values.confirmPassword}
                 />
                 {formik.touched.confirmPassword &&
-                  formik.errors.confirmPassword ? (
+                formik.errors.confirmPassword ? (
                   <div className="text-red-500 ps-2">
                     {formik.errors.confirmPassword}
                   </div>

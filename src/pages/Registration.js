@@ -9,7 +9,7 @@ const Registration = () => {
   const [success, setSuccess] = useState("");
   const [error, setError] = useState("");
   const [distance, setDistance] = useState("");
-
+  const [isSubmiting, setIsSubmiting] = useState(false);
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -38,6 +38,8 @@ const Registration = () => {
       image: Yup.mixed().required("Please provide a photo"),
     }),
     onSubmit: async (values) => {
+      setIsSubmiting(true);
+      // calling maps api to get user distance
       try {
         const distance = await getDistance(values.address);
         setDistance(distance);
@@ -47,6 +49,7 @@ const Registration = () => {
         setDistance(null);
         setSuccess(null);
       }
+      // calling api to save user data
       try {
         const formData = new FormData();
         formData.append("name", values.name);
@@ -67,13 +70,14 @@ const Registration = () => {
         console.error(error);
         setSuccess("");
         if (error.response && error.response.data.error) {
-          setError("File size too big, make sure it's under 1 MB");
+          setError("File size too big, make sure it's under 500 kb");
         } else if (error.response && error.response.data) {
           setError(error.response.data);
         } else {
           setError("No Response From Server");
         }
       }
+      setIsSubmiting(false);
     },
   });
 
@@ -237,7 +241,7 @@ const Registration = () => {
                   Qualification File Upload
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full  px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="qualification"
                   type="file"
                   name="file"
@@ -258,7 +262,7 @@ const Registration = () => {
                   Photo Upload
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full py-2 px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full  px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="photo"
                   type="file"
                   accept=".jpg,.jpeg,.png,.avif,.webp"
@@ -319,7 +323,8 @@ const Registration = () => {
             </div>
             <button
               type="submit"
-              className="bg-accent-dark text-white py-3 mx-10 rounded-lg drop-shadow mt-4 hover:bg-accent transition-colors duration-200"
+              disabled={isSubmiting ? true : false}
+              className="bg-accent-dark text-white py-3 mx-10 rounded-lg drop-shadow mt-4 hover:bg-accent transition-colors duration-200 disabled:bg-accent-dark disabled:hover:scale-100"
             >
               Register
             </button>
