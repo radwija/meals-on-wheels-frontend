@@ -16,7 +16,7 @@ export const LandingPage = () => {
                 </div>
             </section>
             <section>
-                <div className='p-10 h-64' style={{
+                <div className='p-10' style={{
                     background: `
                     linear-gradient(0deg, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
                     url(https://images.pexels.com/photos/6995201/pexels-photo-6995201.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)`,
@@ -24,8 +24,8 @@ export const LandingPage = () => {
                     backgroundSize: "cover",
                     backgroundRepeat: "no-repeat"
                 }}>
-                    <h1 className='text-center text-white text-4xl md:text-6xl font-semibold mb-6'>Our Partnerships</h1>
-                    <div className='flex mx-auto gap-x-8 justify-center mb-4 h-10'>
+                    <h1 className='text-center text-white text-4xl md:text-5xl font-semibold mb-6'>Our Partnerships</h1>
+                    <div className='flex mx-auto gap-x-8 justify-center mb-4'>
                         <img className='rounded-full h-20 w-20' src="https://static.vecteezy.com/system/resources/previews/006/735/689/original/vintage-grilled-barbecue-logo-retro-bbq-fire-grill-food-and-restaurant-icon-red-fire-icon-free-vector.jpg" alt="" />
                         <img className='rounded-full h-20 w-20' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmuRhTohUgknm04uhPuGboFm9B0CTdYfWrFg&usqp=CAU" alt="" />
                         <img className='rounded-full h-20 w-20' src="https://i.etsystatic.com/9264928/r/il/9fcb2e/1947415219/il_fullxfull.1947415219_f61b.jpg" alt="" />
