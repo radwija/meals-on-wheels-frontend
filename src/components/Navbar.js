@@ -50,6 +50,27 @@ export const Navbar = () => {
 
         // Rest of your code here
     };
+
+    const dashboardRolePath = () => {
+        if (role === "ROLE_MEMBER") {
+            return '/member'
+        }
+        else if (role === 'ROLE_CAREGIVER') {
+            return '/caregiver'
+        }
+        else if (role === 'ROLE_DRIVER') {
+            return '/driver'
+        }
+        // else if (role === 'ROLE_VOLUNTEER') {
+        //     return '/volunteer'
+        // }
+        else if (role === 'ROLE_PARTNER') {
+            return '/partner'
+        }
+        else if (role === 'ROLE_ADMINISTRATION') {
+            return '/admin'
+        }
+    }
     useEffect(() => {
         fetchData();
         // Profile Toggle
@@ -112,7 +133,7 @@ export const Navbar = () => {
                                 </div>
                                 <ul className="py-2" aria-labelledby="user-menu-button">
                                     <li>
-                                        <Link to={"#"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</Link>
+                                        <Link to={dashboardRolePath()} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Dashboard</Link>
                                     </li>
                                     <li>
                                         <Link to={"/profile"} className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Profile</Link>
