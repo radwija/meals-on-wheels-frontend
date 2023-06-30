@@ -33,7 +33,7 @@ const Profile = () => {
   };
 
   return (
-    <Layout>
+    <Layout isUpdated={isProfileUpdated}>
       <>
         <div className="h-full bg-primary p-8">
           <div className="bg-white rounded-lg shadow-xl pb-8">
