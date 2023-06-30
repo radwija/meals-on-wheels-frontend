@@ -7,7 +7,7 @@ import { getProfile } from "../api/profile-api";
 import { useNavigate } from "react-router";
 import { Collapse } from "flowbite";
 
-export const Navbar = () => {
+export const Navbar = ({ isProfileUpdated }) => {
   const auth = useAuthUser();
   const role = auth()?.role[0];
   const roleName = role?.substring(5).toLowerCase();
@@ -72,31 +72,17 @@ export const Navbar = () => {
   useEffect(() => {
     fetchData();
     // Profile Toggle
-  }, []);
-
-  const options = {
-    onCollapse: () => {
-      console.log("element has been collapsed");
-    },
-    onExpand: () => {
-      console.log("element has been expanded");
-    },
-    onToggle: () => {
-      console.log("element has been toggled");
-    },
-  };
-
-  // Navbar Toggle
-  const $targetEl = document.getElementById("mobile-menu-2");
-  const $triggerEl = document.getElementById("triggerEl");
-
-  const collapseNavbar = new Collapse($targetEl, $triggerEl, options);
+  }, [isProfileUpdated]);
 
   return (
     <nav className="fixed mx-auto w-full top-0 z-20 bg-white border-b border-gray-200">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-        <Link to="https://flowbite.com/" className="flex items-center">
-          <img src={mow_navbar_logo} className="h-8 mr-3" alt="Flowbite Logo" />
+        <Link to="/" className="flex items-center">
+          <img
+            src={mow_navbar_logo}
+            className="h-20 mr-3"
+            alt="Meals On Wheels"
+          />
         </Link>
         <div className="flex items-center md:order-2">
           {!auth() ? (
@@ -120,7 +106,7 @@ export const Navbar = () => {
                 {roleName}
               </span>
               <button
-                onClick={() => setExpanded(!isExpanded)}
+                onClick={() => handleProfileExpand()}
                 id="user-menu-button"
                 type="button"
                 className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -129,15 +115,15 @@ export const Navbar = () => {
                 data-dropdown-placement="bottom"
               >
                 <span className="sr-only">Open user menu</span>
-                <div className="w-8 h-8">
+                <div className="w-12 h-12">
                   {profile?.picture ? (
                     <img
                       src={`data:image/jpeg;base64,${profile?.picture}`}
                       alt="pfp"
-                      className="w-8 h-8 object-cover object-center border-1 border-white rounded-full"
+                      className="w-12 h-12 object-cover object-center border-1 border-white rounded-full"
                     />
                   ) : (
-                    <div className="w-8 h-8 border-4 flex justify-center items-center bg-white rounded-full">
+                    <div className="w-12 h-12 border-4 flex justify-center items-center bg-white rounded-full">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         className="h-20"
@@ -158,10 +144,10 @@ export const Navbar = () => {
             </div>
           )}
           {/* <!-- Dropdown menu --> */}
-          {auth() && isExpanded ? (
+          {auth() && isProfileExpanded ? (
             <div
               id="user-dropdown"
-              className="z-50 absolute top-12 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+              className="z-50 absolute right-12 top-12 my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
             >
               <div className="px-4 py-3">
                 <span className="block text-sm text-gray-900 dark:text-white">
@@ -174,7 +160,7 @@ export const Navbar = () => {
               <ul className="py-2" aria-labelledby="user-menu-button">
                 <li>
                   <Link
-                    to={"#"}
+                    to={dashboardRolePath()}
                     className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                   >
                     Dashboard
@@ -224,6 +210,7 @@ export const Navbar = () => {
             <></>
           )}
           <button
+            onClick={() => handleBurgerExpand()}
             id="triggerEl"
             data-collapse-toggle="mobile-menu-2"
             type="button"
@@ -249,7 +236,9 @@ export const Navbar = () => {
         </div>
         <div
           id="mobile-menu-2"
-          className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
+          className={`items-center justify-between ${
+            isBurgerExpanded === true ? "" : "hidden"
+          } w-full md:flex md:w-auto md:order-1`}
         >
           <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
             <li>

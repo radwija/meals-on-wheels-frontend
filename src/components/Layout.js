@@ -6,7 +6,7 @@ import { Navbar } from "./Navbar";
 const Layout = ({ children, isUpdated }) => {
   return (
     <div>
-      <Navbar isUpdated={isUpdated} />
+      <Navbar isProfileUpdated={isUpdated} />
       {/* <Outlet /> */}
       <div className="min-h-screen md:pt-[65px] sm:pt-[73px] pt-[73px]">
         {children}
