@@ -8,7 +8,7 @@ const Layout = ({ children, isUpdated }) => {
     <div>
       <Navbar isProfileUpdated={isUpdated} />
       {/* <Outlet /> */}
-      <div className="min-h-screen md:pt-[65px] sm:pt-[73px] pt-[73px]">
+      <div className="min-h-screen pt-[112px]">
         {children}
       </div>
       <Footer />
