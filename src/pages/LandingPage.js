@@ -10,7 +10,7 @@ export const LandingPage = () => {
     };
     return (
         <Layout>
-            <section className='h-screen mt-10 sm:flex sm:flex-wrap sm:flex-col md:grid md:grid-cols-12 p-5 '>
+            <section className='my-20 sm:flex sm:flex-wrap sm:flex-col md:grid md:grid-cols-12 p-5 '>
                 <div className='lg:px-20 md:px-8 py-5 text-center lg:text-left md:text-left sm:text-center sm:col-span-12 md:col-span-6'>
                     <h1 className='text-4xl md:text-6xl font-semibold mb-6'>Meals on Wheels</h1>
                     <p className='w-full'>
@@ -71,6 +71,29 @@ export const LandingPage = () => {
                     >
                         <img src="https://images.pexels.com/photos/8060427/pexels-photo-8060427.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
                     </motion.div>
+                </div>
+            </section>
+
+            <section className='my-52 sm:flex sm:flex-wrap sm:flex-col md:grid md:grid-cols-12 p-5 '>
+                <div className='lg:px-20 md:px-8 py-5 sm:col-span-12 md:col-span-6'>
+                    <div className='w-full h-96'
+                        style={{
+                            background: "url('https://images.pexels.com/photos/6994963/pexels-photo-6994963.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2')",
+                            backgroundSize: "cover",
+                            backgroundPosition: "bottom"
+                        }}
+                    ></div>
+                    {/* <img src="https://images.pexels.com/photos/6994963/pexels-photo-6994963.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="https://images.pexels.com/photos/6646768/pexels-photo-6646768.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" /> */}
+                </div>
+                <div className='lg:px-20 md:px-8 py-5 lg:text-left md:text-left sm:text-left sm:col-span-12 md:col-span-6'>
+                    <h1 className='text-4xl md:text-6xl font-semibold mb-6'>Our Commitment</h1>
+                    <ul className='list-disc ml-6'>
+                        <li className='mb-5'>We hold our volunteers in the highest regard; they are the foundation of our work.</li>
+                        <li className='mb-5'>Through partnerships, diversity, and inclusion, we respect our community.</li>
+                        <li className='mb-5'>We welcome innovation and organizational change.</li>
+                        <li className='mb-5'>Our company practices fiscal, social, and environmental responsibility.</li>
+                        <li className='mb-5'>We consistently offer services and programs of the highest caliber.</li>
+                    </ul>
                 </div>
             </section>
 
