@@ -7,7 +7,7 @@ import { getProfile } from "../api/profile-api";
 import { useNavigate } from "react-router";
 import { Collapse } from "flowbite";
 
-export const Navbar = ({ isUpdated }) => {
+export const Navbar = () => {
   const auth = useAuthUser();
   const role = auth()?.role[0];
   const roleName = role?.substring(5).toLowerCase();
@@ -15,11 +15,27 @@ export const Navbar = ({ isUpdated }) => {
   const navigate = useNavigate();
   const userEmail = auth()?.email;
   const location = useLocation();
-  const [isExpanded, setExpanded] = React.useState(false);
+  const [isProfileExpanded, setProfileExpanded] = React.useState(false);
+  const [isBurgerExpanded, setBurgerExpanded] = React.useState(false);
+
+  const handleBurgerExpand = () => {
+    if (isProfileExpanded === true) {
+      setProfileExpanded(false);
+    }
+    setBurgerExpanded(!isBurgerExpanded);
+  };
+
+  const handleProfileExpand = () => {
+    if (isBurgerExpanded === true) {
+      setBurgerExpanded(false);
+    }
+    setProfileExpanded(!isProfileExpanded);
+  };
 
   const [profile, setProfile] = useState({});
   const handleSignOut = () => {
     signOut();
+    window.location.reload(false);
     navigate("/login");
   };
   const fetchData = async () => {
@@ -35,10 +51,28 @@ export const Navbar = ({ isUpdated }) => {
 
     // Rest of your code here
   };
+
+  const dashboardRolePath = () => {
+    if (role === "ROLE_MEMBER") {
+      return "/member";
+    } else if (role === "ROLE_CAREGIVER") {
+      return "/caregiver";
+    } else if (role === "ROLE_DRIVER") {
+      return "/driver";
+    }
+    // else if (role === 'ROLE_VOLUNTEER') {
+    //     return '/volunteer'
+    // }
+    else if (role === "ROLE_PARTNER") {
+      return "/partner";
+    } else if (role === "ROLE_ADMINISTRATION") {
+      return "/admin";
+    }
+  };
   useEffect(() => {
     fetchData();
     // Profile Toggle
-  }, [isUpdated]);
+  }, []);
 
   const options = {
     onCollapse: () => {
