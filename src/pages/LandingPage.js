@@ -86,7 +86,7 @@ export const LandingPage = () => {
                     {/* <img src="https://images.pexels.com/photos/6994963/pexels-photo-6994963.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="https://images.pexels.com/photos/6646768/pexels-photo-6646768.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" /> */}
                 </div>
                 <div className='lg:px-20 md:px-8 py-5 lg:text-left md:text-left sm:text-left sm:col-span-12 md:col-span-6'>
-                    <h1 className='text-4xl md:text-6xl font-semibold mb-6'>Our Commitment</h1>
+                    <h1 className='text-4xl md:text-6xl font-semibold mb-6 text-center sm:text-center'>Our Commitment</h1>
                     <ul className='list-disc ml-6'>
                         <li className='mb-5'>We hold our volunteers in the highest regard; they are the foundation of our work.</li>
                         <li className='mb-5'>Through partnerships, diversity, and inclusion, we respect our community.</li>
@@ -98,7 +98,7 @@ export const LandingPage = () => {
             </section>
 
             <section className='mt-20'>
-                <div className='p-40' style={{
+                <div className='py-40' style={{
                     background: `
                     linear-gradient(0deg, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
                     url(https://images.pexels.com/photos/3865544/pexels-photo-3865544.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)`,
