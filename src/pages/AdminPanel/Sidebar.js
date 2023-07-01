@@ -10,7 +10,7 @@ import {
   faTachometerAlt,
   faBowlFood,
   faChevronUp,
-  faChevronDown
+  faChevronDown,
 } from '@fortawesome/free-solid-svg-icons';
 
 const Sidebar = () => {
@@ -32,13 +32,12 @@ const Sidebar = () => {
   };
 
   return (
-    <div className={`flex ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
-      
+    <div className={`flex z-50 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
       {/* Sidebar */}
       <div
-        className={`w-64 ${isSidebarOpen ? 'block' : 'hidden'
-          } md:block fixed top-0 bottom-0 ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
-          } min-h-screen pt-[65px]`}
+        className={`w-64 fixed top-0 left-0 bottom-0 transform duration-300 ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          } md:block ${isDarkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'
+          } `}
       >
         <div className="py-4">
           <ul>
@@ -166,45 +165,59 @@ const Sidebar = () => {
             </span>
           </button>
         </div>
+        {/* Close button */}
+        <button
+          className="fixed top-4 right-4 text-white p-2 bg-red-500 rounded-full z-10"
+          onClick={toggleSidebar}
+        >
+          &times;
+        </button>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1">
+      <div
+        className={`flex-1 transition-transform duration-300 ${isSidebarOpen ? 'translate-x-64' : 'translate-x-0'
+          }`}
+      >
         {/* Content */}
       </div>
 
       {/* Sidebar toggle button */}
-      <div className="md:hidden">
+      <div className="md:block bg-primary">
         <button
-          className={`text-white focus:outline-none ${isDarkMode ? 'text-white' : 'text-gray-800'
+          className={`text-black focus:outline-none mt-1 ${isDarkMode ? 'text-white' : 'text-gray-800'
             }`}
           onClick={toggleSidebar}
         >
           <svg
-            className="w-6 h-6"
+            className={`h-6 w-6 ${isSidebarOpen ? 'hidden' : 'block'}`}
             fill="none"
-            stroke="currentColor"
             viewBox="0 0 24 24"
-            xmlns="http://www.w3.org/2000/svg"
+            stroke="currentColor"
           >
-            {isSidebarOpen ? (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            ) : (
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            )}
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+          <svg
+            className={`h-6 w-6 ${isSidebarOpen ? 'block' : 'hidden'}`}
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M6 18L18 6M6 6l12 12"
+            />
           </svg>
         </button>
       </div>
+
     </div>
   );
 };
