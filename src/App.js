@@ -7,6 +7,13 @@ import Layout from "./components/Layout";
 import AboutUs from "./pages/AboutUs";
 import Partnership from "./pages/Partnership";
 import Profile from "./pages/Profile";
+import CaregiverDashboard from "./pages/CaregiverDashboard";
+import DriverDashboard from "./pages/DriverDashboard";
+import PartnerDashboard from "./pages/PartnerDashboard";
+import MemberDashboard from  "./pages/MemberDashboard";
+import MemberMealPackageDetail from "./pages/MemberMealPackageDetail";
+import MemberOrderHistory from "./pages/MemberOrderHistory";
+import MemberFeedbackPage from "./pages/MemberDashboard";
 import { RequireAuth } from "react-auth-kit";
 import { DonationPage } from "./pages/DonationPage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -50,6 +57,13 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route path="/caregiver" element={<CaregiverDashboard />} />
+        <Route path="/driver" element={<DriverDashboard />} />
+        <Route path="/partner" element={<PartnerDashboard />} />
+        <Route path="/member" element={<MemberDashboard />} />
+        <Route path ="/meals-package-detail" element={<MemberMealPackageDetail/>}/>
+        <Route path="/feedback" element={<MemberFeedbackPage />} />
+        <Route path="/order-history" element={<MemberOrderHistory />} />
         {/* </Route> */}
       </Routes>
     </div>
