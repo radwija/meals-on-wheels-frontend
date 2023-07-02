@@ -171,7 +171,7 @@ const Partnership = () => {
                   Photo Or Logo Upload
                 </label>
                 <input
-                  className="shadow appearance-none border rounded w-full px-3 bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="photo"
                   type="file"
                   accept=".jpg,.jpeg,.png,.avif,.webp"
