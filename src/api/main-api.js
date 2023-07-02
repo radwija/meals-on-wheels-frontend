@@ -3,7 +3,8 @@ import axios, {BASE_URL} from "./axios";
  // FEEDBACK
  export const postfeedbackAPI = async (id) => {
     return await axios.post(`${BASE_URL}api/feedback`, {
-      id, headers:{"Content-Type": "application/json"}
+      id, headers:{"Content-Type": "application/json"},
+      withCredentials: true
     })
   }
 
@@ -23,6 +24,7 @@ export const getMenu = async (token, email) => {
 export const getMenuById = async (token, id) => {
   return await axios.get(`${BASE_URL}api/menu/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
   })
 }
 
