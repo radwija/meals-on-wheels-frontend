@@ -11,6 +11,7 @@ const Login = () => {
   const [error, setError] = useState("");
   const signIn = useSignIn();
   const navigate = useNavigate();
+  const [isSubmiting, setIsSubmiting] = useState(false);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -24,6 +25,7 @@ const Login = () => {
       password: Yup.string().required("Please enter a password"),
     }),
     onSubmit: async (values) => {
+      setIsSubmiting(true);
       const res = await authenticate(values.email, values.password);
       if (typeof res === "string") {
         setError(res);
@@ -36,8 +38,10 @@ const Login = () => {
           authState: {
             email: res.email,
             role: res.role,
+            token: res.accessToken,
           },
         });
+        setIsSubmiting(false);
         navigate("/profile");
       }
     },
@@ -56,11 +60,11 @@ const Login = () => {
             </h1>
             {error && (
               <div
-                class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-lg"
+                className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded max-w-lg"
                 role="alert"
               >
-                <strong class="font-bold">Error! </strong>
-                <span class="block sm:inline">{error}</span>
+                <strong className="font-bold">Error! </strong>
+                <span className="block sm:inline">{error}</span>
               </div>
             )}
 
@@ -68,15 +72,15 @@ const Login = () => {
               className="p-8 text-left flex flex-col w-3/4"
               onSubmit={formik.handleSubmit}
             >
-              <div class="mb-4">
+              <div className="mb-4">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="email"
                 >
                   Email
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="email"
                   type="email"
                   placeholder="Email"
@@ -88,15 +92,15 @@ const Login = () => {
                   <div className="text-red-500 ps-2">{formik.errors.email}</div>
                 ) : null}
               </div>
-              <div class="mb-4">
+              <div className="mb-4">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="password"
                 >
                   Password
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="password"
                   type="password"
                   placeholder="Password"
@@ -113,7 +117,8 @@ const Login = () => {
 
               <button
                 type="submit"
-                className="bg-accent-dark text-white py-3 mx-10 rounded-lg drop-shadow mt-4 hover:bg-accent transition-colors duration-200"
+                disabled={isSubmiting ? true : false}
+                className="bg-accent-dark text-white py-3 mx-10 rounded-lg drop-shadow mt-4 hover:bg-accent transition-colors duration-200 disabled:bg-accent-dark disabled:hover:scale-100"
               >
                 Login
               </button>

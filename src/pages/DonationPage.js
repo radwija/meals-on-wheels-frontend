@@ -49,8 +49,8 @@ export const DonationPage = () => {
     return (
         <Layout>
             <div className='bg-primary min-h-screen'>
-                <div className='container mx-auto'>
-                    <h1 className='text-4xl font-bold mb-10'>Donation</h1>
+                <div className='container mx-auto py-20'>
+                    <h1 className='text-4xl md:text-6xl font-bold text-center mb-6'>Donation</h1>
                     <div
                         className=" w-4/5 p-7 mx-auto color text-white drop-shadow relative"
                         style={{
