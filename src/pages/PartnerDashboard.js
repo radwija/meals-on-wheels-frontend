@@ -1,6 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import Layout from "../components/Layout";
+import { useNavigate } from "react-router";
 import redCircle from "../assets/images/red-circle.svg"
 import { useAuthUser } from "react-auth-kit";
 import {
@@ -8,7 +9,7 @@ import {
   postPartnerOrderCompleteAPI,
   postPartnerOrderCreateAPI,
 } from "../api/partner-api";
-
+import { getProfile } from "../api/profile-api";
 import { getMenu } from "../api/main-api";
 import{
   order_type,
@@ -19,7 +20,10 @@ import{
 const PartnerDashboard = () => {
   const auth = useAuthUser();
   const token = auth()?.token;
-  const [user, setUsers] = useState(user_type);
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const navigate = useNavigate();
+  const email = auth()?.email;
   const [msg, setMsg] = useState("");
   const [orderList, setOrderList] = useState([order_type]);
   const [index, setIndex] = useState(0);
@@ -36,9 +40,21 @@ const PartnerDashboard = () => {
     .then((resp) => setMsg(resp.data.message))
     .catch((err) => console.log(err.response));
   }
+  const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
+    }
+    const userEmail = auth()?.email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
+  };
 
   useEffect(() =>{
-    getMenu(token)
+    fetchData()
+
+    getMenu(token, email)
     .then((resp) =>{
       setMenu(resp.data);
     })
@@ -49,15 +65,15 @@ const PartnerDashboard = () => {
     getPartnerOrderAPI(token)
     .then((resp) => setOrderList(resp.data))
     .catch((err) => console.log(err.response));
-  }, [token, msg]);
+  }, []);
 
     return(
         <Layout>
-        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {user?.name}!</h1>
+        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
         <Carousel></Carousel>
         <div className="container mx-auto">
         <div className="flex flex-wrap">
-          <div className="w-full md:w-9/12 md:pr-2">
+          <div className="w-full md:w-9/12 md:pr-2 px-5">
             <div className="pb-5">
               <h4 className="font-bold text-2xl">Task</h4>
               <div className="card bg-gray-100 bg-opacity-25">
@@ -126,7 +142,7 @@ const PartnerDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-3/12 md:pl-2 ">
+          <div className="w-full md:w-3/12 md:pl-2 px-5">
             <div className="pb-3">
               <h4 className="text-center text-2xl font-bold">Meal Package List</h4>
               <div className="bg-white shadow-md rounded-md p-4 ml-8 mt-2">

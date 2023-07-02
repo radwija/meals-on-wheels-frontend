@@ -5,8 +5,6 @@ import Carousel from "../components/Carousel";
 import {getMenu} from "../api/main-api"
 import {getMemberOrderAPI} from "../api/member-api";
 import { useAuthUser } from "react-auth-kit";
-import { getProfile } from "../api/profile-api";
-import { useNavigate } from "react-router";
 
 
 const MemberDashboard = () => {

@@ -13,11 +13,6 @@ const MemberOrderHistory = () => {
   const [order, setOrder] = useState([order_type]);
   const [msg, setMsg] = useState("")
 
-  function handleComplete(id){
-    postMemberOrderCompleteAPI(token, id)
-    .then((resp) => setMsg(resp.data.message))
-    .catch((err) => console.log(err));
-  }
 
   useEffect(() =>{
     getMemberOrderAllAPI(token)

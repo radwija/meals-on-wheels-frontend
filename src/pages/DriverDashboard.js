@@ -67,7 +67,7 @@ const DriverDashboard = () =>{
 
     return(
         <Layout>
-        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {user?.name}!</h1>
+        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
         <Carousel></Carousel>
         <div className="md:flex ml-8 mt-4">
   {/* Assign Driver Task */}
@@ -129,7 +129,7 @@ const DriverDashboard = () =>{
       </div>
     </div>
   </div>
-  <div className="md:w-3/12  ml-2 mr-2">
+  <div className="md:w-3/12  ml-2 mr-2 px-5">
   <div className="card">
   <div className="bg-white shadow-md rounded-md p-4 mt-2">
     <div className="text-center">

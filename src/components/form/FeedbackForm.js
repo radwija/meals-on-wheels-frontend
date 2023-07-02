@@ -13,9 +13,14 @@ const MEAL_PACKAGE_COUNT = fetch("http://localhost:8080/api/mealcount")
   const countPackage = async () => {
     PackageCount = await MEAL_PACKAGE_COUNT;
     console.log(PackageCount);
-    PackageCount.forEach((item,index)=>{
-      itemList.push(<option value={index + 1}>{index + 1}</option>)
-    })
+  
+    if (Array.isArray(PackageCount)) {
+      PackageCount.forEach((item, index) => {
+        itemList.push(<option value={index + 1}>{index + 1}</option>);
+      });
+    } else {
+      console.log("PackageCount is not an array or iterable object.");
+    }
   };
   countPackage();
 

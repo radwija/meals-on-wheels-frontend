@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
 import redCircle from "../assets/images/red-circle.svg"
 import {getMenu} from "../api/main-api";
 import { menu_type, order_type, user_count, user_type } from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
+import { getProfile } from "../api/profile-api";
 
 const CaregiverDashboard = () =>{
   const auth = useAuthUser();
   const token = auth()?.token;
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const navigate = useNavigate();
   const [orderList, setOrderList] = useState([order_type]);
   const [deliverList, setDeliverList] = useState([order_type]);
   const [user, setUsers] = useState(user_type);
+  const email = auth()?.email;
   const [msg, setMsg] = useState("");
   const [drivers, setDriver] = useState([user_type]);
   const [partners, setPartner] = useState([user_type]);
@@ -20,19 +26,31 @@ const CaregiverDashboard = () =>{
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
+ const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
+    }
+    const userEmail = auth()?.email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
+  };
 
   useEffect(() =>{
-    getMenu(token)
+    fetchData()
+
+    getMenu(token, email)
     .then((resp) =>{
       setMenu(resp.data);
     })
     .catch((err)=>{
       console.log(err);
     });
-  }, [token, msg]);
+  }, []);
     return(
 <Layout>
-<h1 className="mt-8 text-2xl font-bold text-center">Hello, {user?.name}!</h1>
+<h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
 <Carousel></Carousel>
 <div className="md:flex ml-8">
   {/* Assign Partner Task */}
