@@ -1,9 +1,5 @@
 import { motion } from "framer-motion";
-import partner1 from "../assets/images/partner-1.webp";
-import partner2 from "../assets/images/partner-2.jpg";
-import partner3 from "../assets/images/partner-3.png";
-import partner4 from "../assets/images/partner-4.png";
-import hero from "../assets/images/hero-1.jpg";
+
 import { useInView } from "react-intersection-observer";
 import Layout from "../components/Layout";
 const AboutUs = () => {
