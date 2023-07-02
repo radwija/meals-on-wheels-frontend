@@ -33,7 +33,7 @@ const Profile = () => {
   };
 
   return (
-    <Layout>
+    <Layout isUpdated={isProfileUpdated}>
       <>
         <div className="h-full bg-primary p-8">
           <div className="bg-white rounded-lg shadow-xl pb-8">
@@ -65,7 +65,7 @@ const Profile = () => {
                   <img
                     src={`data:image/jpeg;base64,${profile?.picture}`}
                     alt="pfp"
-                    className="w-40 h-40 object-cover object-center border-4 border-white rounded-full"
+                    className="w-40 h-40 object-cover object-center border-4 border-white shadow-md rounded-full"
                   />
                 ) : (
                   <div className="h-28 w-28 border-4 flex justify-center items-center bg-white rounded-full">
@@ -141,8 +141,8 @@ const Profile = () => {
                       <span className="font-bold w-24 text-left">Birthday</span>
                       <span className="text-gray-700">
                         {profile?.birthDate
-                          ? profile?.birthDate
-                          : "No birthday data"}
+                          ? ": " + profile?.birthDate
+                          : ": No birthday data"}
                       </span>
                     </li>
                   )}

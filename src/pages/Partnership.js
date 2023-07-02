@@ -96,15 +96,15 @@ const Partnership = () => {
                 {error}
               </h2>
             )}
-            <div class="mb-4">
+            <div className="mb-4">
               <label
-                class="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold mb-2"
                 for="companyName"
               >
                 Company Name
               </label>
               <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="companyName"
                 type="text"
                 placeholder="Company Name"
@@ -118,15 +118,15 @@ const Partnership = () => {
                 </div>
               ) : null}
             </div>
-            <div class="mb-4">
+            <div className="mb-4">
               <label
-                class="block text-gray-700 text-sm font-bold mb-2"
+                className="block text-gray-700 text-sm font-bold mb-2"
                 for="companyAddress"
               >
                 Company Address
               </label>
               <input
-                class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 id="companyAddress"
                 type="text"
                 placeholder="Company Address"
@@ -140,16 +140,16 @@ const Partnership = () => {
                 </div>
               ) : null}
             </div>
-            <div class="mb-4 grid grid-cols-12 gap-3">
+            <div className="mb-4 grid grid-cols-12 gap-3">
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="companyEmail"
                 >
                   Company Email
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="companyEmail"
                   type="email"
                   placeholder="Company Email"
@@ -165,13 +165,13 @@ const Partnership = () => {
               </div>
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="photo"
                 >
                   Photo Or Logo Upload
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full bg-white text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="photo"
                   type="file"
                   accept=".jpg,.jpeg,.png,.avif,.webp"
@@ -187,16 +187,16 @@ const Partnership = () => {
               </div>
             </div>
 
-            <div class="mb-4 grid grid-cols-12 gap-3">
+            <div className="mb-4 grid grid-cols-12 gap-3">
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="password"
                 >
                   Password
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="password"
                   type="password"
                   placeholder="Password"
@@ -212,13 +212,13 @@ const Partnership = () => {
               </div>
               <div className="col-span-6">
                 <label
-                  class="block text-gray-700 text-sm font-bold mb-2"
+                  className="block text-gray-700 text-sm font-bold mb-2"
                   for="password"
                 >
                   Confirm Password
                 </label>
                 <input
-                  class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   id="confirmPassword"
                   type="password"
                   placeholder="Confirm Password"

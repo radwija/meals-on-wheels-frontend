@@ -6,6 +6,7 @@ import { async } from "q";
 
 const EditPictureForm = ({ closeModal, email, role, onUpdateProfile }) => {
   const [error, setError] = useState("");
+  const [isSubmiting, setIsSubmiting] = useState(false);
   const validationSchema = Yup.object({
     picture: Yup.mixed().required("Please upload your picture"),
   });
@@ -15,11 +16,13 @@ const EditPictureForm = ({ closeModal, email, role, onUpdateProfile }) => {
       // Picture field is empty, prevent form submission
       return;
     }
+    setIsSubmiting(true);
     const res = await updatePicture(email, role, values.picture);
     if (typeof res === "string") {
       setError(res);
     } else {
       onUpdateProfile();
+      setIsSubmiting(false);
       closeModal();
     }
   };
@@ -52,7 +55,7 @@ const EditPictureForm = ({ closeModal, email, role, onUpdateProfile }) => {
             accept=".jpg,.jpeg,.png,.avif,.webp"
             id="picture"
             name="picture"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full  px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
             onChange={(event) =>
               formik.setFieldValue("picture", event.target.files[0])
             }
@@ -69,7 +72,8 @@ const EditPictureForm = ({ closeModal, email, role, onUpdateProfile }) => {
           </p>
           <button
             type="submit"
-            className="px-3 py-2 text-white rounded-md shadow-md bg-accent hover:scale-110 hover:bg-accent-dark transition-all duration-300"
+            disabled={isSubmiting ? true : false}
+            className="px-3 py-2 text-white rounded-md shadow-md bg-accent hover:scale-110 hover:bg-accent-dark transition-all duration-300 disabled:bg-accent-dark disabled:hover:scale-100"
           >
             Save Changes
           </button>
