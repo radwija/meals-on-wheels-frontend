@@ -17,7 +17,7 @@ export const getPartnerOrderAllAPI = async (token) => {
 }
 
 //CREATE ORDER
-export const postPatnerOrderCreateAPI = async (token, id) =>{
+export const postPartnerOrderCreateAPI = async (token, id) =>{
     return await axios.get( `${BASE_URL}api/partner/order/${id}/create`,{
         headers : {Authorization: `Bearer ${token}`}
     })

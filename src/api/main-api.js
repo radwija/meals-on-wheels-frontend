@@ -8,12 +8,17 @@ import axios, {BASE_URL} from "./axios";
   }
 
 // GET MENU
-export const getMenu = async (token) => {
+export const getMenu = async (token, email) => {
   return await axios.get(`${BASE_URL}api/menu`, {
     headers: { Authorization: `Bearer ${token}`,
     "Content-Type": "application/json"},
+    withCredentials : true,
+    params: {
+      email: email,
+    }
   })
 }
+
 // GET REQUEST MENU
 export const getMenuById = async (token, id) => {
   return await axios.get(`${BASE_URL}api/menu/${id}`, {

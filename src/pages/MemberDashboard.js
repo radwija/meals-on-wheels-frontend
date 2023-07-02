@@ -5,16 +5,21 @@ import Carousel from "../components/Carousel";
 import {getMenu} from "../api/main-api"
 import {getMemberOrderAPI} from "../api/member-api";
 import { useAuthUser } from "react-auth-kit";
+import { getProfile } from "../api/profile-api";
+import { useNavigate } from "react-router";
 
 
 const MemberDashboard = () => {
   const auth = useAuthUser();
   const token = auth()?.token;
+  const email = auth()?.email;
   const [menu, setMenu] = useState([]);
   const [order, setOrder] = useState([]);
 
+
   useEffect(() =>{
-    getMenu(token)
+
+    getMenu(token, email)
     .then((resp) =>{
       setMenu(resp.data);
     })
@@ -25,7 +30,7 @@ const MemberDashboard = () => {
     getMemberOrderAPI(token)
     .then((resp) => setOrder(resp.data))
     .catch((err) => console.log(err.response.data));
-  }, [token])
+  }, [])
 
     return(
         <Layout>

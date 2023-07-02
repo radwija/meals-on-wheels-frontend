@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Carousel from "../components/Carousel";
 import Layout from "../components/Layout";
 import redCircle from "../assets/images/red-circle.svg"
@@ -6,6 +7,7 @@ import greenCircle from "../assets/images/green-circle.svg"
 import yellowCircle from "../assets/images/yellow-circle.svg"
 import { order_type, user_type } from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
+import { getProfile } from "../api/profile-api";
 import {
   getDriverOrderAPI,
   postDriverOrderCompleteAPI,
@@ -18,6 +20,9 @@ const DriverDashboard = () =>{
   const token = auth()?.token;
   const [user, setUsers] = useState(user_type);
   const [orderList, setOrderList] = useState([order_type]);
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const navigate = useNavigate();
   const[msg, setMsg] = useState("");
   const [index, setIndex] = useState(0);
 
@@ -41,11 +46,24 @@ const DriverDashboard = () =>{
     window.location.reload();
   }
 
+  const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
+    }
+    const userEmail = auth()?.email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
+  };
+
   useEffect(() =>{
+    fetchData();
+
     getDriverOrderAPI(token)
     .then((resp) => setOrderList(resp.data))
     .catch((err) => console.log(err));
-  }, [token, msg]);
+  }, []);
 
     return(
         <Layout>
@@ -119,16 +137,16 @@ const DriverDashboard = () =>{
     </div>
     <div className="flex flex-col items-center">
       <img
-        src={user}
+        src={`data:image/jpeg;base64,${profile?.picture}`}
         alt="profile pic"
         className="w-20 h-20 rounded-full object-cover mt-4 mb-2"
       />
       <div className="text-black">
-        <span className="font-normal">Agus</span>
+        <span className="font-normal">{profile.name}</span>
       </div>
       <div className="relative">
       <button className="bg-blue-500 text-white py-2 px-4 rounded dropbtn">
-        STATUS: {user.status}
+        STATUS: {user?.status}
       </button>
       <div className="absolute hidden mt-2 bg-white rounded shadow-md dropdown-content">
         <div className="status flex justify-center w-1/2 m-auto mb-2 mt-2">
