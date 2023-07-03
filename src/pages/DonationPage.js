@@ -49,10 +49,12 @@ export const DonationPage = () => {
     return (
         <Layout>
             <div className='bg-primary min-h-screen'>
-                <div className='container mx-auto py-20'>
+                <div className='grid place-items-center py-20'>
                     <h1 className='text-4xl md:text-6xl font-bold text-center mb-6'>Donation</h1>
                     <div
-                        className=" w-4/5 p-7 mx-auto color text-white drop-shadow relative"
+                        className={
+                            `grid grid-cols-3 p-10 max-w-5xl bg-white shadow-xl mx-10 rounded-md text-white drop-shadow`
+                        }
                         style={{
                             borderRadius: "10px",
                             background: `url(${donation_bg})`,
@@ -61,7 +63,7 @@ export const DonationPage = () => {
                             backgroundPosition: "center"
                         }}
                     >
-                        <div className='text-left w-[600px]'>
+                        <div className='col-start-1 xs:col-span-3 sm:col-span-3 md:col-span-2 text-left max-w-3xl'>
                             <h1 className=' text-xl font-bold pb-3'>Give Comfort and Support</h1>
                             <p>
                                 Your kindness brings comfort and support to those in need. By donating, you ensure timely and nutritious meal delivery to individuals facing age, disease, or disability. Your generosity makes a difference.
