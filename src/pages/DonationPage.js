@@ -53,7 +53,7 @@ export const DonationPage = () => {
                     <h1 className='text-4xl md:text-6xl font-bold text-center mb-6'>Donation</h1>
                     <div
                         className={
-                            `grid grid-cols-3 p-10 max-w-5xl bg-white shadow-xl mx-10 rounded-md text-white drop-shadow`
+                            `grid grid-cols-3 xs:p-7 sm:p-7 md:p-10 lg:p-10 max-w-6xl bg-white shadow-xl mx-10 rounded-md text-white drop-shadow`
                         }
                         style={{
                             borderRadius: "10px",
@@ -64,11 +64,11 @@ export const DonationPage = () => {
                         }}
                     >
                         <div className='col-start-1 xs:col-span-3 sm:col-span-3 md:col-span-2 text-left max-w-3xl'>
-                            <h1 className=' text-xl font-bold pb-3'>Give Comfort and Support</h1>
+                            <h1 className='text-2xl font-bold pb-3'>Give Comfort and Support</h1>
                             <p>
                                 Your kindness brings comfort and support to those in need. By donating, you ensure timely and nutritious meal delivery to individuals facing age, disease, or disability. Your generosity makes a difference.
                             </p>
-                            <div className='mt-7 p-4 bg-slate-900'
+                            <div className='mt-7 p-4 bg-slate-900 max-w-xl'
                                 style={{
                                     borderRadius: "10px"
                                 }}>
