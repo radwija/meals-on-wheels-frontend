@@ -181,9 +181,7 @@ const Partnership = () => {
                   }
                   onBlur={formik.handleBlur}
                 />
-                <p className="text-red-500 font-medium w-72">
-                  Note: The file size must be under 300kb
-                </p>
+
                 {formik.touched.photo && formik.errors.photo ? (
                   <div className="text-red-500 ps-2">{formik.errors.photo}</div>
                 ) : null}
