@@ -92,7 +92,7 @@ const Partnership = () => {
               </div>
             )}
             {error && (
-              <h2 className="text-2xl bg-red-100 border border-red-400 text-red-700 font-semibold p-2  mb-4">
+              <h2 className="text-xl bg-red-100 border border-red-400 text-red-700 font-semibold p-2  mb-4">
                 {error}
               </h2>
             )}
@@ -181,6 +181,7 @@ const Partnership = () => {
                   }
                   onBlur={formik.handleBlur}
                 />
+
                 {formik.touched.photo && formik.errors.photo ? (
                   <div className="text-red-500 ps-2">{formik.errors.photo}</div>
                 ) : null}
