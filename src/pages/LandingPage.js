@@ -31,11 +31,42 @@ export const LandingPage = () => {
                     backgroundRepeat: "no-repeat"
                 }}>
                     <h1 className='text-center text-white text-4xl md:text-5xl font-semibold mb-6'>Our Partnerships</h1>
-                    <div className='flex mx-auto gap-x-8 justify-center mb-4'>
-                        <img className='rounded-full h-20 w-20' src="https://static.vecteezy.com/system/resources/previews/006/735/689/original/vintage-grilled-barbecue-logo-retro-bbq-fire-grill-food-and-restaurant-icon-red-fire-icon-free-vector.jpg" alt="" />
-                        <img className='rounded-full h-20 w-20' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmuRhTohUgknm04uhPuGboFm9B0CTdYfWrFg&usqp=CAU" alt="" />
-                        <img className='rounded-full h-20 w-20' src="https://i.etsystatic.com/9264928/r/il/9fcb2e/1947415219/il_fullxfull.1947415219_f61b.jpg" alt="" />
-                        <img className='rounded-full h-20 w-20' src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/food-delivery-logo-design-template-a342a3b7515a10c800c6885bce8b3ae9_screen.jpg?ts=1619678752" alt="" />
+                    <div className='flex mx-auto xs:gap-x-4 sm:gap-x-4 md:gap-x-8 lg:gap-x-8 justify-center mb-4'>
+                        <div className='rounded-full h-16 w-16 xs:h-16 xs:w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-20 lg:w-20'
+                            style={{
+                                background: "url(https://static.vecteezy.com/system/resources/previews/006/735/689/original/vintage-grilled-barbecue-logo-retro-bbq-fire-grill-food-and-restaurant-icon-red-fire-icon-free-vector.jpg)",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                                backgroundRepeat: "no-repeat"
+                            }}
+                        ></div>
+                        <div className='rounded-full h-16 w-16 xs:h-16 xs:w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-20 lg:w-20'
+                            style={{
+                                background: `
+                                #FFFFFF
+                                url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTmuRhTohUgknm04uhPuGboFm9B0CTdYfWrFg&usqp=CAU)
+                                `,
+                                backgroundPosition: "center",
+                                backgroundSize: "contain",
+                                backgroundRepeat: "no-repeat"
+                            }}
+                        ></div>
+                        <div className='rounded-full h-16 w-16 xs:h-16 xs:w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-20 lg:w-20'
+                            style={{
+                                background: "url(https://i.etsystatic.com/9264928/r/il/9fcb2e/1947415219/il_fullxfull.1947415219_f61b.jpg)",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                                backgroundRepeat: "no-repeat"
+                            }}
+                        ></div>
+                        <div className='rounded-full h-16 w-16 xs:h-16 xs:w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 lg:h-20 lg:w-20'
+                            style={{
+                                background: "url(https://d1csarkz8obe9u.cloudfront.net/posterpreviews/food-delivery-logo-design-template-a342a3b7515a10c800c6885bce8b3ae9_screen.jpg?ts=1619678752)",
+                                backgroundPosition: "center",
+                                backgroundSize: "cover",
+                                backgroundRepeat: "no-repeat"
+                            }}
+                        ></div>
                     </div>
                 </div>
             </section>
@@ -43,9 +74,9 @@ export const LandingPage = () => {
             <section>
                 <h1 className='text-center text-4xl md:text-5xl font-semibold'>Who We Are </h1>
                 <p className='text-center mt-5 mx-10 md:mx-32'>MerryMeal is a compassionate and dedicated charitable organization that focuses on providing nutritious meals to individuals who are unable to cook for themselves or maintain their nutritional status. Our primary goal is to ensure that qualified adults living at home have access to hot noon meals, promoting their well-being and overall health.</p>
-                <div className="grid grid-cols-12 gap-10 place-items-center place-content-center px-5  py-10">
+                <div className="grid grid-cols-12 md:gap-10 lg:gap-10 place-items-center place-content-center px-5 py-10">
                     <motion.div
-                        className="xs:col-span-12 xs:my-3 xs:shadow-md xs:rounded-md xs:p-3 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center gap-3 "
+                        className="xs:col-span-12 xs:shadow-md xs:rounded-md xs:mb-5 sm:mb-5 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center"
                         variants={itemVariants}
                         initial="hidden"
                         animate="visible"
@@ -54,7 +85,7 @@ export const LandingPage = () => {
                         <img src="https://images.pexels.com/photos/8060428/pexels-photo-8060428.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
                     </motion.div>
                     <motion.div
-                        className="xs:col-span-12 xs:my-3 xs:shadow-md xs:rounded-md xs:p-3 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center gap-3 "
+                        className="xs:col-span-12 xs:shadow-md xs:rounded-md xs:mb-5 sm:mb-5 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center"
                         variants={itemVariants}
                         initial="hidden"
                         animate="visible"
@@ -63,7 +94,7 @@ export const LandingPage = () => {
                         <img src="https://images.pexels.com/photos/6646917/pexels-photo-6646917.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2" alt="" />
                     </motion.div>
                     <motion.div
-                        className="xs:col-span-12 xs:my-3 xs:shadow-md xs:rounded-md xs:p-3 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center gap-3 "
+                        className="xs:col-span-12 xs:shadow-md xs:rounded-md xs:mb-5 sm:mb-5 md:my-0 md:shadow-none md:rounded-none md:p-0 md:col-span-4 grid place-items-center"
                         variants={itemVariants}
                         initial="hidden"
                         animate="visible"
