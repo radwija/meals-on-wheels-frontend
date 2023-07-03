@@ -53,7 +53,7 @@ export const DonationPage = () => {
                     <h1 className='text-4xl md:text-6xl font-bold text-center mb-6'>Donation</h1>
                     <div
                         className={
-                            `grid grid-cols-3 xs:p-7 sm:p-7 md:p-10 lg:p-10 max-w-6xl bg-white shadow-xl mx-10 rounded-md text-white drop-shadow`
+                            `grid grid-cols-3 xs:p-5 sm:p-5 md:p-10 lg:p-10 max-w-6xl bg-white shadow-xl xs:mx-3 sm:mx-3 md:mx-10 lg:mx-10 rounded-md text-white drop-shadow`
                         }
                         style={{
                             borderRadius: "10px",
