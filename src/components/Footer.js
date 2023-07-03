@@ -4,8 +4,8 @@ import mow_logo from "../assets/mow_logo.png";
 export const Footer = () => {
   return (
     <footer className="bg-footer pt-10 pb-10">
-      <div className="mx-auto xs:hidden md:grid grid-cols-5 gap-10 ">
-        <ul className="flex flex-wrap items-center mt-3 col-span-2 justify-end sm:gap-5 md:gap-5 lg:gap-16">
+      <div className="mx-auto xs:hidden md:grid grid-cols-5 gap-5 ">
+        <ul className="flex flex-wrap items-center mt-3 col-span-2 justify-end sm:gap-5 md:gap-4 lg:gap-16">
           <Link to="/donation">
             <li className="hover:text-accent hover:scale-110 transition-all duration-300 cursor-pointer ">
               Donate
@@ -25,7 +25,7 @@ export const Footer = () => {
         <Link to="/">
           <img src={mow_logo} className=" col-span-1 mx-auto" alt="" />
         </Link>
-        <ul className="flex flex-wrap items-center mt-3  col-span-2 justify-start sm:gap-5 md:gap-5 lg:gap-16">
+        <ul className="flex flex-wrap items-center mt-3  col-span-2 justify-start sm:gap-5 md:gap-4 lg:gap-16">
           <Link to="/contact-us">
             <li className="hover:text-accent hover:scale-110 transition-all duration-300 cursor-pointer ">
               Contact Us
