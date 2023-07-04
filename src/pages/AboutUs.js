@@ -8,7 +8,7 @@ const AboutUs = () => {
   const [refSection3, inViewSection3] = useInView();
   return (
     <Layout>
-      <div className="bg-primary">
+      <div className="bg-primary overflow-x-hidden">
         {/* Hero Section */}
         <section className="py-20">
           <div className="container mx-auto">
