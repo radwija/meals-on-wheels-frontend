@@ -23,7 +23,7 @@ const MealOrderTracker = () => {
   //     deliveryAddress: '123 Main St, City',
   //     orderDate: '2023-06-27',
   //     company: 'ABC Catering',
-  //     deliveryRider: 'Anthony Smith',
+  //     deliverydriver: 'Anthony Smith',
   //     status: 'Out for Delivery',
   //   },
   //   {
@@ -34,7 +34,7 @@ const MealOrderTracker = () => {
   //     deliveryAddress: '456 Elm St, City',
   //     orderDate: '2023-06-26',
   //     company: 'XYZ Catering',
-  //     deliveryRider: 'John Mill',
+  //     deliverydriver: 'John Mill',
   //     status: 'Delivered',
   //   },
   //   {
@@ -45,7 +45,7 @@ const MealOrderTracker = () => {
   //     deliveryAddress: '003 Elm St, City',
   //     orderDate: '2023-06-26',
   //     company: 'EAT Catering',
-  //     deliveryRider: 'Pio Chan',
+  //     deliverydriver: 'Pio Chan',
   //     status: 'Ready to Deliver',
   //   },
   //   {
@@ -56,7 +56,7 @@ const MealOrderTracker = () => {
   //     deliveryAddress: '512 Elm St, City',
   //     orderDate: '2023-06-26',
   //     company: 'XYZ Catering',
-  //     deliveryRider: 'Pio Chan',
+  //     deliverydriver: 'Pio Chan',
   //     status: 'Pending',
   //   },
   // ];
@@ -82,37 +82,37 @@ const MealOrderTracker = () => {
                     <th className="px-4 py-2 font-medium">Delivery Address</th>
                     <th className="px-4 py-2 font-medium">Order Date</th>
                     <th className="px-4 py-2 font-medium">Company</th>
-                    <th className="px-4 py-2 font-medium">Delivery Rider</th>
+                    <th className="px-4 py-2 font-medium">Delivery Driver</th>
                     <th className="px-4 py-2 font-medium">Status</th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
                   {orders.map((order) => (
                     <tr key={order.id}>
-                      <td className="px-4 py-2">{order.orderNumber}</td>
-                      <td className="px-4 py-2">{order.buyerName}</td>
-                      <td className="px-4 py-2">{order.mealName}</td>
+                      <td className="px-4 py-2">{order.id}</td>
+                      <td className="px-4 py-2">{order.orderedBy.name}</td>
+                      <td className="px-4 py-2">{order.mealPackage.name}</td>
                       <td className="px-4 py-2">{order.deliveryAddress}</td>
-                      <td className="px-4 py-2">{order.orderDate}</td>
+                      <td className="px-4 py-2">{order.orderedOn}</td>
                       <td className="px-4 py-2">{order.company}</td>
-                      <td className="px-4 py-2">{order.deliveryRider}</td>
+                      <td className="px-4 py-2">{order.deliveredBy.name}</td>
                       <td className="px-4 py-2">
                         <span
-                          className={`inline-block px-3 py-1 rounded-full ${
-                            order.status === 'Pending'
+                          className={`inline-block px-3 py-1 rounded-full ${order.status === 'PENDING'
                               ? 'bg-red-500 text-white'
-                              : order.status === 'Out for Delivery'
-                              ? 'bg-blue-500 text-white'
-                              : order.status === 'Ready to Deliver'
-                              ? 'bg-green-500 text-white'
-                              : order.status === 'Delivered'
-                              ? 'bg-gray-500 text-white'
-                              : ''
-                          }`}
+                              : order.status === 'READY_TO_DELIVER'
+                                ? 'bg-blue-500 text-white'
+                                : order.status === 'PREPARING'
+                                  ? 'bg-green-500 text-white'
+                                  : order.status === 'ORDER_COMPLETE'
+                                    ? 'bg-gray-500 text-white'
+                                    : ''
+                            }`}
                         >
                           {order.status}
                         </span>
                       </td>
+
                     </tr>
                   ))}
                 </tbody>

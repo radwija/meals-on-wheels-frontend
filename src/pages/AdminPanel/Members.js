@@ -1,17 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Layout from '../../components/Layout';
+import { getMemberOrderAPI } from '../../api/admin-api';
 
 const Members = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [members, setMembers] = useState([]);
+
+  useEffect(() => {
+    // Fetch member data
+    fetchMembers();
+  }, []);
+
+  const fetchMembers = async () => {
+    try {
+      // Make an API call to retrieve member data
+      const token = localStorage.getItem('token');
+      const data = await getMemberOrderAPI(token);
+      setMembers(data);
+    } catch (error) {
+      console.error('Error fetching members:', error);
+    }
+  };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSelectRider = (memberId, selectedRider) => {
-    // Handle the selected rider for the member
-    console.log(`Member ${memberId} selected ${selectedRider} as their rider.`);
+  const handleSelectdriver = (memberId, selectedDriver) => {
+    // Handle the selected driver for the member
+    console.log(`Member ${memberId} selected ${selectedDriver} as their driver.`);
   };
 
   return (
@@ -66,82 +84,33 @@ const Members = () => {
             </thead>
             <tbody className="text-center">
               {/* Data rows */}
-              <tr>
-                <td className="py-2 px-4 border-b">1</td>
-                <td className="py-2 px-4 border-b">John Doe</td>
-                <td className="py-2 px-4 border-b">123 Main St</td>
-                <td className="py-2 px-4 border-b">john.doe@example.com</td>
-                <td className="py-2 px-4 border-b">Male</td>
-                <td className="py-2 px-4 border-b">Member</td>
-                <td className="py-2 px-4 border-b text-green-500">Approved</td>
-                <td className="py-2 px-4 border-b">
-                  <img src="https://example.com/avatar.jpg" alt="Member Avatar" className="w-10 h-10 rounded-full" />
-                </td>
-                <td className="py-2 px-4 border-b">
-                  {/* Action dropdown */}
-                  <div className="relative inline-block text-left">
-                    <select
-                      className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      onChange={(event) => handleSelectRider(1, event.target.value)}
-                    >
-                      <option value="">Actions</option>
-                      <option value="Edit">Edit</option>
-                      <option value="Delete">Delete</option>
-                    </select>
-                  </div>
-                </td>
-              </tr>
-              {/* Add more rows for each member */}
-              <tr>
-                <td className="py-2 px-4 border-b">2</td>
-                <td className="py-2 px-4 border-b">Jane Smith</td>
-                <td className="py-2 px-4 border-b">456 Oak St</td>
-                <td className="py-2 px-4 border-b">jane.smith@example.com</td>
-                <td className="py-2 px-4 border-b">Female</td>
-                <td className="py-2 px-4 border-b">Admin</td>
-                <td className="py-2 px-4 border-b text-red-500">Pending</td>
-                <td className="py-2 px-4 border-b">
-                  <img src="https://example.com/avatar.jpg" alt="Member Avatar" className="w-10 h-10 rounded-full" />
-                </td>
-                <td className="py-2 px-4 border-b">
-                  {/* Action dropdown */}
-                  <div className="relative inline-block text-left">
-                    <select
-                      className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      onChange={(event) => handleSelectRider(2, event.target.value)}
-                    >
-                      <option value="">Actions</option>
-                      <option value="Edit">Edit</option>
-                      <option value="Delete">Delete</option>
-                    </select>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td className="py-2 px-4 border-b">3</td>
-                <td className="py-2 px-4 border-b">Matt Smith</td>
-                <td className="py-2 px-4 border-b">456 Oak St</td>
-                <td className="py-2 px-4 border-b">matt.sm@gmail.com</td>
-                <td className="py-2 px-4 border-b">Male</td>
-                <td className="py-2 px-4 border-b">Member</td>
-                <td className="py-2 px-4 border-b text-green-500">Approved</td>
-                <td className="py-2 px-4 border-b">
-                  <img src="https://example.com/avatar.jpg" alt="Member Avatar" className="w-10 h-10 rounded-full" />
-                </td>
-                <td className="py-2 px-4 border-b">
-                  {/* Action dropdown */}
-                  <div className="relative inline-block text-left">
-                    <select
-                      className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      onChange={(event) => handleSelectRider(2, event.target.value)}
-                    >
-                      <option value="">Actions</option>
-                      <option value="Edit">Edit</option>
-                      <option value="Delete">Delete</option>
-                    </select>
-                  </div>
-                </td>
-              </tr>
+              {members.map((member, index) => (
+                <tr key={member.id}>
+                  <td className="py-2 px-4 border-b">{index + 1}</td>
+                  <td className="py-2 px-4 border-b">{member.name}</td>
+                  <td className="py-2 px-4 border-b">{member.address}</td>
+                  <td className="py-2 px-4 border-b">{member.email}</td>
+                  <td className="py-2 px-4 border-b">{member.gender}</td>
+                  <td className="py-2 px-4 border-b">{member.roles}</td>
+                  <td className="py-2 px-4 border-b text-green-500">{member.status}</td>
+                  <td className="py-2 px-4 border-b">
+                    <img src={member.avatar} alt="Member Avatar" className="w-10 h-10 rounded-full" />
+                  </td>
+                  <td className="py-2 px-4 border-b">
+                    {/* Action dropdown */}
+                    <div className="relative inline-block text-left">
+                      <select
+                        className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                        onChange={(event) => handleSelectdriver(member.id, event.target.value)}
+                      >
+                        <option value="">Actions</option>
+                        <option value="Edit">Edit</option>
+                        <option value="Delete">Delete</option>
+                      </select>
+                    </div>
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
