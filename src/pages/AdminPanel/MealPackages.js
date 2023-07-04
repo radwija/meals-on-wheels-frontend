@@ -15,7 +15,7 @@ const MealPackages = () => {
 
   const fetchMeals = async () => {
     try {
-      const response = await axios.get('/api/meals');
+      const response = await axios.get('/api/meal');
       setMeals(response.data);
     } catch (error) {
       console.error('Error fetching meals:', error);
@@ -24,7 +24,7 @@ const MealPackages = () => {
 
   const addMeal = async (meal) => {
     try {
-      const response = await axios.post('/api/meals', meal);
+      const response = await axios.post('/api/meal', meal);
       setMeals([...meals, response.data]);
       setIsModalOpen(false);
     } catch (error) {

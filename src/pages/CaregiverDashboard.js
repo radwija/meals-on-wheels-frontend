@@ -219,10 +219,10 @@ function handleDeliver(order, user) {
       </div>
 
       <div className="md:flex ml-8 mt-4">
-        {/* Assign Rider Task */}
+        {/* Assign driver Task */}
         <div className="md:w-9/12 mr-4">
           <div className="pb-5">
-            <h4 className="font-bold text-2xl">Assign Rider Task</h4>
+            <h4 className="font-bold text-2xl">Assign driver Task</h4>
             <div className="card bg-gray-100 bg-opacity-25">
               <div className="container">
                 <div className="task-header-div">

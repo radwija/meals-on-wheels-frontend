@@ -6,14 +6,14 @@ export const getAdminMealAPI = async (token) => {
   });
 };
 
-export const postAdminOrderDeliverAPI = async (token, orderId, riderId) => {
-  return await axios.get(`/admin/order/${orderId}/deliver/${riderId}`, {
+export const postAdminOrderDeliverAPI = async (token, orderId, driverId) => {
+  return await axios.post(`/admin/order/${orderId}/deliver/${driverId}`, null, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const postAdminOrderPrepareAPI = async (token, orderId, partnerId) => {
-  return await axios.get(`/admin/order/${orderId}/prepare/${partnerId}`, {
+  return await axios.post(`/admin/order/${orderId}/prepare/${partnerId}`, null, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
@@ -48,14 +48,15 @@ export const getAdminOrderPendingAPI = async (token) => {
   });
 };
 
-export const getAdminUserCountAPI = async (token) => {
-  return await axios.get("/admin/user/count", {
+
+export const getAdminOrderReadyToDeliverAPI = async (token) => {
+  return await axios.get("/admin/order/ready-to-deliver", {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
-export const getAdminOrderReadyToDeliverAPI = async (token) => {
-  return await axios.get("/admin/order/ready-to-deliver", {
+export const getAdminUserCountAPI = async (token) => {
+  return await axios.get("/admin/user/count", {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
@@ -115,13 +116,13 @@ export const getMemberOrderAllAPI = async (token) => {
 };
 
 export const postMemberOrderCreateAPI = async (token, id) => {
-  return await axios.get(`/member/order/${id}/create`, {
+  return await axios.post(`/member/order/${id}/create`, null, {
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
   });
 };
 
 export const postMemberOrderCompleteAPI = async (token, id) => {
-  return await axios.get(`/member/order/${id}/complete`, {
+  return await axios.post(`/member/order/${id}/complete`, null, {
     headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
   });
 };
@@ -139,13 +140,13 @@ export const getPartnerOrderAllAPI = async (token) => {
 };
 
 export const postPartnerOrderCreateAPI = async (token, id) => {
-  return await axios.get(`/partner/order/${id}/create`, {
+  return await axios.post(`/partner/order/${id}/create`, null, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
 
 export const postPartnerOrderCompleteAPI = async (token, id) => {
-  return await axios.get(`/partner/${id}/complete`, {
+  return await axios.post(`/partner/${id}/complete`, null, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
@@ -157,7 +158,7 @@ export const getDriverOrderAPI = async (token) => {
 };
 
 export const postDriverOrderCreateAPI = async (token, id) => {
-  return await axios.get(`/driver/order/${id}/deliver`, {
+  return await axios.post(`/driver/order/${id}/deliver`, null, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
@@ -169,7 +170,7 @@ export const getDriverOrderAllAPI = async (token) => {
 };
 
 export const postDriverOrderCompleteAPI = async (token, id) => {
-  return await axios.get(`/driver/order/${id}/complete`, {
+  return await axios.post(`/driver/order/${id}/complete`, null, {
     headers: { Authorization: `Bearer ${token}` },
   });
 };

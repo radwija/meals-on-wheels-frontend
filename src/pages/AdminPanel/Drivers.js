@@ -1,20 +1,35 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaSearch } from 'react-icons/fa';
 import Sidebar from './Sidebar';
 import Layout from '../../components/Layout';
+import { getDriversAPI } from '../../api/admin-api';
 
 const Drivers = () => {
   const [searchTerm, setSearchTerm] = useState('');
+  const [availableDrivers, setAvailableDrivers] = useState([]);
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
+  useEffect(() => {
+    fetchAvailableDrivers();
+  }, []);
+
+  const fetchAvailableDrivers = async () => {
+    try {
+      const response = await getDriversAPI(); // Assuming you have the token available
+      setAvailableDrivers(response.data);
+    } catch (error) {
+      console.error('Error fetching available drivers:', error);
+    }
+  };
+
   // Sample data for demonstration
   const driversData = [
-    { driverNo: 'Rider 1', name: 'Meal Package 1', status: 'Ready to Deliver' },
-    { driverNo: 'Rider 2', name: 'Meal Package 2', status: 'Ready to Deliver' },
-    { driverNo: 'Rider 3', name: 'Meal Package 3', status: 'Ready to Deliver' },
+    { driverNo: 'driver 1', name: 'Meal Package 1', status: 'Ready to Deliver' },
+    { driverNo: 'driver 2', name: 'Meal Package 2', status: 'Ready to Deliver' },
+    { driverNo: 'driver 3', name: 'Meal Package 3', status: 'Ready to Deliver' },
   ];
 
   const filterDrivers = (driver) => {
@@ -23,16 +38,9 @@ const Drivers = () => {
 
   const filteredDrivers = driversData.filter(filterDrivers);
 
-  // Generate data for Available Drivers table
-  const availableDrivers = [
-    { driverNo: '1', name: 'Jobb Vans', status: 'Available' },
-    { driverNo: '2', name: 'Millie Bobby', status: 'Available' },
-    { driverNo: '3', name: 'Brix Brown', status: 'Available' },
-  ];
-
-  const handleSelectRider = (driverNo, rider) => {
-    // Logic for selecting a rider for a specific driver
-    console.log(`Selected rider ${rider} for driver ${driverNo}`);
+  const handleSelectDriver = (driverNo, driver) => {
+    // Logic for selecting a driver for a specific driver
+    console.log(`Selected driver ${driver} for driver ${driverNo}`);
   };
 
   return (
@@ -65,8 +73,8 @@ const Drivers = () => {
                 <th className="py-2 px-4 border-b font-medium">No.</th>
                 <th className="py-2 px-4 border-b font-medium">Ordered Meal Package</th>
                 <th className="py-2 px-4 border-b font-medium">Order Status</th>
-                <th className="py-2 px-4 border-b font-medium">Assigned Rider</th>
-                <th className="py-2 px-4 border-b font-medium">Choose Rider</th>
+                <th className="py-2 px-4 border-b font-medium">Assigned driver</th>
+                <th className="py-2 px-4 border-b font-medium">Choose driver</th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -75,16 +83,16 @@ const Drivers = () => {
                   <td className="py-2 px-4 border-b">{driver.driverNo}</td>
                   <td className="py-2 px-4 border-b">{driver.name}</td>
                   <td className={`py-2 px-4 border-b ${driver.status === 'Ready to Deliver' ? 'text-green-500' : 'text-red-500'}`}>{driver.status}</td>
-                  <td className="py-2 px-4 border-b">Assigned Rider</td>
+                  <td className="py-2 px-4 border-b">Assigned driver</td>
                   <td className="py-2 px-4 border-b">
                     <select
                       className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      onChange={(event) => handleSelectRider(driver.driverNo, event.target.value)}
+                      onChange={(event) => handleSelectDriver(driver.driverNo, event.target.value)}
                     >
-                      <option value="">Select Rider</option>
-                      <option value="Rider 1">Rider 1</option>
-                      <option value="Rider 2">Rider 2</option>
-                      <option value="Rider 3">Rider 3</option>
+                      <option value="">Select driver</option>
+                      <option value="driver 1">driver 1</option>
+                      <option value="driver 2">driver 2</option>
+                      <option value="driver 3">driver 3</option>
                     </select>
                   </td>
                 </tr>
