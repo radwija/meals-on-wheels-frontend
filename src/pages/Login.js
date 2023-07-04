@@ -29,6 +29,7 @@ const Login = () => {
       const res = await authenticate(values.email, values.password);
       if (typeof res === "string") {
         setError(res);
+        setIsSubmiting(false);
       } else {
         setError("");
         signIn({
