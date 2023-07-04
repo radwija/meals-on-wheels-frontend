@@ -65,7 +65,7 @@ export const Navbar = ({ isProfileUpdated }) => {
     // }
     else if (role === "ROLE_PARTNER") {
       return "/partner";
-    } else if (role === "ROLE_ADMINISTRATION") {
+    } else if (role === "ROLE_ADMIN") {
       return "/admin";
     }
   };
@@ -236,18 +236,16 @@ export const Navbar = ({ isProfileUpdated }) => {
         </div>
         <div
           id="mobile-menu-2"
-          className={`items-center justify-between ${
-            isBurgerExpanded === true ? "" : "hidden"
-          } w-full lg:flex lg:w-auto lg:order-1`}
+          className={`items-center justify-between ${isBurgerExpanded === true ? "" : "hidden"
+            } w-full lg:flex lg:w-auto lg:order-1`}
         >
           <ul className="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <Link
                 to={"/"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${
-                                  location.pathname === "/" ? "text-accent" : ""
-                                }`}
+                                ${location.pathname === "/" ? "text-accent" : ""
+                  }`}
               >
                 Home
               </Link>
@@ -256,11 +254,10 @@ export const Navbar = ({ isProfileUpdated }) => {
               <Link
                 to={"/donation"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${
-                                  location.pathname === "/donation"
-                                    ? "text-accent"
-                                    : ""
-                                }`}
+                                ${location.pathname === "/donation"
+                    ? "text-accent"
+                    : ""
+                  }`}
               >
                 Donate
               </Link>
@@ -269,11 +266,10 @@ export const Navbar = ({ isProfileUpdated }) => {
               <Link
                 to={"/partnership"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${
-                                  location.pathname === "/partnership"
-                                    ? "text-accent"
-                                    : ""
-                                }`}
+                                ${location.pathname === "/partnership"
+                    ? "text-accent"
+                    : ""
+                  }`}
               >
                 Partnership
               </Link>
@@ -282,11 +278,10 @@ export const Navbar = ({ isProfileUpdated }) => {
               <Link
                 to={"/about-us"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${
-                                  location.pathname === "/about-us"
-                                    ? "text-accent"
-                                    : ""
-                                }`}
+                                ${location.pathname === "/about-us"
+                    ? "text-accent"
+                    : ""
+                  }`}
               >
                 About Us
               </Link>
@@ -295,11 +290,10 @@ export const Navbar = ({ isProfileUpdated }) => {
               <Link
                 to={"/contact-us"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${
-                                  location.pathname === "/contact-us"
-                                    ? "text-accent"
-                                    : ""
-                                }`}
+                                ${location.pathname === "/contact-us"
+                    ? "text-accent"
+                    : ""
+                  }`}
               >
                 Contact Us
               </Link>

@@ -1,4 +1,4 @@
-import axios, {BASE_URL} from './axios';
+import axios, { BASE_URL } from './axios';
 
 //GET ORDER
 export const getPartnerOrderAPI = async (token) => {
@@ -6,6 +6,7 @@ export const getPartnerOrderAPI = async (token) => {
         headers: {'Authorization': `Bearer ${token}`,
         "Content-Type": "application/json"},
         withCredentials: true
+
     })
 }
 
