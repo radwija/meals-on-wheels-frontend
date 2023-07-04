@@ -145,45 +145,28 @@ const DriverDashboard = () =>{
         <span className="font-normal">{profile.name}</span>
       </div>
       <div className="relative">
-      <button className="bg-blue-500 text-white py-2 px-4 rounded dropbtn">
-        STATUS: {user?.status}
-      </button>
-      <div className="absolute hidden mt-2 bg-white rounded shadow-md dropdown-content">
-        <div className="status flex justify-center w-1/2 m-auto mb-2 mt-2">
-          <button
-            className="w-full text-left"
-            onClick={() => {
-              handleStatusUpdate(1);
-            }}
-          >
-            <img src={greenCircle} alt="" className="status-icon" />
-            <span className="font-bold ms-3">Available</span>
-          </button>
-        </div>
-        <div className="status flex justify-center w-1/2 m-auto mb-2">
-          <button
-            className="w-full text-left"
-            onClick={() => {
-              handleStatusUpdate(2);
-            }}
-          >
-            <img src={yellowCircle} alt="" className="status-icon" />
-            <span className="font-bold ms-3">Busy</span>
-          </button>
-        </div>
-        <div className="status flex justify-center w-1/2 m-auto mb-2">
-          <button
-            className="w-full text-left"
-            onClick={() => {
-              handleStatusUpdate(3);
-            }}
-          >
-            <img src={redCircle} alt="" className="status-icon" />
-            <span className="font-bold ms-3">Not Available</span>
-          </button>
-        </div>
-      </div>
-    </div>    
+  <select
+    className="bg-blue-500 text-white py-2 px-4 rounded dropbtn"
+    value={user?.status}
+    onChange={(event) => {
+      const selectedStatus = event.target.value;
+      handleStatusUpdate(selectedStatus);
+    }}
+  >
+    <option value="1">
+      <img src={greenCircle} alt="" className="status-icon" />
+      <span className="font-bold ms-3">Available</span>
+    </option>
+    <option value="2">
+      <img src={yellowCircle} alt="" className="status-icon" />
+      <span className="font-bold ms-3">Busy</span>
+    </option>
+    <option value="3">
+      <img src={redCircle} alt="" className="status-icon" />
+      <span className="font-bold ms-3">Not Available</span>
+    </option>
+  </select>
+</div>
     </div>
   </div>
 </div>

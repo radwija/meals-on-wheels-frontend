@@ -4,6 +4,16 @@ import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
 import redCircle from "../assets/images/red-circle.svg"
 import { getMenu } from "../api/main-api";
+import{
+  getAdminOrderPendingAPI,
+  getAdminOrderReadyToDeliverAPI,
+  getAdminUserAPI,
+  getAdminUserCountAPI,
+  getPartnersAPI,
+  getDriversAPI,
+  postAdminOrderDeliverAPI,
+  postAdminOrderPrepareAPI,
+} from "../api/admin-api";
 import { menu_type, order_type, user_count, user_type } from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
 import { getProfile } from "../api/profile-api";
@@ -37,8 +47,54 @@ const CaregiverDashboard = () => {
     // Rest of your code here
   };
 
+  function handlePrepare(order,user){
+  postAdminOrderPrepareAPI(token, order,user)
+  .then((resp) => setMsg(resp.data.message))
+  .catch((err => console.log(err)))
+}
+
+function handleDeliver(order, user) {
+  postAdminOrderDeliverAPI(token, order, user)
+    .then((resp) => setMsg(resp.data.message))
+    .catch((err) => console.log(err));
+}
+
   useEffect(() =>{
     fetchData()
+
+    getAdminOrderPendingAPI(token)
+      .then((resp) => setOrderList(resp.data))
+      .catch((err) => console.log(err));
+
+      getAdminOrderReadyToDeliverAPI(token)
+      .then((resp) => setDeliverList(resp.data))
+      .catch((err) => console.log(err));
+
+      getPartnersAPI(token)
+      .then((resp) => setPartner(resp.data))
+      .catch((err) => console.log(err));
+
+      getDriversAPI(token)
+      .then((resp) => setDriver(resp.data))
+      .catch((err) => console.log(err));
+
+      getAdminUserCountAPI(token)
+      .then((resp) => setUserCount(resp.data))
+      .catch((err) => console.log(err));
+
+    getAdminUserAPI(token)
+      .then((resp) => {
+        resp.data = resp.data
+          .filter((item) => {
+            return item.active === false;
+          })
+          .map((item) => {
+            setUsers(item);
+            return item;
+          });
+        setUsers(resp.data);
+      })
+      .catch((err) => console.log(err));
 
     getMenu(token, email)
     .then((resp) =>{
@@ -221,7 +277,7 @@ const CaregiverDashboard = () => {
                                     <a
                                       href="#/action1"
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    // onClick={() => handleDeliver(order.id, drivers.id)}
+                                    onClick={() => handleDeliver(order.id, drivers.id)}
                                     >
                                       {drivers.name} {drivers.status}
                                     </a>
