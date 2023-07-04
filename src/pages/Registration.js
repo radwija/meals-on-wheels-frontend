@@ -38,18 +38,23 @@ const Registration = () => {
       image: Yup.mixed().required("Please provide a photo"),
     }),
     onSubmit: async (values) => {
+      setSuccess(null);
+      setError(null);
       setIsSubmiting(true);
       // calling maps api to get user distance
       try {
-        const distance = await getDistance(values.address);
-        setDistance(distance);
-        setSuccess("Distance: " + distance);
+        const res = await getDistance(values.address);
+        setDistance(res);
+        console.log(res);
       } catch (error) {
         setError(error.message);
-        setDistance(null);
+
         setSuccess(null);
+        setIsSubmiting(false);
+        return;
       }
       // calling api to save user data
+
       try {
         const formData = new FormData();
         formData.append("name", values.name);
@@ -64,13 +69,15 @@ const Registration = () => {
 
         const response = await axios.post("api/auth/register", formData);
         console.log(response.data);
-        setError("");
+        setError(null);
         setSuccess("Registration successful");
       } catch (error) {
         console.error(error);
-        setSuccess("");
+        setSuccess(null);
         if (error.response && error.response.data.error) {
-          setError("File size too big, make sure it's under 500 kb");
+          setError(
+            "File size exceeds the allowed limit. File must be under 300 KB."
+          );
         } else if (error.response && error.response.data) {
           setError(error.response.data);
         } else {
@@ -119,7 +126,7 @@ const Registration = () => {
               </div>
             )}
             {error && (
-              <h2 className="text-2xl bg-red-100 border border-red-400 text-red-700 font-semibold p-2  mb-4">
+              <h2 className="text-xl bg-red-100 border border-red-400 text-red-700 font-semibold p-2  mb-4">
                 {error}
               </h2>
             )}
