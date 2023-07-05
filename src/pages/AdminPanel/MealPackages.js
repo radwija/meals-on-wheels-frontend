@@ -1,43 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
-import Layout from '../../components/Layout';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import Sidebar from "./Sidebar";
+import Layout from "../../components/Layout";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { useAuthUser } from "react-auth-kit";
+import ForbiddenPage from "../ForbiddenPage";
 
 const MealPackages = () => {
   const [meals, setMeals] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-
+  const auth = useAuthUser();
+  const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
   useEffect(() => {
     fetchMeals();
   }, []);
 
   const fetchMeals = async () => {
     try {
-      const response = await axios.get('/api/meal');
+      const response = await axios.get("/api/meal");
       setMeals(response.data);
     } catch (error) {
-      console.error('Error fetching meals:', error);
+      console.error("Error fetching meals:", error);
     }
   };
 
   const addMeal = async (meal) => {
     try {
-      const response = await axios.post('/api/meal', meal);
+      const response = await axios.post("/api/meal", meal);
       setMeals([...meals, response.data]);
       setIsModalOpen(false);
     } catch (error) {
-      console.error('Error adding meal:', error);
+      console.error("Error adding meal:", error);
     }
   };
+  // if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
 
   return (
     <Layout>
       <div className="flex min-h-screen mr-5">
         <Sidebar />
         <div className="flex-1 p-4">
-          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Meal Packages</h1>
+          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">
+            Meal Packages
+          </h1>
           <h2 className="text-2xl font-bold mb-4 mt-10">Available Meals</h2>
 
           <button
@@ -71,7 +80,9 @@ const MealPackages = () => {
                     <td className="px-4 py-2">{meal.soup}</td>
                     <td className="px-4 py-2">{meal.dessert}</td>
                     <td className="px-4 py-2">{meal.drink}</td>
-                    <td className="px-4 py-2">{meal.frozenMeal ? 'Yes' : 'No'}</td>
+                    <td className="px-4 py-2">
+                      {meal.frozenMeal ? "Yes" : "No"}
+                    </td>
                     <td className="px-4 py-2">{meal.mealPhoto}</td>
                   </tr>
                 ))}
@@ -102,14 +113,14 @@ const MealPackages = () => {
 };
 
 const AddMealForm = ({ addMeal }) => {
-  const [mealPackage, setMealPackage] = useState('');
-  const [mainCourse, setMainCourse] = useState('');
-  const [salad, setSalad] = useState('');
-  const [soup, setSoup] = useState('');
-  const [dessert, setDessert] = useState('');
-  const [drink, setDrink] = useState('');
-  const [frozenMeal, setFrozenMeal] = useState('');
-  const [mealPhoto, setMealPhoto] = useState('');
+  const [mealPackage, setMealPackage] = useState("");
+  const [mainCourse, setMainCourse] = useState("");
+  const [salad, setSalad] = useState("");
+  const [soup, setSoup] = useState("");
+  const [dessert, setDessert] = useState("");
+  const [drink, setDrink] = useState("");
+  const [frozenMeal, setFrozenMeal] = useState("");
+  const [mealPhoto, setMealPhoto] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -120,20 +131,20 @@ const AddMealForm = ({ addMeal }) => {
       soup,
       dessert,
       drink,
-      frozenMeal: frozenMeal === 'true',
+      frozenMeal: frozenMeal === "true",
       mealPhoto,
     };
 
     addMeal(newMeal);
 
-    setMealPackage('');
-    setMainCourse('');
-    setSalad('');
-    setSoup('');
-    setDessert('');
-    setDrink('');
-    setFrozenMeal('');
-    setMealPhoto('');
+    setMealPackage("");
+    setMainCourse("");
+    setSalad("");
+    setSoup("");
+    setDessert("");
+    setDrink("");
+    setFrozenMeal("");
+    setMealPhoto("");
   };
 
   return (
@@ -265,7 +276,6 @@ const AddMealForm = ({ addMeal }) => {
           </button>
         </div>
       </form>
-
     </div>
   );
 };

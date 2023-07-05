@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
-import Layout from '../../components/Layout';
+import React, { useState, useEffect } from "react";
+import Sidebar from "./Sidebar";
+import Layout from "../../components/Layout";
+import { useAuthUser } from "react-auth-kit";
+import ForbiddenPage from "../ForbiddenPage";
 
 const MealOrderTracker = () => {
   const [orders, setOrders] = useState([]);
-
+  const auth = useAuthUser();
+  const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
   useEffect(() => {
     // Fetch meal orders from the backend API
-    fetch('/api/meal-orders')
+    fetch("/api/meal-orders")
       .then((response) => response.json())
       .then((data) => setOrders(data))
       .catch((error) => console.error(error));
@@ -64,14 +67,23 @@ const MealOrderTracker = () => {
   // Uncomment the line below and use `exampleOrders` instead of `orders` to see the generated data
   // const orders = exampleOrders;
 
+  // if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
+
   return (
     <Layout>
       <div className="flex flex-col min-h-screen mr-5">
         <div className="flex-1 flex">
           <Sidebar />
           <div className="flex-1 p-4">
-            <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Meal Order Tracker</h1>
-            <h2 className="text-2xl font-bold mb-4 mt-10">Meal Order Tracker</h2>
+            <h1 className="text-3xl font-bold mb-10 mt-10 text-center">
+              Meal Order Tracker
+            </h1>
+            <h2 className="text-2xl font-bold mb-4 mt-10">
+              Meal Order Tracker
+            </h2>
             <div className="overflow-x-auto">
               <table className="w-full border border-gray-300">
                 <thead className="bg-blue-800 text-white">
@@ -98,21 +110,21 @@ const MealOrderTracker = () => {
                       <td className="px-4 py-2">{order.deliveredBy.name}</td>
                       <td className="px-4 py-2">
                         <span
-                          className={`inline-block px-3 py-1 rounded-full ${order.status === 'PENDING'
-                              ? 'bg-red-500 text-white'
-                              : order.status === 'READY_TO_DELIVER'
-                                ? 'bg-blue-500 text-white'
-                                : order.status === 'PREPARING'
-                                  ? 'bg-green-500 text-white'
-                                  : order.status === 'ORDER_COMPLETE'
-                                    ? 'bg-gray-500 text-white'
-                                    : ''
-                            }`}
+                          className={`inline-block px-3 py-1 rounded-full ${
+                            order.status === "PENDING"
+                              ? "bg-red-500 text-white"
+                              : order.status === "READY_TO_DELIVER"
+                              ? "bg-blue-500 text-white"
+                              : order.status === "PREPARING"
+                              ? "bg-green-500 text-white"
+                              : order.status === "ORDER_COMPLETE"
+                              ? "bg-gray-500 text-white"
+                              : ""
+                          }`}
                         >
                           {order.status}
                         </span>
                       </td>
-
                     </tr>
                   ))}
                 </tbody>

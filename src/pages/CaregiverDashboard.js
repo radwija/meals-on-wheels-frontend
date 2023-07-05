@@ -1,10 +1,16 @@
 import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
-import redCircle from "../assets/images/red-circle.svg"
+import redCircle from "../assets/images/red-circle.svg";
 import { getMenu } from "../api/main-api";
-import { menu_type, order_type, user_count, user_type } from "../context/context-type";
+import {
+  menu_type,
+  order_type,
+  user_count,
+  user_type,
+} from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
+import ForbiddenPage from "./ForbiddenPage";
 
 const CaregiverDashboard = () => {
   const auth = useAuthUser();
@@ -19,7 +25,7 @@ const CaregiverDashboard = () => {
   const [menu, setMenu] = useState([menu_type]);
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
-
+  const isCaregiver = auth()?.role?.[0] === "ROLE_CAREGIVER";
 
   useEffect(() => {
     getMenu(token)
@@ -30,9 +36,17 @@ const CaregiverDashboard = () => {
         console.log(err);
       });
   }, [token, msg]);
+
+  // if user not caregiver forbid access
+  if (!isCaregiver) {
+    return <ForbiddenPage />;
+  }
+
   return (
     <Layout>
-      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {user?.name}!</h1>
+      <h1 className="mt-8 text-2xl font-bold text-center">
+        Hello, {user?.name}!
+      </h1>
       <Carousel></Carousel>
       <div className="md:flex ml-8">
         {/* Assign Partner Task */}
@@ -46,10 +60,18 @@ const CaregiverDashboard = () => {
                     <thead className="bg-cyan-950">
                       <tr>
                         <th className="px-4 py-2 border-b font-normal">No</th>
-                        <th className="px-4 py-2 border-b font-normal">Meals Request List</th>
-                        <th className="px-4 py-2 border-b font-normal">Status</th>
-                        <th className="px-4 py-2 border-b font-normal">Assigned Partner</th>
-                        <th className="px-4 py-2 border-b font-normal">Select Partner</th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Meals Request List
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Assigned Partner
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Select Partner
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
@@ -61,7 +83,11 @@ const CaregiverDashboard = () => {
                           </td>
                           <td className="px-4 py-2 border-b">
                             <div className="status flex justify-center">
-                              <img src={redCircle} alt="" className="status-icon" />
+                              <img
+                                src={redCircle}
+                                alt=""
+                                className="status-icon"
+                              />
                               <span className="font-bold ms-3">
                                 {order.orderStatus}
                               </span>
@@ -96,7 +122,7 @@ const CaregiverDashboard = () => {
                                       href="#/action1"
                                       key={partners.id}
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    // onClick={() => handlePrepare(order.id, partners.id)}
+                                      // onClick={() => handlePrepare(order.id, partners.id)}
                                     >
                                       {partners.name} {partners.status}
                                     </a>
@@ -132,13 +158,13 @@ const CaregiverDashboard = () => {
                   <th className="px-4 py-2 text-white">Meal</th>
                 </tr>
               </thead>
-              {menu.slice(0, 6).map((data) =>
+              {menu.slice(0, 6).map((data) => (
                 <tbody>
                   <tr>
                     <td className="px-4 py-2 border-b">{data.packageName}</td>
                   </tr>
                 </tbody>
-              )}
+              ))}
             </table>
           </div>
         </div>
@@ -156,10 +182,18 @@ const CaregiverDashboard = () => {
                     <thead className="bg-cyan-950">
                       <tr>
                         <th className="px-4 py-2 border-b font-normal">No</th>
-                        <th className="px-4 py-2 border-b font-normal">Meals Request List</th>
-                        <th className="px-4 py-2 border-b font-normal">Status</th>
-                        <th className="px-4 py-2 border-b font-normal">Assigned Driver</th>
-                        <th className="px-4 py-2 border-b font-normal">Select Driver</th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Meals Request List
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Assigned Driver
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Select Driver
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
@@ -171,8 +205,14 @@ const CaregiverDashboard = () => {
                           </td>
                           <td className="px-4 py-2 border-b">
                             <div className="status flex justify-center">
-                              <img src={redCircle} alt="" className="status-icon" />
-                              <span className="font-bold ms-3">{order.orderStatus}</span>
+                              <img
+                                src={redCircle}
+                                alt=""
+                                className="status-icon"
+                              />
+                              <span className="font-bold ms-3">
+                                {order.orderStatus}
+                              </span>
                             </div>
                           </td>
                           <td className="px-4 py-2 border-b">
@@ -203,7 +243,7 @@ const CaregiverDashboard = () => {
                                     <a
                                       href="#/action1"
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    // onClick={() => handleDeliver(order.id, drivers.id)}
+                                      // onClick={() => handleDeliver(order.id, drivers.id)}
                                     >
                                       {drivers.name} {drivers.status}
                                     </a>

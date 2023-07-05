@@ -42,20 +42,11 @@ const Registration = () => {
       setError(null);
       setIsSubmiting(true);
       // calling maps api to get user distance
-      try {
-        const res = await getDistance(values.address);
-        setDistance(res);
-        console.log(res);
-      } catch (error) {
-        setError(error.message);
 
-        setSuccess(null);
-        setIsSubmiting(false);
-        return;
-      }
       // calling api to save user data
 
       try {
+        const res = await getDistance(values.address);
         const formData = new FormData();
         formData.append("name", values.name);
         formData.append("address", values.address);
@@ -65,21 +56,20 @@ const Registration = () => {
         formData.append("password", values.password);
         formData.append("file", values.file);
         formData.append("image", values.image);
-        formData.append("distance", distance);
+        formData.append("distance", res);
 
         const response = await axios.post("api/auth/register", formData);
         console.log(response.data);
         setError(null);
         setSuccess("Registration successful");
+        formik.resetForm();
       } catch (error) {
         console.error(error);
         setSuccess(null);
-        if (error.response && error.response.data.error) {
-          setError(
-            "File size exceeds the allowed limit. File must be under 300 KB."
-          );
-        } else if (error.response && error.response.data) {
-          setError(error.response.data);
+        if (error?.response?.data) {
+          setError(error?.response?.data);
+        } else if (error) {
+          setError(error.message);
         } else {
           setError("No Response From Server");
         }
