@@ -26,15 +26,22 @@ const MealPackages = () => {
     }
   };
 
-  const addMeal = async (meal) => {
-    try {
-      const response = await axios.post("/api/menu/add", meal);
-      setMeals([...meals, response.data]);
-      setIsModalOpen(false);
-    } catch (error) {
-      console.error("Error adding meal:", error);
-    }
+  const addMeal = (meal) => {
+    // Make a POST request to add the meal
+    axios
+      .post("/api/menu/add", meal)
+      .then((response) => {
+        // Update the meals state with the new meal
+        setMeals([...meals, response.data]);
+        setIsModalOpen(false);
+      })
+      .catch((error) => {
+        console.error("Error adding meal:", error);
+        // Handle error
+        // ...
+      });
   };
+  
   // if user not admin forbid access
   if (!isAdmin) {
     return <ForbiddenPage />;
