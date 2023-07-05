@@ -24,10 +24,9 @@ import Drivers from "./pages/AdminPanel/Drivers";
 import Members from "./pages/AdminPanel/Members";
 import Partners from "./pages/AdminPanel/Partners";
 import Volunteers from "./pages/AdminPanel/Volunteers";
-import MealOrderHistory from "./pages/AdminPanel/MealOrderHistory";
+import MealOrderTracker from "./pages/AdminPanel/MealOrderTracker";
 import MealPackages from "./pages/AdminPanel/MealPackages";
 import { TermsAndConditions } from "./pages/TermsAndConditions";
-import AddMealModal from "./components/modal/AddMealModal";
 
 function App() {
   return (
@@ -178,15 +177,6 @@ function App() {
             </RequireAuth>
           }
         />
-        
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/users/drivers" element={<Drivers />} />
-        <Route path="/admin/user" element={<Members />} />
-        <Route path="/admin/partner" element={<Partners />} />
-        <Route path="/users/volunteers" element={<Volunteers />} />
-        <Route path="/order/all" element={<MealOrderHistory />} />
-        <Route path="/admin/meal" element={<MealPackages />} />
-        <Route path="/admin/menu/add" element={<AddMealModal />} />
         {/* </Route> */}
       </Routes>
     </div>

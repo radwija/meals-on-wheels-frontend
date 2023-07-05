@@ -1,192 +1,210 @@
-import axios, { BASE_URL } from "./axios";
+import axios from "./axios";
 
-
-// GET MEAL
 export const getAdminMealAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/meal`, {
+  return await axios.get("/admin/meal", {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials: true
-  })
-}
+  });
+};
 
-// ADD MENU
-export const addMenu = async (token, formData) => {
-  return await axios.post(`${BASE_URL}/admin/menu/add`, formData, {
-    headers: { 
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "multipart/form-data" },
-      withCredentials: true
-     })
-  }
-
-// POST ORDER DELIVER
-//assign driver ito order
 export const postAdminOrderDeliverAPI = async (token, orderId, driverId) => {
-  return await axios.get(
-    `${BASE_URL}/admin/order/${orderId}/deliver/${driverId}`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true
-    }
-  )
-}
+  return await axios.post(`/admin/order/${orderId}/deliver/${driverId}`, null, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
 
-// POST ORDER PREPARE
-//assign partner into order
 export const postAdminOrderPrepareAPI = async (token, orderId, partnerId) => {
-  return await axios.get(
-    `${BASE_URL}/admin/order/${orderId}/prepare/${partnerId}`,
-    {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true
-    }
-  )
-}
+  return await axios.post(`/admin/order/${orderId}/prepare/${partnerId}`, null, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
 
-// ORDER ALL
 export const getAdminOrderAllAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/all`, {
+  return await axios.get("/admin/order/all", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
-// ORDER COMPLETE
-//list all complete order
 export const getAdminOrderCompleteAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/complete`, {
+  return await axios.get("/admin/order/complete", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
-// ORDER DELIVERY COMPLETE
 export const getAdminOrderDeliveryCompleteAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/delivery-complete`, {
+  return await axios.get("/admin/order/delivery-complete", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
-// ORDER ON DELIVERY
 export const getAdminOrderOnDeliveryAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/on-delivery`, {
+  return await axios.get("/admin/order/on-delivery", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
-// ORDER PENDING
 export const getAdminOrderPendingAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/pending`, {
+  return await axios.get("/admin/order/pending", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
-// ORDER PREPARED
-export const getAdminUserCountAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/user/count`, {
-    headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
 
-// ORDER READY TO DELIVER
 export const getAdminOrderReadyToDeliverAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/ready-to-deliver`, {
+  return await axios.get("/admin/order/ready-to-deliver", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
-// ADMIN USER
-export const getAdminUserAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/user`, {
+export const getAdminUserCountAPI = async (token) => {
+  return await axios.get("/admin/user/count", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials : true 
+  });
+};
+
+export const getAdminUserAPI = async (token) => {
+  return await axios.get("/admin/user", {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
 
 export const getAdminUserActiveAPI = async (token, id) => {
-  return await axios.get(`${BASE_URL}/admin/user/${id}/activate`, {
+  return await axios.get(`/admin/user/${id}/activate`, {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
+
 export const getAdminPartnerAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/partner`, {
+  return await axios.get("/admin/partner", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
 export const getAdminPartnerActiveAPI = async (token, id) => {
-  return await axios.get(`${BASE_URL}/admin/partner/${id}/activate`, {
+  return await axios.get(`/admin/partner/${id}/activate`, {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
 export const getPartnersAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/partner`, {
+  return await axios.get("/admin/partner", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true 
+  });
+};
 
 export const getDriversAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/driver`, {
+  return await axios.get("/admin/driver", {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
+    withCredentials: true
+  });
+};
 
 export const assignVolunteerAPI = async (token, id, rolecode) => {
-  return await axios.get(`${BASE_URL}/admin/user/${id}/${rolecode}`, {
+  return await axios.get(`/admin/user/${id}/${rolecode}`, {
     headers: { Authorization: `Bearer ${token}` },
-    withCredentials : true
-  })
-}
-
-// Function to get total volunteer count
-export const getTotalVolunteerCount = async (token) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/admin/volunteer/count`, {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching total volunteer count:', error);
-    throw error;
-  }
+    withCredentials: true
+  });
 };
 
-// Function to get total partner count
-export const getTotalPartnerCount = async (token) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/admin/partner/count`, {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching total partner count:', error);
-    throw error;
-  }
+export const getMemberOrderAPI = async (token) => {
+  return await axios.get("/member/order", {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    withCredentials: true
+  });
 };
 
-// Function to get total driver count
-export const getTotalDriverCount = async (token) => {
-  try {
-    const response = await axios.get(`${BASE_URL}/admin/driver/count`, {
-      headers: { Authorization: `Bearer ${token}` },
-      withCredentials: true
-    });
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching total driver count:', error);
-    throw error;
-  }
+export const getMemberOrderAllAPI = async (token) => {
+  return await axios.get("/member/order/all", {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+  });
+};
+
+export const postMemberOrderCreateAPI = async (token, id) => {
+  return await axios.post(`/member/order/${id}/create`, null, {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+  });
+};
+
+export const postMemberOrderCompleteAPI = async (token, id) => {
+  return await axios.post(`/member/order/${id}/complete`, null, {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    withCredentials: true
+  });
+};
+
+export const getPartnerOrderAPI = async (token) => {
+  return await axios.get("/partner/order", {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    withCredentials: true
+  });
+};
+
+export const getPartnerOrderAllAPI = async (token) => {
+  return await axios.get("/partner/order/all", {
+    headers: { Authorization: `Bearer ${token}`, "Content-Type": "application/json" },
+    withCredentials: true
+  });
+};
+
+export const postPartnerOrderCreateAPI = async (token, id) => {
+  return await axios.post(`/partner/order/${id}/create`, null, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
+
+export const postPartnerOrderCompleteAPI = async (token, id) => {
+  return await axios.post(`/partner/${id}/complete`, null, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
+
+export const getDriverOrderAPI = async (token) => {
+  return await axios.get("/driver/order", {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
+
+export const postDriverOrderCreateAPI = async (token, id) => {
+  return await axios.post(`/driver/order/${id}/deliver`, null, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
+
+export const getDriverOrderAllAPI = async (token) => {
+  return await axios.get("/driver/order/all", {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
+
+export const postDriverOrderCompleteAPI = async (token, id) => {
+  return await axios.post(`/driver/order/${id}/complete`, null, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
+};
+
+export const setStatusAPI = async (token, statusCode) => {
+  return await axios.get(`/driver/status/${statusCode}`, {
+    headers: { Authorization: `Bearer ${token}` },
+    withCredentials: true
+  });
 };

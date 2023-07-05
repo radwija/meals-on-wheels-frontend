@@ -52,41 +52,89 @@ const Sidebar = () => {
               </Link>
             </li>
             <li className="px-6 py-3">
-              <Link
-                to="/admin/user"
-                className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+              <div
+                className={`cursor-pointer ${isDarkMode ? 'text-white' : 'text-gray-800'
                   }`}
+                onClick={toggleUsersDropdown}
               >
                 <FontAwesomeIcon icon={faUsers} className="mr-3" />
                 Users
-              </Link>
-            </li>
-            <li className="px-6 py-3">
-              <Link
-                to="/admin/partner"
-                className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
-                  }`}
-              >
                 <FontAwesomeIcon
-                  icon={faUserFriends}
-                  className="mr-2 text-sm"
+                  icon={isUsersDropdownOpen ? faChevronUp : faChevronDown}
+                  className={`ml-2 text-xs ${isDarkMode ? 'text-white' : 'text-gray-800'
+                    }`}
                 />
-                Partners
-              </Link>
+              </div>
+              {isUsersDropdownOpen && (
+                <ul className="pl-6 py-2">
+                  <li>
+                    <Link
+                      to="/users/partners"
+                      className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faUserFriends}
+                        className="mr-2 text-sm"
+                      />
+                      Partners
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/users/drivers"
+                      className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faTruck}
+                        className="mr-2 text-sm"
+                      />
+                      Drivers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/users/volunteers"
+                      className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faUserFriends}
+                        className="mr-2 text-sm"
+                      />
+                      Volunteers
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      to="/users/members"
+                      className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
+                        }`}
+                    >
+                      <FontAwesomeIcon
+                        icon={faIdCardAlt}
+                        className="mr-2 text-sm"
+                      />
+                      Members
+                    </Link>
+                  </li>
+                </ul>
+              )}
             </li>
             <li className="px-6 py-3">
               <Link
-                to="admin/order/all"
+                to="/meal-order-tracker"
                 className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
                   }`}
               >
                 <FontAwesomeIcon icon={faTachometerAlt} className="mr-3" />
-                Meal Order History
+                Meal Order Tracker
               </Link>
             </li>
             <li className="px-6 py-3">
               <Link
-                to="admin/meal"
+                to="/meal-packages"
                 className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
                   }`}
               >
