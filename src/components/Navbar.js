@@ -244,7 +244,7 @@ export const Navbar = ({ isProfileUpdated }) => {
               <Link
                 to={"/"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${location.pathname === "/" ? "text-accent" : ""
+                                ${location.pathname === "/" ? "text-navActive" : ""
                   }`}
               >
                 Home
@@ -255,7 +255,7 @@ export const Navbar = ({ isProfileUpdated }) => {
                 to={"/donation"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${location.pathname === "/donation"
-                    ? "text-accent"
+                    ? "text-navActive"
                     : ""
                   }`}
               >
@@ -267,7 +267,7 @@ export const Navbar = ({ isProfileUpdated }) => {
                 to={"/partnership"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${location.pathname === "/partnership"
-                    ? "text-accent"
+                    ? "text-navActive"
                     : ""
                   }`}
               >
@@ -279,7 +279,7 @@ export const Navbar = ({ isProfileUpdated }) => {
                 to={"/about-us"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${location.pathname === "/about-us"
-                    ? "text-accent"
+                    ? "text-navActive"
                     : ""
                   }`}
               >
@@ -291,7 +291,7 @@ export const Navbar = ({ isProfileUpdated }) => {
                 to={"/contact-us"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
                                 ${location.pathname === "/contact-us"
-                    ? "text-accent"
+                    ? "text-navActive"
                     : ""
                   }`}
               >

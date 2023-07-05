@@ -1,3 +1,9 @@
+import React, { useState, useEffect } from "react";
+import Sidebar from "./Sidebar";
+import Layout from "../../components/Layout";
+import { getMemberOrderAPI } from "../../api/admin-api";
+import ForbiddenPage from "../ForbiddenPage";
+import { useAuthUser } from "react-auth-kit";
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Layout from '../../components/Layout';
@@ -8,6 +14,23 @@ import { getProfile } from '../../api/profile-api';
 import { useNavigate } from 'react-router-dom';
 
 const Members = () => {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [members, setMembers] = useState([]);
+  const auth = useAuthUser();
+  const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
+  useEffect(() => {
+    // Fetch member data
+    fetchMembers();
+  }, []);
+}
+  const fetchMembers = async () => {
+    try {
+      // Make an API call to retrieve member data
+      const token = localStorage.getItem("token");
+      const data = await getMemberOrderAPI(token);
+      setMembers(data);
+    } catch (error) {
+      console.error("Error fetching members:", error);
   const auth = useAuthUser();
   const token = auth()?.token;
   const [profile, setProfile] = useState({});
@@ -16,6 +39,7 @@ const Members = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [users, setUsers] = useState([user_type]);
   const [msg, setMsg] = useState("");
+    }
 
   const fetchData = async () => {
     if (!auth()) {
@@ -48,6 +72,10 @@ const Members = () => {
     // Handle the selected driver for the member
     console.log(`User ${userId} selected ${selectedDriver} as their driver.`);
   };
+  // if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
 
   return (
     <Layout>

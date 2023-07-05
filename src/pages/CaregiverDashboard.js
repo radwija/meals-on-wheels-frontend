@@ -1,17 +1,34 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
 import redCircle from "../assets/images/red-circle.svg"
-import { getMenu } from "../api/main-api";
+import { getAllMenu } from "../api/main-api";
+import {
+  getAdminOrderPendingAPI,
+  getAdminOrderReadyToDeliverAPI,
+  getAdminUserAPI,
+  getAdminUserCountAPI,
+  getPartnersAPI,
+  getDriversAPI,
+  postAdminOrderDeliverAPI,
+  postAdminOrderPrepareAPI,
+} from "../api/admin-api";
 import { menu_type, order_type, user_count, user_type } from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
+import { getProfile } from "../api/profile-api";
+import ForbiddenPage from "./ForbiddenPage";
 
 const CaregiverDashboard = () => {
   const auth = useAuthUser();
   const token = auth()?.token;
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const navigate = useNavigate();
   const [orderList, setOrderList] = useState([order_type]);
   const [deliverList, setDeliverList] = useState([order_type]);
   const [user, setUsers] = useState(user_type);
+  const email = auth()?.email;
   const [msg, setMsg] = useState("");
   const [drivers, setDriver] = useState([user_type]);
   const [partners, setPartner] = useState([user_type]);
@@ -20,19 +37,85 @@ const CaregiverDashboard = () => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
+  const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
+    }
+    const userEmail = auth()?.email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
+  };
+
+  const isCaregiver = auth()?.role?.[0] === "ROLE_CAREGIVER";
+
+
+  function handlePrepare(order, user) {
+    postAdminOrderPrepareAPI(token, order, user)
+      .then((resp) => setMsg(resp.data.message))
+      .catch((err => console.log(err)))
+  }
+
+  function handleDeliver(order, user) {
+    postAdminOrderDeliverAPI(token, order, user)
+      .then((resp) => setMsg(resp.data.message))
+      .catch((err) => console.log(err));
+  }
 
   useEffect(() => {
-    getMenu(token)
+    fetchData()
+
+    getAdminOrderPendingAPI(token)
+      .then((resp) => setOrderList(resp.data))
+      .catch((err) => console.log(err));
+
+    getAdminOrderReadyToDeliverAPI(token)
+      .then((resp) => setDeliverList(resp.data))
+      .catch((err) => console.log(err));
+
+    getPartnersAPI(token)
+      .then((resp) => setPartner(resp.data))
+      .catch((err) => console.log(err));
+
+    getDriversAPI(token)
+      .then((resp) => setDriver(resp.data))
+      .catch((err) => console.log(err));
+
+    getAdminUserCountAPI(token)
+      .then((resp) => setUserCount(resp.data))
+      .catch((err) => console.log(err));
+
+    getAdminUserAPI(token)
+      .then((resp) => {
+        resp.data = resp.data
+          .filter((item) => {
+            return item.active === false;
+          })
+          .map((item) => {
+            setUsers(item);
+            return item;
+          });
+        setUsers(resp.data);
+      })
+      .catch((err) => console.log(err));
+
+    getAllMenu()
       .then((resp) => {
         setMenu(resp.data);
       })
       .catch((err) => {
         console.log(err);
       });
-  }, [token, msg]);
+  }, []);
+  // if user not caregiver forbid access
+  if (!isCaregiver) {
+    return <ForbiddenPage />;
+  }
+
   return (
     <Layout>
-      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {user?.name}!</h1>
+      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
       <Carousel></Carousel>
       <div className="md:flex ml-8">
         {/* Assign Partner Task */}
@@ -96,10 +179,11 @@ const CaregiverDashboard = () => {
                                       href="#/action1"
                                       key={partners.id}
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    // onClick={() => handlePrepare(order.id, partners.id)}
+                                      onClick={() => handlePrepare(order.id, partners.id)}
                                     >
                                       {partners.name} {partners.status}
                                     </a>
+
                                   ))}
                                 </div>
                               )}
@@ -132,8 +216,10 @@ const CaregiverDashboard = () => {
                   <th className="px-4 py-2 text-white">Meal</th>
                 </tr>
               </thead>
-              {menu.slice(0, 6).map((data) =>
-                <tbody>
+
+              {menu.slice(0, 7).map((data) =>
+                <tbody key={data.id}>
+
                   <tr>
                     <td className="px-4 py-2 border-b">{data.packageName}</td>
                   </tr>
@@ -156,10 +242,18 @@ const CaregiverDashboard = () => {
                     <thead className="bg-cyan-950">
                       <tr>
                         <th className="px-4 py-2 border-b font-normal">No</th>
-                        <th className="px-4 py-2 border-b font-normal">Meals Request List</th>
-                        <th className="px-4 py-2 border-b font-normal">Status</th>
-                        <th className="px-4 py-2 border-b font-normal">Assigned Driver</th>
-                        <th className="px-4 py-2 border-b font-normal">Select Driver</th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Meals Request List
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Assigned Driver
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Select Driver
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
@@ -171,8 +265,14 @@ const CaregiverDashboard = () => {
                           </td>
                           <td className="px-4 py-2 border-b">
                             <div className="status flex justify-center">
-                              <img src={redCircle} alt="" className="status-icon" />
-                              <span className="font-bold ms-3">{order.orderStatus}</span>
+                              <img
+                                src={redCircle}
+                                alt=""
+                                className="status-icon"
+                              />
+                              <span className="font-bold ms-3">
+                                {order.orderStatus}
+                              </span>
                             </div>
                           </td>
                           <td className="px-4 py-2 border-b">
@@ -203,7 +303,9 @@ const CaregiverDashboard = () => {
                                     <a
                                       href="#/action1"
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                    // onClick={() => handleDeliver(order.id, drivers.id)}
+
+                                      onClick={() => handleDeliver(order.id, drivers.id)}
+
                                     >
                                       {drivers.name} {drivers.status}
                                     </a>

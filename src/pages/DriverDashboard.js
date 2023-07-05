@@ -1,55 +1,83 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Carousel from "../components/Carousel";
 import Layout from "../components/Layout";
-import redCircle from "../assets/images/red-circle.svg"
-import greenCircle from "../assets/images/green-circle.svg"
-import yellowCircle from "../assets/images/yellow-circle.svg"
+import redCircle from "../assets/images/red-circle.svg";
+import greenCircle from "../assets/images/green-circle.svg";
+import yellowCircle from "../assets/images/yellow-circle.svg";
 import { order_type, user_type } from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
+import { getProfile } from "../api/profile-api";
 import {
   getDriverOrderAPI,
   postDriverOrderCompleteAPI,
   postDriverOrderCreateAPI,
   setStatusAPI,
 } from "../api/driver-api";
+import ForbiddenPage from "./ForbiddenPage";
 
-const DriverDashboard = () =>{
+const DriverDashboard = () => {
   const auth = useAuthUser();
   const token = auth()?.token;
   const [user, setUsers] = useState(user_type);
   const [orderList, setOrderList] = useState([order_type]);
-  const[msg, setMsg] = useState("");
+
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const navigate = useNavigate();
+
+  const [msg, setMsg] = useState("");
   const [index, setIndex] = useState(0);
+  const isDriver = auth()?.role?.[0] === "ROLE_DRIVER";
+
+  const [selectedStatus, setSelectedStatus] = useState(profile?.status)
 
   function handlePickUp(id){
     postDriverOrderCreateAPI(token, id)
-    .then((resp) => setMsg("msg"))
-    .catch((err) => console.log(err.response));
+      .then((resp) => setMsg("msg"))
+      .catch((err) => console.log(err.response));
   }
 
-  function handleComplete(id){
-    postDriverOrderCompleteAPI(token,id)
-    .then((resp) => setMsg(resp.data.message))
-    .catch((err) => console.log(err.response));
+  function handleComplete(id) {
+    postDriverOrderCompleteAPI(token, id)
+      .then((resp) => setMsg(resp.data.message))
+      .catch((err) => console.log(err.response));
     window.location.reload();
   }
 
-  function handleStatusUpdate(statusCode){
+  function handleStatusUpdate(statusCode) {
     setStatusAPI(token, statusCode)
     .then((resp) => setMsg(resp.data.message))
     .catch((err) => console.log(err.response));
-    window.location.reload();
   }
 
+  const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
+    }
+    const userEmail = auth()?.email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
+  };
+
   useEffect(() =>{
+    fetchData();
+
     getDriverOrderAPI(token)
     .then((resp) => setOrderList(resp.data))
     .catch((err) => console.log(err));
-  }, [token, msg]);
-
-    return(
+  }, []);
+  
+  // if user not driver forbid access
+  if (!isDriver) {
+    return <ForbiddenPage />;
+  }
+  
+  return(
         <Layout>
-        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {user?.name}!</h1>
+        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
         <Carousel></Carousel>
         <div className="md:flex ml-8 mt-4">
   {/* Assign Driver Task */}
@@ -111,7 +139,7 @@ const DriverDashboard = () =>{
       </div>
     </div>
   </div>
-  <div className="md:w-3/12  ml-2 mr-2">
+  <div className="md:w-3/12  ml-2 mr-2 px-5">
   <div className="card">
   <div className="bg-white shadow-md rounded-md p-4 mt-2">
     <div className="text-center">
@@ -119,53 +147,41 @@ const DriverDashboard = () =>{
     </div>
     <div className="flex flex-col items-center">
       <img
-        src={user}
+        src={`data:image/jpeg;base64,${profile?.picture}`}
         alt="profile pic"
         className="w-20 h-20 rounded-full object-cover mt-4 mb-2"
       />
       <div className="text-black">
-        <span className="font-normal">Agus</span>
+        <span className="font-normal">{profile.name}</span>
       </div>
       <div className="relative">
-      <button className="bg-blue-500 text-white py-2 px-4 rounded dropbtn">
-        STATUS: {user.status}
-      </button>
-      <div className="absolute hidden mt-2 bg-white rounded shadow-md dropdown-content">
-        <div className="status flex justify-center w-1/2 m-auto mb-2 mt-2">
-          <button
-            className="w-full text-left"
-            onClick={() => {
-              handleStatusUpdate(1);
-            }}
-          >
-            <img src={greenCircle} alt="" className="status-icon" />
-            <span className="font-bold ms-3">Available</span>
-          </button>
-        </div>
-        <div className="status flex justify-center w-1/2 m-auto mb-2">
-          <button
-            className="w-full text-left"
-            onClick={() => {
-              handleStatusUpdate(2);
-            }}
-          >
-            <img src={yellowCircle} alt="" className="status-icon" />
-            <span className="font-bold ms-3">Busy</span>
-          </button>
-        </div>
-        <div className="status flex justify-center w-1/2 m-auto mb-2">
-          <button
-            className="w-full text-left"
-            onClick={() => {
-              handleStatusUpdate(3);
-            }}
-          >
-            <img src={redCircle} alt="" className="status-icon" />
-            <span className="font-bold ms-3">Not Available</span>
-          </button>
-        </div>
-      </div>
-    </div>    
+      <select
+      className="bg-blue-500 text-white py-2 px-4 rounded dropbtn"
+      value={selectedStatus}
+      onChange={(event) => {
+        const newStatus = event.target.value; // Store the new value in a variable
+        setSelectedStatus(newStatus); // Update the state with the new value
+        handleStatusUpdate(newStatus); // Call the function with the new value
+      }}
+    >
+    <option disabled selected>
+    <img src={greenCircle} alt="" className="status-icon" />
+    <span className="font-bold ms-3">{profile.status}</span>
+  </option>
+      <option value="1">
+        <img src={greenCircle} alt="" className="status-icon" />
+        <span className="font-bold ms-3">Available</span>
+      </option>
+      <option value="2">
+        <img src={yellowCircle} alt="" className="status-icon" />
+        <span className="font-bold ms-3">Busy</span>
+      </option>
+      <option value="3">
+        <img src={redCircle} alt="" className="status-icon" />
+        <span className="font-bold ms-3">Not Available</span>
+      </option>
+    </select>    
+</div>
     </div>
   </div>
 </div>
@@ -174,5 +190,6 @@ const DriverDashboard = () =>{
         </Layout>
     )
 }
+
 
 export default DriverDashboard;

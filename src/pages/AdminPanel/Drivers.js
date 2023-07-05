@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { FaSearch } from 'react-icons/fa';
-import Sidebar from './Sidebar';
-import Layout from '../../components/Layout';
-import { getDriversAPI } from '../../api/admin-api';
+import React, { useState, useEffect } from "react";
+import { FaSearch } from "react-icons/fa";
+import Sidebar from "./Sidebar";
+import Layout from "../../components/Layout";
+import { getDriversAPI } from "../../api/admin-api";
+import { useAuthUser } from "react-auth-kit";
+import ForbiddenPage from "../ForbiddenPage";
 
 const Drivers = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [availableDrivers, setAvailableDrivers] = useState([]);
-  const [drivers, setDrivers] = useState([]); // Modified state variable
-
+  const auth = useAuthUser();
+  const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
@@ -22,15 +24,27 @@ const Drivers = () => {
       const response = await getDriversAPI(); // Assuming you have the token available
       setAvailableDrivers(response.data);
     } catch (error) {
-      console.error('Error fetching available drivers:', error);
+      console.error("Error fetching available drivers:", error);
     }
   };
 
   // Sample data for demonstration
   const driversData = [
-    { driverNo: 'driver 1', name: 'Meal Package 1', status: 'Ready to Deliver' },
-    { driverNo: 'driver 2', name: 'Meal Package 2', status: 'Ready to Deliver' },
-    { driverNo: 'driver 3', name: 'Meal Package 3', status: 'Ready to Deliver' },
+    {
+      driverNo: "driver 1",
+      name: "Meal Package 1",
+      status: "Ready to Deliver",
+    },
+    {
+      driverNo: "driver 2",
+      name: "Meal Package 2",
+      status: "Ready to Deliver",
+    },
+    {
+      driverNo: "driver 3",
+      name: "Meal Package 3",
+      status: "Ready to Deliver",
+    },
   ];
 
   const filterDrivers = (driver) => {
@@ -43,7 +57,12 @@ const Drivers = () => {
     // Logic for selecting a driver for a specific driver
     console.log(`Selected driver ${driver} for driver ${driverNo}`);
   };
-  
+
+  // if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
+
   return (
     <Layout>
       <div className="flex min-h-screen mr-5">
@@ -64,7 +83,9 @@ const Drivers = () => {
               </div>
             </div>
           </div>
-          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Drivers</h1>
+          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">
+            Drivers
+          </h1>
 
           {/* Drivers table */}
           <h2 className="text-xl font-bold mb-2">Drivers</h2>
@@ -72,10 +93,16 @@ const Drivers = () => {
             <thead className="bg-blue-800 text-white">
               <tr>
                 <th className="py-2 px-4 border-b font-medium">No.</th>
-                <th className="py-2 px-4 border-b font-medium">Ordered Meal Package</th>
+                <th className="py-2 px-4 border-b font-medium">
+                  Ordered Meal Package
+                </th>
                 <th className="py-2 px-4 border-b font-medium">Order Status</th>
-                <th className="py-2 px-4 border-b font-medium">Assigned driver</th>
-                <th className="py-2 px-4 border-b font-medium">Choose driver</th>
+                <th className="py-2 px-4 border-b font-medium">
+                  Assigned driver
+                </th>
+                <th className="py-2 px-4 border-b font-medium">
+                  Choose driver
+                </th>
               </tr>
             </thead>
             <tbody className="text-center">
@@ -83,12 +110,22 @@ const Drivers = () => {
                 <tr key={index}>
                   <td className="py-2 px-4 border-b">{driver.driverNo}</td>
                   <td className="py-2 px-4 border-b">{driver.name}</td>
-                  <td className={`py-2 px-4 border-b ${driver.status === 'Ready to Deliver' ? 'text-green-500' : 'text-red-500'}`}>{driver.status}</td>
+                  <td
+                    className={`py-2 px-4 border-b ${
+                      driver.status === "Ready to Deliver"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {driver.status}
+                  </td>
                   <td className="py-2 px-4 border-b">Assigned driver</td>
                   <td className="py-2 px-4 border-b">
                     <select
                       className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                      onChange={(event) => handleSelectDriver(driver.driverNo, event.target.value)}
+                      onChange={(event) =>
+                        handleSelectDriver(driver.driverNo, event.target.value)
+                      }
                     >
                       <option value="">Select driver</option>
                       <option value="driver 1">driver 1</option>
@@ -116,7 +153,15 @@ const Drivers = () => {
                 <tr key={index}>
                   <td className="py-2 px-4 border-b">{driver.driverNo}</td>
                   <td className="py-2 px-4 border-b">{driver.name}</td>
-                  <td className={`py-2 px-4 border-b ${driver.status === 'Available' ? 'text-green-500' : 'text-red-500'}`}>{driver.status}</td>
+                  <td
+                    className={`py-2 px-4 border-b ${
+                      driver.status === "Available"
+                        ? "text-green-500"
+                        : "text-red-500"
+                    }`}
+                  >
+                    {driver.status}
+                  </td>
                 </tr>
               ))}
             </tbody>

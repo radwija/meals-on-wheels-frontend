@@ -30,7 +30,7 @@ export const isDonationApiAvailable = async () => {
         if (response.ok) {
             return {
                 isDisabled: false,
-                text: "Please enter amount ($ 9,999,999 maximum)"
+                text: "Please enter amount ($ 9,999,999.99 maximum)"
             };
         } else {
             if (response.status === 404) {
