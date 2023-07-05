@@ -1,17 +1,40 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Layout from '../../components/Layout';
+import {
+  getAdminOrderAllAPI,
+  postAdminOrderPrepareAPI,
+} from "../../api/admin-api";
+import { order_type } from "../../context/context-type";
+import { useAuthUser } from "react-auth-kit";
+import ForbiddenPage from "../ForbiddenPage";
 
 const MealOrderHistory = () => {
-  const [orders, setOrders] = useState([]);
+  const auth = useAuthUser();
+  const token = auth()?.token;
+  const [order, setOrder] = useState([order_type]);
+  const [msg, setMsg] = useState("");
+  const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
+
+  function handleComplete(id) {
+    postAdminOrderPrepareAPI(token, id)
+      .then((resp) => setMsg(resp.data.message))
+      .catch((err) => console.log(err));
+  }
 
   useEffect(() => {
-    // Fetch meal orders from the backend API
-    fetch('/api/meal-orders')
-      .then((response) => response.json())
-      .then((data) => setOrders(data))
-      .catch((error) => console.error(error));
-  }, []);
+    getAdminOrderAllAPI(token)
+      .then((resp) => setOrder(resp.data.sort((a, b) => a.id - b.id)))
+      .catch((err) => console.log(err));
+    console.log(order)
+
+    return () => { };
+  }, [token]);
+
+  // if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
 
   // Generated example data
   // const exampleOrders = [
@@ -76,43 +99,45 @@ const MealOrderHistory = () => {
               <table className="w-full border border-gray-300">
                 <thead className="bg-blue-800 text-white">
                   <tr>
-                    <th className="px-4 py-2 font-medium">Order Number</th>
-                    <th className="px-4 py-2 font-medium">Buyer Name</th>
-                    <th className="px-4 py-2 font-medium">Ordered Meal</th>
-                    <th className="px-4 py-2 font-medium">Delivery Address</th>
+                    <th className="px-4 py-2 font-medium">Number</th>
+                    <th className="px-4 py-2 font-medium">Meal Package</th>
+                    <th className="px-4 py-2 font-medium">Prepared By</th>
                     <th className="px-4 py-2 font-medium">Order Date</th>
-                    <th className="px-4 py-2 font-medium">Company</th>
-                    <th className="px-4 py-2 font-medium">Delivery Driver</th>
+                    <th className="px-4 py-2 font-medium">Delivery Address</th>
+                    <th className="px-4 py-2 font-medium">Delivered By</th>
                     <th className="px-4 py-2 font-medium">Status</th>
                   </tr>
                 </thead>
                 <tbody className="text-center">
-                  {orders.map((order) => (
-                    <tr key={order.id}>
-                      <td className="px-4 py-2">{order.id}</td>
-                      <td className="px-4 py-2">{order.orderedBy.name}</td>
-                      <td className="px-4 py-2">{order.mealPackage.name}</td>
-                      <td className="px-4 py-2">{order.deliveryAddress}</td>
-                      <td className="px-4 py-2">{order.orderedOn}</td>
-                      <td className="px-4 py-2">{order.company}</td>
-                      <td className="px-4 py-2">{order.deliveredBy.name}</td>
+                  {order.map((x, i) => (
+                    <tr key={x.id}>
+                      <td className="px-4 py-2">{i + 1}</td>
+                      <td className="px-4 py-2">{x.mealPackage.packageName}</td>
+                      <td className="px-4 py-2">{x.preparedBy?.name}</td>
+                      <td className="px-4 py-2">
+                        {new Date(x.orderOn).toLocaleString("en-GB", {
+                          timeZone: "Asia/Singapore",
+                          hour12: true,
+                        })}
+                      </td>
+                      <td className="px-4 py-2">{x.orderBy.address}</td>
+                      <td className="px-4 py-2">{x.deliveredBy?.name}</td>
                       <td className="px-4 py-2">
                         <span
-                          className={`inline-block px-3 py-1 rounded-full ${order.status === 'PENDING'
-                              ? 'bg-red-500 text-white'
-                              : order.status === 'READY_TO_DELIVER'
-                                ? 'bg-blue-500 text-white'
-                                : order.status === 'PREPARING'
-                                  ? 'bg-green-500 text-white'
-                                  : order.status === 'ORDER_COMPLETE'
-                                    ? 'bg-gray-500 text-white'
-                                    : ''
+                          className={`inline-block px-3 py-1 rounded-full ${x.orderStatus === 'PENDING'
+                            ? 'bg-red-500 text-white'
+                            : x.orderStatus === 'READY_TO_DELIVER'
+                              ? 'bg-blue-500 text-white'
+                              : x.orderStatus === 'PREPARING'
+                                ? 'bg-green-500 text-white'
+                                : x.orderStatus === 'ORDER_COMPLETE'
+                                  ? 'bg-gray-500 text-white'
+                                  : ''
                             }`}
                         >
-                          {order.status}
+                          {x.orderStatus}
                         </span>
                       </td>
-
                     </tr>
                   ))}
                 </tbody>

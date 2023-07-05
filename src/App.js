@@ -161,7 +161,7 @@ function App() {
           }
         /> */}
         <Route
-          path="/admin/order/all"
+          path="/order/all"
           element={
             <RequireAuth loginPath="/login">
               <MealOrderHistory />
@@ -169,7 +169,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/meal"
+          path="/meal"
           element={
             <RequireAuth loginPath="/login">
               <MealPackages />
@@ -177,7 +177,7 @@ function App() {
           }
         />
         <Route
-          path="/admin/menu/add"
+          path="/menu/add"
           element={
             <RequireAuth loginPath="/login">
               <AddMealModal />

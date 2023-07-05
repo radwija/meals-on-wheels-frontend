@@ -76,7 +76,7 @@ const Sidebar = () => {
             </li>
             <li className="px-6 py-3">
               <Link
-                to="admin/order/all"
+                to="/order/all"
                 className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
                   }`}
               >
@@ -86,7 +86,7 @@ const Sidebar = () => {
             </li>
             <li className="px-6 py-3">
               <Link
-                to="admin/meal"
+                to="/meal"
                 className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
                   }`}
               >
