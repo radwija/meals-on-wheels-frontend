@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import { FaSearch } from "react-icons/fa";
 import { useAuthUser } from "react-auth-kit";
 import ForbiddenPage from "../ForbiddenPage";
+import { getPartnersAPI } from '../../api/admin-api';
 
 const Partners = () => {
   const [partnersData, setPartnersData] = useState([]);
@@ -22,6 +23,22 @@ const Partners = () => {
   };
 
   const filteredPartners = partnersData.filter(filterPartners);
+
+  useEffect(() => {
+    const fetchPartnersData = async () => {
+      try {
+        // const response = await getPartnersAPI(token); // Pass the token here
+        setPartnersData(response.data);
+      } catch (error) {
+        console.error('Error fetching partners data:', error);
+      }
+    };
+
+    // Fetch partnership request data and registered partners data similarly
+
+    fetchPartnersData();
+  }, []);
+
 
   // Simulating API/database call to fetch data
   useEffect(() => {
