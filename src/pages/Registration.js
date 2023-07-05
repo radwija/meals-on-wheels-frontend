@@ -85,7 +85,7 @@ const Registration = () => {
     <Layout>
       <div className="grid grid-cols-12 h-screen ">
         <div
-          className="xs:hidden md:col-span-5 bg-cover  shadow-md md:grid place-items-center relative"
+          className="hidden lg:col-span-5 bg-cover  shadow-md lg:grid place-items-center relative"
           style={{
             background: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://images.unsplash.com/photo-1461354464878-ad92f492a5a0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80')`,
             backgroundPosition: "center",
@@ -95,7 +95,7 @@ const Registration = () => {
             Become part of our community
           </p>
         </div>
-        <div className="xs:col-span-12 md:col-span-7 bg-primary grid place-items-center">
+        <div className="col-span-12 lg:col-span-7 bg-primary grid place-items-center">
           <form className="p-8 text-left flex flex-col" onSubmit={handleSubmit}>
             <h1 className=" text-left font-bold text-2xl border-b-4 border-black pb-4 w-fit mb-4">
               Registration
@@ -230,7 +230,7 @@ const Registration = () => {
               </div>
             </div>
             <div className="mb-4 grid grid-cols-12 gap-3">
-              <div className="col-span-6">
+              <div className="col-span-12 md:col-span-6">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
                   for="qualification"
@@ -251,7 +251,7 @@ const Registration = () => {
                   <div className="text-red-500 ps-2">{errors.file}</div>
                 )}
               </div>
-              <div className="col-span-6">
+              <div className="col-span-12 md:col-span-6">
                 <label
                   className="block text-gray-700 text-sm font-bold mb-2"
                   for="photo"
