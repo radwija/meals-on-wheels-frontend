@@ -17,6 +17,7 @@ import{
 import { menu_type, order_type, user_count, user_type } from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
 import { getProfile } from "../api/profile-api";
+import ForbiddenPage from "./ForbiddenPage";
 
 const CaregiverDashboard = () => {
   const auth = useAuthUser();
@@ -46,6 +47,9 @@ const CaregiverDashboard = () => {
     setProfile(res);
     // Rest of your code here
   };
+  
+  const isCaregiver = auth()?.role?.[0] === "ROLE_CAREGIVER";
+
 
   function handlePrepare(order,user){
   postAdminOrderPrepareAPI(token, order,user)
@@ -104,7 +108,12 @@ function handleDeliver(order, user) {
       console.log(err);
     });
   }, []);
-    return(
+  // if user not caregiver forbid access
+  if (!isCaregiver) {
+    return <ForbiddenPage />;
+  }
+  
+ return(
 <Layout>
 <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
 <Carousel></Carousel>
@@ -174,6 +183,7 @@ function handleDeliver(order, user) {
                         >
                           {partners.name} {partners.status}
                         </a>
+
                       ))}
                     </div>
                   )}
@@ -206,13 +216,15 @@ function handleDeliver(order, user) {
                   <th className="px-4 py-2 text-white">Meal</th>
                 </tr>
               </thead>
+
               {menu.slice(0, 7).map((data) =>
                 <tbody key={data.id}>
+
                   <tr>
                     <td className="px-4 py-2 border-b">{data.packageName}</td>
                   </tr>
                 </tbody>
-              )}
+              ))}
             </table>
           </div>
         </div>
@@ -230,10 +242,18 @@ function handleDeliver(order, user) {
                     <thead className="bg-cyan-950">
                       <tr>
                         <th className="px-4 py-2 border-b font-normal">No</th>
-                        <th className="px-4 py-2 border-b font-normal">Meals Request List</th>
-                        <th className="px-4 py-2 border-b font-normal">Status</th>
-                        <th className="px-4 py-2 border-b font-normal">Assigned Driver</th>
-                        <th className="px-4 py-2 border-b font-normal">Select Driver</th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Meals Request List
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Assigned Driver
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Select Driver
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
@@ -245,8 +265,14 @@ function handleDeliver(order, user) {
                           </td>
                           <td className="px-4 py-2 border-b">
                             <div className="status flex justify-center">
-                              <img src={redCircle} alt="" className="status-icon" />
-                              <span className="font-bold ms-3">{order.orderStatus}</span>
+                              <img
+                                src={redCircle}
+                                alt=""
+                                className="status-icon"
+                              />
+                              <span className="font-bold ms-3">
+                                {order.orderStatus}
+                              </span>
                             </div>
                           </td>
                           <td className="px-4 py-2 border-b">
@@ -277,7 +303,9 @@ function handleDeliver(order, user) {
                                     <a
                                       href="#/action1"
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+
                                     onClick={() => handleDeliver(order.id, drivers.id)}
+
                                     >
                                       {drivers.name} {drivers.status}
                                     </a>

@@ -6,12 +6,14 @@ import {
 import { order_type } from "../context/context-type";
 import Layout from "../components/Layout";
 import { useAuthUser } from "react-auth-kit";
+import ForbiddenPage from "./ForbiddenPage";
 
 const MemberOrderHistory = () => {
   const auth = useAuthUser();
   const token = auth()?.token;
   const [order, setOrder] = useState([order_type]);
-  const [msg, setMsg] = useState("")
+  const [msg, setMsg] = useState("");
+  const isMember = auth()?.role?.[0] === "ROLE_MEMBER";
 
   function handleComplete(id) {
     postMemberOrderCompleteAPI(token, id)
@@ -19,7 +21,7 @@ const MemberOrderHistory = () => {
       .catch((err) => console.log(err));
   }
 
-  useEffect(() =>{
+  useEffect(() => {
     getMemberOrderAllAPI(token)
     .then((resp) => setOrder(resp.data.sort((a, b) => a.id - b.id)))
     .catch((err) => console.log(err));
@@ -27,12 +29,17 @@ const MemberOrderHistory = () => {
 
     return () => {};
   }, [token]);
-  
-    return (
-        <Layout>
-        <div>
+
+  // if user not member forbid access
+  if (!isMember) {
+    return <ForbiddenPage />;
+  }
+
+  return (
+    <Layout>
+      <div>
         <h1 className="text-center py-8 text-2xl font-bold">Order History</h1>
-      
+
         <div className="task-header-div px-8">
           {msg}
           <table className="table-auto w-full text-center mb-5">
@@ -49,27 +56,27 @@ const MemberOrderHistory = () => {
             </thead>
             <tbody className="text-black mt-5 bg-white">
               {order.map((x, i) => (
-                <tr key = {x.id} className="border-b">
+                <tr key={x.id} className="border-b">
                   <td className="px-4 py-2">{i + 1}</td>
                   <td className="px-4 py-2">{x.mealPackage.packageName}</td>
                   <td className="px-4 py-2">{x.preparedBy?.name}</td>
                   <td className="px-4 py-2">
-                  {new Date(x.orderOn).toLocaleString("en-GB", {
-                    timeZone: "Asia/Singapore",
-                    hour12: true,
-                  })}
+                    {new Date(x.orderOn).toLocaleString("en-GB", {
+                      timeZone: "Asia/Singapore",
+                      hour12: true,
+                    })}
                   </td>
                   <td className="px-4 py-2">{x.orderBy.address}</td>
                   <td className="px-4 py-2">{x.deliveredBy?.name}</td>
                   <td className="px-4 py-2">{x.orderStatus}</td>
                 </tr>
-                ))}
+              ))}
             </tbody>
           </table>
         </div>
-      </div>      
-      </Layout>
-    );
-  }
-  
-  export default MemberOrderHistory;
+      </div>
+    </Layout>
+  );
+};
+
+export default MemberOrderHistory;

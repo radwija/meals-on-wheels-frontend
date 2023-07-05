@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
-import Layout from '../../components/Layout';
-import { getMemberOrderAPI } from '../../api/admin-api';
+import React, { useState, useEffect } from "react";
+import Sidebar from "./Sidebar";
+import Layout from "../../components/Layout";
+import { getMemberOrderAPI } from "../../api/admin-api";
+import ForbiddenPage from "../ForbiddenPage";
+import { useAuthUser } from "react-auth-kit";
 
 const Members = () => {
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [members, setMembers] = useState([]);
-
+  const auth = useAuthUser();
+  const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
   useEffect(() => {
     // Fetch member data
     fetchMembers();
@@ -15,11 +18,11 @@ const Members = () => {
   const fetchMembers = async () => {
     try {
       // Make an API call to retrieve member data
-      const token = localStorage.getItem('token');
+      const token = localStorage.getItem("token");
       const data = await getMemberOrderAPI(token);
       setMembers(data);
     } catch (error) {
-      console.error('Error fetching members:', error);
+      console.error("Error fetching members:", error);
     }
   };
 
@@ -29,8 +32,14 @@ const Members = () => {
 
   const handleSelectdriver = (memberId, selectedDriver) => {
     // Handle the selected driver for the member
-    console.log(`Member ${memberId} selected ${selectedDriver} as their driver.`);
+    console.log(
+      `Member ${memberId} selected ${selectedDriver} as their driver.`
+    );
   };
+  // if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
 
   return (
     <Layout>
@@ -64,7 +73,9 @@ const Members = () => {
               </div>
             </div>
           </div>
-          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Members</h1>
+          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">
+            Members
+          </h1>
 
           <h2 className="text-2xl font-bold mb-4">Members</h2>
           {/* Members table */}
@@ -92,16 +103,24 @@ const Members = () => {
                   <td className="py-2 px-4 border-b">{member.email}</td>
                   <td className="py-2 px-4 border-b">{member.gender}</td>
                   <td className="py-2 px-4 border-b">{member.roles}</td>
-                  <td className="py-2 px-4 border-b text-green-500">{member.status}</td>
+                  <td className="py-2 px-4 border-b text-green-500">
+                    {member.status}
+                  </td>
                   <td className="py-2 px-4 border-b">
-                    <img src={member.avatar} alt="Member Avatar" className="w-10 h-10 rounded-full" />
+                    <img
+                      src={member.avatar}
+                      alt="Member Avatar"
+                      className="w-10 h-10 rounded-full"
+                    />
                   </td>
                   <td className="py-2 px-4 border-b">
                     {/* Action dropdown */}
                     <div className="relative inline-block text-left">
                       <select
                         className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        onChange={(event) => handleSelectdriver(member.id, event.target.value)}
+                        onChange={(event) =>
+                          handleSelectdriver(member.id, event.target.value)
+                        }
                       >
                         <option value="">Actions</option>
                         <option value="Edit">Edit</option>
