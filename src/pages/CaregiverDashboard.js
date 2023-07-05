@@ -3,7 +3,7 @@ import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
 import redCircle from "../assets/images/red-circle.svg"
-import { getMenu } from "../api/main-api";
+import { getAllMenu } from "../api/main-api";
 import{
   getAdminOrderPendingAPI,
   getAdminOrderReadyToDeliverAPI,
@@ -96,7 +96,7 @@ function handleDeliver(order, user) {
       })
       .catch((err) => console.log(err));
 
-    getMenu(token, email)
+    getAllMenu()
     .then((resp) =>{
       setMenu(resp.data);
     })
@@ -206,8 +206,8 @@ function handleDeliver(order, user) {
                   <th className="px-4 py-2 text-white">Meal</th>
                 </tr>
               </thead>
-              {menu.slice(0, 6).map((data) =>
-                <tbody>
+              {menu.slice(0, 7).map((data) =>
+                <tbody key={data.id}>
                   <tr>
                     <td className="px-4 py-2 border-b">{data.packageName}</td>
                   </tr>

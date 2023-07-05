@@ -23,8 +23,10 @@ const DriverDashboard = () =>{
   const [profile, setProfile] = useState({});
   const role = auth()?.role[0];
   const navigate = useNavigate();
-  const[msg, setMsg] = useState("");
+  const [msg, setMsg] = useState("");
   const [index, setIndex] = useState(0);
+
+  const [selectedStatus, setSelectedStatus] = useState(profile?.status)
 
   function handlePickUp(id){
     postDriverOrderCreateAPI(token, id)
@@ -43,7 +45,6 @@ const DriverDashboard = () =>{
     setStatusAPI(token, statusCode)
     .then((resp) => setMsg(resp.data.message))
     .catch((err) => console.log(err.response));
-    window.location.reload();
   }
 
   const fetchData = async () => {
@@ -145,27 +146,32 @@ const DriverDashboard = () =>{
         <span className="font-normal">{profile.name}</span>
       </div>
       <div className="relative">
-  <select
-    className="bg-blue-500 text-white py-2 px-4 rounded dropbtn"
-    value={user?.status}
-    onChange={(event) => {
-      const selectedStatus = event.target.value;
-      handleStatusUpdate(selectedStatus);
-    }}
-  >
-    <option value="1">
-      <img src={greenCircle} alt="" className="status-icon" />
-      <span className="font-bold ms-3">Available</span>
-    </option>
-    <option value="2">
-      <img src={yellowCircle} alt="" className="status-icon" />
-      <span className="font-bold ms-3">Busy</span>
-    </option>
-    <option value="3">
-      <img src={redCircle} alt="" className="status-icon" />
-      <span className="font-bold ms-3">Not Available</span>
-    </option>
-  </select>
+      <select
+      className="bg-blue-500 text-white py-2 px-4 rounded dropbtn"
+      value={selectedStatus}
+      onChange={(event) => {
+        const newStatus = event.target.value; // Store the new value in a variable
+        setSelectedStatus(newStatus); // Update the state with the new value
+        handleStatusUpdate(newStatus); // Call the function with the new value
+      }}
+    >
+    <option disabled selected>
+    <img src={greenCircle} alt="" className="status-icon" />
+    <span className="font-bold ms-3">{profile.status}</span>
+  </option>
+      <option value="1">
+        <img src={greenCircle} alt="" className="status-icon" />
+        <span className="font-bold ms-3">Available</span>
+      </option>
+      <option value="2">
+        <img src={yellowCircle} alt="" className="status-icon" />
+        <span className="font-bold ms-3">Busy</span>
+      </option>
+      <option value="3">
+        <img src={redCircle} alt="" className="status-icon" />
+        <span className="font-bold ms-3">Not Available</span>
+      </option>
+    </select>    
 </div>
     </div>
   </div>

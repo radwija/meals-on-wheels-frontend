@@ -20,6 +20,14 @@ export const getMenu = async (token, email) => {
   })
 }
 
+// GET ALL MENU 
+export const getAllMenu = async () => {
+  return await axios.get(`${BASE_URL}api/all-menu`,{
+    headers: {"Content-Type": "application/json"},
+    withCredentials : true, 
+  })
+}
+
 // GET REQUEST MENU
 export const getMenuById = async (token, id) => {
   return await axios.get(`${BASE_URL}api/menu/${id}`, {

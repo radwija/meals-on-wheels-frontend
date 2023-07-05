@@ -10,7 +10,7 @@ import {
   postPartnerOrderCreateAPI,
 } from "../api/partner-api";
 import { getProfile } from "../api/profile-api";
-import { getMenu } from "../api/main-api";
+import { getAllMenu} from "../api/main-api";
 import{
   order_type,
   menu_type,
@@ -54,13 +54,13 @@ const PartnerDashboard = () => {
   useEffect(() =>{
     fetchData()
 
-    getMenu(token, email)
+    getAllMenu()
     .then((resp) =>{
       setMenu(resp.data);
     })
-    .catch((err) => {
+    .catch((err)=>{
       console.log(err);
-    })
+    });
 
     getPartnerOrderAPI(token)
     .then((resp) => setOrderList(resp.data))
@@ -152,7 +152,7 @@ const PartnerDashboard = () => {
                   <th className="px-4 py-2 text-white">Meal</th>
                 </tr>
               </thead>
-              {menu.slice(0,6).map((data) =>(
+              {menu.slice(0,7).map((data) =>(
               <tbody key={data.id}>
                 <tr>
                   <td className="px-4 py-2 border-b">{data.packageName}</td>

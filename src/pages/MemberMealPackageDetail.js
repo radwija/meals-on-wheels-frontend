@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import { useAuthUser } from "react-auth-kit";
 
 const MemberMealPackageDetail = () => {
-  const { menuId } = useParams();
+  const { id } = useParams();
   const auth = useAuthUser();
   const token = auth()?.token;
   const [menu, setMenu] = useState(menu_type);
@@ -19,14 +19,15 @@ const MemberMealPackageDetail = () => {
    const handleShow = () => setShow(true)
 
   useEffect(()=>{
-    getMenuById(token, menuId)
+    getMenuById(token, id)
     .then((resp) => setMenu(resp.data))
     .catch((err) => console.log(err))
-  }, [menuId, token])
+  }, [id, token])
 
-  function handlePostOrder(){
-    handleShow()
-    postMemberOrderCreateAPI(token, menuId)
+  const handlePostOrder = async ()  => {
+    setShow(true)
+    console.log("function jalan")
+    postMemberOrderCreateAPI(token, id)
     .then((resp) => setMsg(resp.data.message))
     .catch((err) => console.warn(err))
   }
@@ -78,7 +79,7 @@ const MemberMealPackageDetail = () => {
             </a>
             <button
               className="button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              onclick={handlePostOrder}
+              onClick={() => handlePostOrder()} 
             >
               Request Meal
             </button>
@@ -90,7 +91,7 @@ const MemberMealPackageDetail = () => {
 </div>
          
 {/* Popup Request Msg */}
-<div className={`fixed inset-0 flex items-center justify-center ${show ? '' : 'hidden'}`}>
+<div className={`fixed inset-0 items-center justify-center ${show ? 'flex' : 'hidden'}`}>
   <div className="bg-gray-100 rounded-lg shadow-lg p-6">
     <div className="text-right">
       <button className="text-gray-500 hover:text-gray-700" onClick={handleClose}>

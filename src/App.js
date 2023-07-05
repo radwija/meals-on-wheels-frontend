@@ -75,7 +75,7 @@ function App() {
         <Route path="/driver" element={<DriverDashboard />} />
         <Route path="/partner" element={<PartnerDashboard />} />
         <Route path="/member" element={<MemberDashboard />} />
-        <Route path ="/meals-package-detail" element={<MemberMealPackageDetail/>}/>
+        <Route path="/meals-package-detail/:id" element={<MemberMealPackageDetail />} />
         <Route path ="/feedback" element={<MemberFeedbackPage/>}/>
         <Route path="/order-history" element={<MemberOrderHistory />} />
         {/* </Route> */}
