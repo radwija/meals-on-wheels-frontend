@@ -6,7 +6,6 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import axios from "axios";
 import { useAuthUser } from "react-auth-kit";
 import ForbiddenPage from "../ForbiddenPage";
-import AddMealModal from '../../components/modal/AddMealModal';
 
 const MealPackages = () => {
   const [meals, setMeals] = useState([]);
@@ -28,7 +27,7 @@ const MealPackages = () => {
 
   const addMeal = async (meal) => {
     try {
-      const response = await axios.post("/api/menu/add", meal);
+      const response = await axios.post("/api/meal", meal);
       setMeals([...meals, response.data]);
       setIsModalOpen(false);
     } catch (error) {
@@ -94,7 +93,7 @@ const MealPackages = () => {
           {isModalOpen && (
             <div className="fixed top-0 left-0 w-full h-full bg-gray-500 bg-opacity-50 flex justify-center items-center">
               <div className="bg-primary p-4 rounded-md">
-                <AddMealModal addMeal={addMeal} />
+                <AddMealForm addMeal={addMeal} />
 
                 <div className="w-full col-span-2 flex justify-center">
                   <button
@@ -110,6 +109,174 @@ const MealPackages = () => {
         </div>
       </div>
     </Layout>
+  );
+};
+
+const AddMealForm = ({ addMeal }) => {
+  const [mealPackage, setMealPackage] = useState("");
+  const [mainCourse, setMainCourse] = useState("");
+  const [salad, setSalad] = useState("");
+  const [soup, setSoup] = useState("");
+  const [dessert, setDessert] = useState("");
+  const [drink, setDrink] = useState("");
+  const [frozenMeal, setFrozenMeal] = useState("");
+  const [mealPhoto, setMealPhoto] = useState("");
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const newMeal = {
+      mealPackage,
+      mainCourse,
+      salad,
+      soup,
+      dessert,
+      drink,
+      frozenMeal: frozenMeal === "true",
+      mealPhoto,
+    };
+
+    addMeal(newMeal);
+
+    setMealPackage("");
+    setMainCourse("");
+    setSalad("");
+    setSoup("");
+    setDessert("");
+    setDrink("");
+    setFrozenMeal("");
+    setMealPhoto("");
+  };
+
+  return (
+    <div className="p-4">
+      <h2 className="text-xl font-bold mb-4">Add New Meal</h2>
+
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="mealPackage" className="block font-medium mb-1">
+            Meal Package
+          </label>
+          <input
+            type="text"
+            id="mealPackage"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={mealPackage}
+            onChange={(e) => setMealPackage(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="mainCourse" className="block font-medium mb-1">
+            Main Course
+          </label>
+          <input
+            type="text"
+            id="mainCourse"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={mainCourse}
+            onChange={(e) => setMainCourse(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="salad" className="block font-medium mb-1">
+            Salad
+          </label>
+          <input
+            type="text"
+            id="salad"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={salad}
+            onChange={(e) => setSalad(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="soup" className="block font-medium mb-1">
+            Soup
+          </label>
+          <input
+            type="text"
+            id="soup"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={soup}
+            onChange={(e) => setSoup(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="dessert" className="block font-medium mb-1">
+            Dessert
+          </label>
+          <input
+            type="text"
+            id="dessert"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={dessert}
+            onChange={(e) => setDessert(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="drink" className="block font-medium mb-1">
+            Drink
+          </label>
+          <input
+            type="text"
+            id="drink"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={drink}
+            onChange={(e) => setDrink(e.target.value)}
+            required
+          />
+        </div>
+
+        <div>
+          <label htmlFor="frozenMeal" className="block font-medium mb-1">
+            Frozen Meal
+          </label>
+          <select
+            id="frozenMeal"
+            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={frozenMeal}
+            onChange={(e) => setFrozenMeal(e.target.value)}
+            required
+          >
+            <option value="">Select an option</option>
+            <option value="true">Yes</option>
+            <option value="false">No</option>
+          </select>
+        </div>
+
+        <div>
+          <label htmlFor="mealPhoto" className="block font-medium mb-1">
+            Meal Photo
+          </label>
+          <input
+            type="file"
+            id="mealPhoto"
+            className="w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+            value={mealPhoto}
+            onChange={(e) => setMealPhoto(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="w-full col-span-2 flex justify-center">
+          <button
+            type="submit"
+            className="w-full bg-black hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none"
+          >
+            Add Meal
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
