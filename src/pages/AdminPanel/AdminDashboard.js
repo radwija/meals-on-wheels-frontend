@@ -1,13 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { FaUsers, FaHandsHelping, FaHandshake, FaCar } from 'react-icons/fa';
-import Sidebar from './Sidebar';
-import Layout from '../../components/Layout';
+import React, { useState, useEffect } from "react";
+import { FaUsers, FaHandsHelping, FaHandshake, FaCar } from "react-icons/fa";
+import Sidebar from "./Sidebar";
+import Layout from "../../components/Layout";
+import { useAuthUser } from "react-auth-kit";
+import ForbiddenPage from "../ForbiddenPage";
 
 const AdminDashboard = () => {
   const [membersCount, setMembersCount] = useState(0);
   const [volunteersCount, setVolunteersCount] = useState(0);
   const [partnersCount, setPartnersCount] = useState(0);
   const [driversCount, setDriversCount] = useState(0);
+  const auth = useAuthUser();
+  const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
 
   useEffect(() => {
     // Fetch the data from the database and update the state variables
@@ -33,12 +37,19 @@ const AdminDashboard = () => {
     }, 2000);
   }, []);
 
+  // if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
+
   return (
     <Layout>
       <div className="flex min-h-screen mr-10">
         <Sidebar />
         <div className="flex-1 p-4">
-          <h1 className="text-3xl font-bold mb-20 mt-20 text-center">Admin Dashboard</h1>
+          <h1 className="text-3xl font-bold mb-20 mt-20 text-center">
+            Admin Dashboard
+          </h1>
           <div className="grid grid-cols-4 gap-4 mb-8">
             {/* Members Card */}
             <div className="bg-white rounded-lg shadow-md p-6">
@@ -102,7 +113,9 @@ const AdminDashboard = () => {
               {/* Add more rows for each newcomer */}
             </tbody>
           </table>
-          <h2 className="text-2xl font-bold mt-10 mb-4 mt-15">Meals Available</h2>
+          <h2 className="text-2xl font-bold mt-10 mb-4 mt-15">
+            Meals Available
+          </h2>
           {/* Table list of meals available */}
           <table className="min-w-full bg-white border border-gray-300">
             <thead className="bg-blue-800 text-white">
@@ -122,7 +135,9 @@ const AdminDashboard = () => {
               {/* Add more rows for each meal */}
             </tbody>
           </table>
-          <h2 className="text-2xl font-bold mt-10 mb-4 mt-15">Meal Order History</h2>
+          <h2 className="text-2xl font-bold mt-10 mb-4 mt-15">
+            Meal Order History
+          </h2>
           {/* Table list of meal order history */}
           <table className="min-w-full bg-white border border-gray-300">
             <thead className="bg-blue-800 text-white">
@@ -130,7 +145,9 @@ const AdminDashboard = () => {
                 <th className="py-2 px-4 border-b font-medium">No.</th>
                 <th className="py-2 px-4 border-b font-medium">Ordered By</th>
                 <th className="py-2 px-4 border-b font-medium">Meal Package</th>
-                <th className="py-2 px-4 border-b font-medium">Delivery Address</th>
+                <th className="py-2 px-4 border-b font-medium">
+                  Delivery Address
+                </th>
                 <th className="py-2 px-4 border-b font-medium">Order date</th>
                 <th className="py-2 px-4 border-b font-medium">Prepared By</th>
                 <th className="py-2 px-4 border-b font-medium">driver</th>
@@ -148,7 +165,9 @@ const AdminDashboard = () => {
                 <td className="py-2 px-4 border-b">01/07/2023</td>
                 <td className="py-2 px-4 border-b">XYZ Catering</td>
                 <td className="py-2 px-4 border-b">Jobb Smith</td>
-                <td className="py-2 px-4 border-b text-green-600">Out for Delivery</td>
+                <td className="py-2 px-4 border-b text-green-600">
+                  Out for Delivery
+                </td>
                 {/* Add more cells for each data */}
               </tr>
               {/* Add more rows for each order */}
