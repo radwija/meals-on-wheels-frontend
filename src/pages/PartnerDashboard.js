@@ -1,22 +1,32 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Carousel from "../components/Carousel";
 import Layout from "../components/Layout";
-import redCircle from "../assets/images/red-circle.svg";
+import { useNavigate } from "react-router";
+import redCircle from "../assets/images/red-circle.svg"
 import { useAuthUser } from "react-auth-kit";
 import {
   getPartnerOrderAPI,
   postPartnerOrderCompleteAPI,
   postPartnerOrderCreateAPI,
 } from "../api/partner-api";
+import { getProfile } from "../api/profile-api";
+import { getAllMenu} from "../api/main-api";
+import{
+  order_type,
+  menu_type,
+  user_type,
+} from "../context/context-type";
 
-import { getMenu } from "../api/main-api";
-import { order_type, menu_type, user_type } from "../context/context-type";
 import ForbiddenPage from "./ForbiddenPage";
+
 
 const PartnerDashboard = () => {
   const auth = useAuthUser();
   const token = auth()?.token;
-  const [user, setUsers] = useState(user_type);
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const navigate = useNavigate();
+  const email = auth()?.email;
   const [msg, setMsg] = useState("");
   const [orderList, setOrderList] = useState([order_type]);
   const [index, setIndex] = useState(0);
@@ -34,35 +44,45 @@ const PartnerDashboard = () => {
       .then((resp) => setMsg(resp.data.message))
       .catch((err) => console.log(err.response));
   }
+  const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
+    }
+    const userEmail = auth()?.email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
+  };
 
-  useEffect(() => {
-    getMenu(token)
-      .then((resp) => {
-        setMenu(resp.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+  useEffect(() =>{
+    fetchData()
+
+    getAllMenu()
+    .then((resp) =>{
+      setMenu(resp.data);
+    })
+    .catch((err)=>{
+      console.log(err);
+    });
 
     getPartnerOrderAPI(token)
-      .then((resp) => setOrderList(resp.data))
-      .catch((err) => console.log(err.response));
-  }, [token, msg]);
-
-  // if user not partner forbid access
-  if (!isPartner) {
-    return <ForbiddenPage />;
-  }
-
-  return (
-    <Layout>
-      <h1 className="mt-8 text-2xl font-bold text-center">
-        Hello, {user?.name}!
-      </h1>
-      <Carousel></Carousel>
-      <div className="container mx-auto">
+    .then((resp) => setOrderList(resp.data))
+    .catch((err) => console.log(err.response));
+  }, []);
+  
+    // if user not partner forbid access
+    if (!isPartner) {
+      return <ForbiddenPage />;
+    }
+    return(
+        <Layout>
+        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
+        <Carousel></Carousel>
+        <div className="container mx-auto">
         <div className="flex flex-wrap">
-          <div className="w-full md:w-9/12 md:pr-2">
+          <div className="w-full md:w-9/12 md:pr-2 px-5">
             <div className="pb-5">
               <h4 className="font-bold text-2xl">Task</h4>
               <div className="card bg-gray-100 bg-opacity-25">
@@ -143,27 +163,26 @@ const PartnerDashboard = () => {
               </div>
             </div>
           </div>
-          <div className="w-full md:w-3/12 md:pl-2 ">
+          <div className="w-full md:w-3/12 md:pl-2 px-5">
             <div className="pb-3">
               <h4 className="text-center text-2xl font-bold">
                 Meal Package List
               </h4>
               <div className="bg-white shadow-md rounded-md p-4 ml-8 mt-2">
                 <table className="w-full table-auto text-gray-800 text-center">
-                  <thead className="bg-cyan-950">
-                    <tr>
-                      <th className="px-4 py-2 text-white">Meal</th>
-                    </tr>
-                  </thead>
-                  {menu.slice(0, 6).map((data) => (
-                    <tbody key={data.id}>
-                      <tr>
-                        <td className="px-4 py-2 border-b">
-                          {data.packageName}
-                        </td>
-                      </tr>
-                    </tbody>
-                  ))}
+                <thead className="bg-cyan-950">
+                <tr>
+                  <th className="px-4 py-2 text-white">Meal</th>
+                </tr>
+              </thead>
+              {menu.slice(0,7).map((data) =>(
+              <tbody key={data.id}>
+                <tr>
+                  <td className="px-4 py-2 border-b">{data.packageName}</td>
+                </tr>
+              </tbody>
+              ))}
+
                 </table>
               </div>
             </div>

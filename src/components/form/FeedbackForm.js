@@ -1,36 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-
-
-const MEAL_PACKAGE_COUNT = fetch("http://localhost:8080/api/mealcount")
-  .then((response) => {
-    return response.json();
-  });
-
-  let PackageCount = [];
-  let itemList = [];
-  const countPackage = async () => {
-    PackageCount = await MEAL_PACKAGE_COUNT;
-    console.log(PackageCount);
-    PackageCount.forEach((item,index)=>{
-      itemList.push(<option value={index + 1}>{index + 1}</option>)
-    })
-  };
-  countPackage();
 
   const UPLOAD_ENDPOINT = "http://localhost:8080/api/feedback";
 
 const FeedbackForm = () =>{
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [mealPackageId, setmealPackageId] = useState("");
+  const [mealPackageId, setmealPackageId] = useState(1);
   const [feedback, setFeedback] = useState("");
   const [status, setStatus] = useState("");
   const navigate = useNavigate();
+  const [itemList, setItemList] = useState([]);
 
   const handleSubmit = async (event) => {
     setStatus(""); // Reset status
+    alert(mealPackageId)
     event.preventDefault();
     const formData = new FormData();
 
@@ -41,13 +26,42 @@ const FeedbackForm = () =>{
     axios
       .post(UPLOAD_ENDPOINT, formData, {
         headers: { "Content-Type": "application/json" },
+        withCredentials : true
       })
       .then((resp) => {
-        navigate(`/home?msg=${resp.data.message}`);
+        navigate(`/member`);
       })
-      .catch((err) => setStatus(err.response.data.message));
-
+      .catch((err) => setStatus(err.response.data.message))
+      
+    
   };
+
+  useEffect(()=>{
+    const MEAL_PACKAGE_COUNT = fetch("http://localhost:8080/api/mealcount", {
+      credentials: "include" // Use "include" to send cookies along with the request
+    })
+      .then((response) => {
+        return response.json();
+      });
+    
+    
+      let PackageCount = [];
+      let itemList = [];
+      const countPackage = async () => {
+        PackageCount = await MEAL_PACKAGE_COUNT;
+        console.log(PackageCount);
+        setItemList(PackageCount)
+      
+        if (Array.isArray(PackageCount)) {
+          PackageCount.forEach((item, index) => {
+            itemList.push(<option value={index + 1}>{index + 1}</option>);
+          });
+        } else {
+          console.log("PackageCount is not an array or iterable object.");
+        }
+      };
+      countPackage();
+  },[])
 
     return(
         <div className="container py-10 flex items-center justify-center">
@@ -96,10 +110,14 @@ const FeedbackForm = () =>{
           onChange={(e) => setmealPackageId(e.target.value)} 
           value={mealPackageId}
         >
-          <option disabled defaultValue ={true}>
+          <option disabled>
             Select Meal Package Number
           </option>
-          {itemList}
+          {itemList.map((meal,index)=>(
+            <option key={index} value={meal.id}>
+              {meal.id}
+            </option>
+          ))}
         </select>
       </div>
 

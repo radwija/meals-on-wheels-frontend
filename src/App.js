@@ -13,7 +13,7 @@ import PartnerDashboard from "./pages/PartnerDashboard";
 import MemberDashboard from "./pages/MemberDashboard";
 import MemberMealPackageDetail from "./pages/MemberMealPackageDetail";
 import MemberOrderHistory from "./pages/MemberOrderHistory";
-import MemberFeedbackPage from "./pages/MemberDashboard";
+import MemberFeedbackPage from "./pages/MemberFeedback";
 import { RequireAuth } from "react-auth-kit";
 import { DonationPage } from "./pages/DonationPage";
 import { PayPalScriptProvider } from "@paypal/react-paypal-js";
@@ -64,6 +64,7 @@ function App() {
             </RequireAuth>
           }
         />
+
         <Route
           path="/caregiver"
           element={
@@ -97,7 +98,7 @@ function App() {
           }
         />
         <Route
-          path="/meals-package-detail"
+          path="/meals-package-detail/:id"
           element={
             <RequireAuth loginPath="/login">
               <MemberMealPackageDetail />

@@ -13,7 +13,6 @@ const MemberOrderHistory = () => {
   const token = auth()?.token;
   const [order, setOrder] = useState([order_type]);
   const [msg, setMsg] = useState("");
-
   const isMember = auth()?.role?.[0] === "ROLE_MEMBER";
 
   function handleComplete(id) {
@@ -24,8 +23,9 @@ const MemberOrderHistory = () => {
 
   useEffect(() => {
     getMemberOrderAllAPI(token)
-      .then((resp) => setOrder(resp.data.sort((a, b) => a.id - b.id)))
-      .catch((err) => console.log(err));
+    .then((resp) => setOrder(resp.data.sort((a, b) => a.id - b.id)))
+    .catch((err) => console.log(err));
+    console.log(order)
 
     return () => {};
   }, [token]);

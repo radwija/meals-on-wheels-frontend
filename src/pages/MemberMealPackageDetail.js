@@ -8,7 +8,7 @@ import { useAuthUser } from "react-auth-kit";
 import ForbiddenPage from "./ForbiddenPage";
 
 const MemberMealPackageDetail = () => {
-  const { menuId } = useParams();
+  const { id } = useParams();
   const auth = useAuthUser();
   const token = auth()?.token;
   const [menu, setMenu] = useState(menu_type);
@@ -19,20 +19,25 @@ const MemberMealPackageDetail = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  useEffect(() => {
-    getMenuById(token, menuId)
-      .then((resp) => setMenu(resp.data))
-      .catch((err) => console.log(err));
-  }, [menuId, token]);
+   //Modal
+   const [show, setShow] = useState(false)
+   const handleClose = () => setShow(false)
+   const handleShow = () => setShow(true)
 
-  function handlePostOrder() {
-    handleShow();
-    postMemberOrderCreateAPI(token, menuId)
-      .then((resp) => setMsg(resp.data.message))
-      .catch((err) => console.warn(err));
+  useEffect(()=>{
+    getMenuById(token, id)
+    .then((resp) => setMenu(resp.data))
+    .catch((err) => console.log(err))
+  }, [id, token])
+
+  const handlePostOrder = async ()  => {
+    setShow(true)
+    console.log("function jalan")
+    postMemberOrderCreateAPI(token, id)
+    .then((resp) => setMsg(resp.data.message))
+    .catch((err) => console.warn(err))
   }
-
-  // if user not member forbid access
+  
   if (!isMember) {
     return <ForbiddenPage />;
   }
@@ -133,15 +138,40 @@ const MemberMealPackageDetail = () => {
           </div>
           <div className="text-center mt-4">
             <button
-              onClick={handleClose}
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-40"
+              className="button bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              onClick={() => handlePostOrder()} 
             >
               Back
             </button>
           </div>
         </div>
       </div>
-    </Layout>
-  );
-};
+    </div>
+  </div>
+</div>
+         
+{/* Popup Request Msg */}
+<div className={`fixed inset-0 items-center justify-center ${show ? 'flex' : 'hidden'}`}>
+  <div className="bg-gray-100 rounded-lg shadow-lg p-6">
+    <div className="text-right">
+      <button className="text-gray-500 hover:text-gray-700" onClick={handleClose}>
+        <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    <div className="modal-body">
+      <h2 className="text-gray-900 text-lg font-bold">{msg && <span>{msg}</span>}</h2>
+    </div>
+    <div className="text-center mt-4">
+      <button onClick={handleClose} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-40">
+        Back
+      </button>
+    </div>
+  </div>
+</div>
+
+        </Layout>
+    )
+}
 export default MemberMealPackageDetail;

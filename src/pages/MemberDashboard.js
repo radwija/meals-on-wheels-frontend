@@ -10,23 +10,25 @@ import ForbiddenPage from "./ForbiddenPage";
 const MemberDashboard = () => {
   const auth = useAuthUser();
   const token = auth()?.token;
+  const email = auth()?.email;
   const [menu, setMenu] = useState([]);
   const [order, setOrder] = useState([]);
   const isMember = auth()?.role?.[0] === "ROLE_MEMBER";
-  useEffect(() => {
-    getMenu(token)
-      .then((resp) => {
-        setMenu(resp.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+
+  useEffect(() =>{
+    getMenu(token, email)
+    .then((resp) =>{
+      setMenu(resp.data);
+    })
+    .catch((err) =>{
+      console.log(err)
+    });
 
     getMemberOrderAPI(token)
-      .then((resp) => setOrder(resp.data))
-      .catch((err) => console.log(err.response.data));
-  }, [token]);
-
+    .then((resp) => setOrder(resp.data))
+    .catch((err) => console.log(err.response.data));
+  }, [])
+  
   // if user not member forbid access
   if (!isMember) {
     return <ForbiddenPage />;
