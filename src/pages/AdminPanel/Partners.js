@@ -4,6 +4,7 @@ import Layout from "../../components/Layout";
 import { FaSearch } from "react-icons/fa";
 import { useAuthUser } from "react-auth-kit";
 import ForbiddenPage from "../ForbiddenPage";
+import { getPartnersAPI } from '../../api/admin-api';
 
 const Partners = () => {
   const [partnersData, setPartnersData] = useState([]);
@@ -22,6 +23,26 @@ const Partners = () => {
   };
 
   const filteredPartners = partnersData.filter(filterPartners);
+
+  useEffect(() => {
+    const fetchPartnersData = async () => {
+      try {
+        const response = await getPartnersAPI(); // Make the API call here
+        setPartnersData(response.data);
+      } catch (error) {
+        console.error('Error fetching partners data:', error);
+      }
+    };
+
+    // Call other API functions to fetch partnership request and registered partners data
+    // For example:
+    // const fetchPartnershipRequestData = async () => {
+    //   const response = await getPartnershipRequestsAPI();
+    //   setPartnershipRequestData(response.data);
+    // };
+
+    fetchPartnersData();
+  }, []);
 
   // Simulating API/database call to fetch data
   useEffect(() => {
@@ -117,6 +138,7 @@ const Partners = () => {
   if (!isAdmin) {
     return <ForbiddenPage />;
   }
+  
   return (
     <Layout>
       <div className="flex min-h-screen mr-5">
