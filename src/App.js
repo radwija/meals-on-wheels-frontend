@@ -145,7 +145,7 @@ function App() {
           }
         />
         <Route
-          path="/users/partner"
+          path="/admin/partner"
           element={
             <RequireAuth loginPath="/login">
               <Partners />
