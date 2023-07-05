@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { user_type } from "../../context/context-type";
+import { menu_type } from "../../context/context-type";
 import { useAuthUser } from "react-auth-kit";
 import { getProfile } from '../../api/profile-api';
 import { useNavigate } from 'react-router-dom';
 import ForbiddenPage from "../../pages/ForbiddenPage";
 
-const AddMealModal = () => {
+const AddMealModal = ({ addMeal }) => {
     const [mealPackage, setMealPackage] = useState("");
     const [mainCourse, setMainCourse] = useState("");
     const [salad, setSalad] = useState("");
@@ -15,23 +15,21 @@ const AddMealModal = () => {
     const [drink, setDrink] = useState("");
     const [frozenMeal, setFrozenMeal] = useState("");
     const [mealPhoto, setMealPhoto] = useState(null);
-
+  
     const auth = useAuthUser();
     const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
     const token = auth()?.token;
-    const [profile, setProfile] = useState({});
-    const role = auth()?.role[0];
     const navigate = useNavigate();
-
+    
     const fetchData = async () => {
         if (!auth()) {
-          navigate("/login");
+            navigate("/login");
         }
         const userEmail = auth()?.email;
         const res = await getProfile(userEmail, role);
         setProfile(res);
         // Rest of your code here
-      };
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -47,11 +45,22 @@ const AddMealModal = () => {
             formData.append("frozen", frozenMeal);
             formData.append("packageImage", mealPhoto);
 
-            await axios.post("/menu/add", formData, {
+            const meal = { ...menu_type };
+            meal.packageName = mealPackage;
+            meal.mainCourse = mainCourse;
+            meal.salad = salad;
+            meal.soup = soup;
+            meal.dessert = dessert;
+            meal.drink = drink;
+            meal.frozen = frozenMeal;
+            meal.packageImage = mealPhoto;
+
+            // Making the API request
+            const response = await axios.post("/menu/add", meal, {
                 headers: {
-                  Authorization: `Bearer ${token}`,
-                  "Content-Type": "multipart/form-data",
-            }
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "application/json",
+                },
             });
 
             // Reset form fields
@@ -73,10 +82,10 @@ const AddMealModal = () => {
         }
     };
 
-// if user not admin forbid access
-  if (!isAdmin) {
-    return <ForbiddenPage />;
-  }
+    // if user not admin forbid access
+    if (!isAdmin) {
+        return <ForbiddenPage />;
+    }
 
     return (
         <div className="z-50 p-4 mt-10 justify-center">
@@ -84,7 +93,10 @@ const AddMealModal = () => {
 
             <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                 <div>
-                    <label htmlFor="mealPackage" className="block text-gray-700 font-medium mb-2">
+                    <label
+                        htmlFor="mealPackage"
+                        className="block text-gray-700 font-medium mb-2"
+                    >
                         Meal Package
                     </label>
                     <input
@@ -98,7 +110,10 @@ const AddMealModal = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label htmlFor="mainCourse" className="block text-gray-700 font-medium mb-2">
+                    <label
+                        htmlFor="mainCourse"
+                        className="block text-gray-700 font-medium mb-2"
+                    >
                         Main Course
                     </label>
                     <input
@@ -111,7 +126,10 @@ const AddMealModal = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="salad" className="block text-gray-700 font-medium mb-2">
+                    <label
+                        htmlFor="salad"
+                        className="block text-gray-700 font-medium mb-2"
+                    >
                         Salad
                     </label>
                     <input
@@ -124,7 +142,10 @@ const AddMealModal = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="soup" className="block text-gray-700 font-medium mb-2">
+                    <label
+                        htmlFor="soup"
+                        className="block text-gray-700 font-medium mb-2"
+                    >
                         Soup
                     </label>
                     <input
@@ -137,7 +158,10 @@ const AddMealModal = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="dessert" className="block text-gray-700 font-medium mb-2">
+                    <label
+                        htmlFor="dessert"
+                        className="block text-gray-700 font-medium mb-2"
+                    >
                         Dessert
                     </label>
                     <input
@@ -150,7 +174,10 @@ const AddMealModal = () => {
                     />
                 </div>
                 <div className="mb-4">
-                    <label htmlFor="drink" className="block text-gray-700 font-medium mb-2">
+                    <label
+                        htmlFor="drink"
+                        className="block text-gray-700 font-medium mb-2"
+                    >
                         Drink
                     </label>
                     <input
@@ -163,7 +190,10 @@ const AddMealModal = () => {
                     />
                 </div>
                 <div>
-                    <label htmlFor="frozenMeal" className="block font-medium mb-1">
+                    <label
+                        htmlFor="frozenMeal"
+                        className="block font-medium mb-1"
+                    >
                         Frozen Meal
                     </label>
                     <select
@@ -180,7 +210,10 @@ const AddMealModal = () => {
                 </div>
 
                 <div>
-                    <label htmlFor="mealPhoto" className="block font-medium mb-1">
+                    <label
+                        htmlFor="mealPhoto"
+                        className="block font-medium mb-1"
+                    >
                         Meal Photo
                     </label>
                     <input
