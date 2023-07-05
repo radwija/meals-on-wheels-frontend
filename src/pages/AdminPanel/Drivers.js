@@ -7,6 +7,7 @@ import { getDriversAPI } from '../../api/admin-api';
 const Drivers = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [availableDrivers, setAvailableDrivers] = useState([]);
+  const [drivers, setDrivers] = useState([]); // Modified state variable
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -42,7 +43,7 @@ const Drivers = () => {
     // Logic for selecting a driver for a specific driver
     console.log(`Selected driver ${driver} for driver ${driverNo}`);
   };
-
+  
   return (
     <Layout>
       <div className="flex min-h-screen mr-5">

@@ -1,35 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Layout from '../../components/Layout';
-import { getMemberOrderAPI } from '../../api/admin-api';
+import { getAdminUserAPI, getAdminUserActiveAPI } from '../../api/admin-api';
+import { user_type } from "../../context/context-type";
+import { useAuthUser } from "react-auth-kit";
+import { getProfile } from '../../api/profile-api';
+import { useNavigate } from 'react-router-dom';
 
 const Members = () => {
+  const auth = useAuthUser();
+  const token = auth()?.token;
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [members, setMembers] = useState([]);
+  const [users, setUsers] = useState([user_type]);
+  const [msg, setMsg] = useState("");
 
-  useEffect(() => {
-    // Fetch member data
-    fetchMembers();
-  }, []);
-
-  const fetchMembers = async () => {
-    try {
-      // Make an API call to retrieve member data
-      const token = localStorage.getItem('token');
-      const data = await getMemberOrderAPI(token);
-      setMembers(data);
-    } catch (error) {
-      console.error('Error fetching members:', error);
+  const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
     }
+    const userEmail = auth()?.email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
   };
+
+  function handleActive(id) {
+    getAdminUserActiveAPI(token, id)
+      .then((resp) => setMsg(resp.data.message))
+      .catch((err) => console.log(err));
+  }
+  useEffect(() => {
+    fetchData()
+    getAdminUserAPI(token)
+      .then((resp) => setUsers(resp.data))
+      .catch((err) => console.log(err));
+  }, [token]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
 
-  const handleSelectdriver = (memberId, selectedDriver) => {
+  const handleSelectdriver = (userId, selectedDriver) => {
     // Handle the selected driver for the member
-    console.log(`Member ${memberId} selected ${selectedDriver} as their driver.`);
+    console.log(`User ${userId} selected ${selectedDriver} as their driver.`);
   };
 
   return (
@@ -42,7 +59,7 @@ const Members = () => {
             <div className="relative">
               <input
                 type="text"
-                placeholder="Search for a member"
+                placeholder="Search for a user"
                 value={searchTerm}
                 onChange={handleSearchChange}
                 className="w-64 py-2 px-4 border border-gray-300 rounded-md pl-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
@@ -64,9 +81,9 @@ const Members = () => {
               </div>
             </div>
           </div>
-          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Members</h1>
+          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Users Management</h1>
 
-          <h2 className="text-2xl font-bold mb-4">Members</h2>
+          <h2 className="text-2xl font-bold mb-4">Users</h2>
           {/* Members table */}
           <table className="min-w-full bg-white border border-gray-300">
             <thead className="bg-blue-800 text-white">
@@ -77,31 +94,31 @@ const Members = () => {
                 <th className="py-2 px-4 border-b font-medium">Email</th>
                 <th className="py-2 px-4 border-b font-medium">Gender</th>
                 <th className="py-2 px-4 border-b font-medium">Roles</th>
-                <th className="py-2 px-4 border-b font-medium">Status</th>
+                <th className="py-2 px-4 border-b font-medium">Qualification</th>
                 <th className="py-2 px-4 border-b font-medium">Image</th>
                 <th className="py-2 px-4 border-b font-medium">Action</th>
               </tr>
             </thead>
             <tbody className="text-center">
               {/* Data rows */}
-              {members.map((member, index) => (
-                <tr key={member.id}>
+              {users.map((user, index) => (
+                <tr key={user.id}>
                   <td className="py-2 px-4 border-b">{index + 1}</td>
-                  <td className="py-2 px-4 border-b">{member.name}</td>
-                  <td className="py-2 px-4 border-b">{member.address}</td>
-                  <td className="py-2 px-4 border-b">{member.email}</td>
-                  <td className="py-2 px-4 border-b">{member.gender}</td>
-                  <td className="py-2 px-4 border-b">{member.roles}</td>
-                  <td className="py-2 px-4 border-b text-green-500">{member.status}</td>
+                  <td className="py-2 px-4 border-b">{user.name}</td>
+                  <td className="py-2 px-4 border-b">{user.address}</td>
+                  <td className="py-2 px-4 border-b">{user.email}</td>
+                  <td className="py-2 px-4 border-b">{user.gender}</td>
+                  <td className="py-2 px-4 border-b">{user.role}</td>
+                  <td className="py-2 px-4 border-b text-green-500">{user.qualification}</td>
                   <td className="py-2 px-4 border-b">
-                    <img src={member.avatar} alt="Member Avatar" className="w-10 h-10 rounded-full" />
+                    <img src={user.profilePicture} alt=" User Profile Picture" className="w-10 h-10 rounded-full" />
                   </td>
                   <td className="py-2 px-4 border-b">
                     {/* Action dropdown */}
                     <div className="relative inline-block text-left">
                       <select
                         className="p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                        onChange={(event) => handleSelectdriver(member.id, event.target.value)}
+                        onChange={(event) => handleSelectdriver(user.id, event.target.value)}
                       >
                         <option value="">Actions</option>
                         <option value="Edit">Edit</option>

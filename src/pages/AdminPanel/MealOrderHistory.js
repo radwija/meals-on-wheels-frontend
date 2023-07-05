@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Sidebar from './Sidebar';
 import Layout from '../../components/Layout';
 
-const MealOrderTracker = () => {
+const MealOrderHistory = () => {
   const [orders, setOrders] = useState([]);
 
   useEffect(() => {
@@ -70,8 +70,8 @@ const MealOrderTracker = () => {
         <div className="flex-1 flex">
           <Sidebar />
           <div className="flex-1 p-4">
-            <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Meal Order Tracker</h1>
-            <h2 className="text-2xl font-bold mb-4 mt-10">Meal Order Tracker</h2>
+            <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Meal Order History</h1>
+            <h2 className="text-2xl font-bold mb-4 mt-10">Orders</h2>
             <div className="overflow-x-auto">
               <table className="w-full border border-gray-300">
                 <thead className="bg-blue-800 text-white">
@@ -125,4 +125,4 @@ const MealOrderTracker = () => {
   );
 };
 
-export default MealOrderTracker;
+export default MealOrderHistory;

@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import Sidebar from './Sidebar';
 import Layout from '../../components/Layout';
 import { FaSearch } from 'react-icons/fa';
+import { getPartnersAPI } from '../../api/admin-api';
 
 const Partners = () => {
   const [partnersData, setPartnersData] = useState([]);
   const [partnershipRequestData, setPartnershipRequestData] = useState([]);
   const [registeredPartnersData, setRegisteredPartnersData] = useState([]);
-
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSearchChange = (event) => {
@@ -19,6 +19,21 @@ const Partners = () => {
   };
 
   const filteredPartners = partnersData.filter(filterPartners);
+
+  useEffect(() => {
+    const fetchPartnersData = async () => {
+      try {
+        // const response = await getPartnersAPI(token); // Pass the token here
+        setPartnersData(response.data);
+      } catch (error) {
+        console.error('Error fetching partners data:', error);
+      }
+    };
+
+    // Fetch partnership request data and registered partners data similarly
+
+    fetchPartnersData();
+  }, []);
 
 
   // Simulating API/database call to fetch data

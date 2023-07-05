@@ -24,9 +24,10 @@ import Drivers from "./pages/AdminPanel/Drivers";
 import Members from "./pages/AdminPanel/Members";
 import Partners from "./pages/AdminPanel/Partners";
 import Volunteers from "./pages/AdminPanel/Volunteers";
-import MealOrderTracker from "./pages/AdminPanel/MealOrderTracker";
+import MealOrderHistory from "./pages/AdminPanel/MealOrderHistory";
 import MealPackages from "./pages/AdminPanel/MealPackages";
 import { TermsAndConditions } from "./pages/TermsAndConditions";
+import AddMealModal from "./components/modal/AddMealModal";
 
 function App() {
   return (
@@ -41,13 +42,6 @@ function App() {
         <Route path="/registration" element={<Registration />} />
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/users/drivers" element={<Drivers />} />
-        <Route path="/users/members" element={<Members />} />
-        <Route path="/users/partners" element={<Partners />} />
-        <Route path="/users/volunteers" element={<Volunteers />} />
-        <Route path="/meal-order-tracker" element={<MealOrderTracker />} />
-        <Route path="/meal-packages" element={<MealPackages />} />
         <Route
           path="/donation"
           element={
@@ -78,6 +72,15 @@ function App() {
         <Route path ="/meals-package-detail" element={<MemberMealPackageDetail/>}/>
         <Route path="/feedback" element={<MemberFeedbackPage />} />
         <Route path="/order-history" element={<MemberOrderHistory />} />
+        
+        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/users/drivers" element={<Drivers />} />
+        <Route path="/admin/user" element={<Members />} />
+        <Route path="/admin/partner" element={<Partners />} />
+        <Route path="/users/volunteers" element={<Volunteers />} />
+        <Route path="/order/all" element={<MealOrderHistory />} />
+        <Route path="/admin/meal" element={<MealPackages />} />
+        <Route path="/admin/menu/add" element={<AddMealModal />} />
         {/* </Route> */}
       </Routes>
     </div>
