@@ -4,7 +4,7 @@ import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
 import redCircle from "../assets/images/red-circle.svg"
 import { getAllMenu } from "../api/main-api";
-import{
+import {
   getAdminOrderPendingAPI,
   getAdminOrderReadyToDeliverAPI,
   getAdminUserAPI,
@@ -37,7 +37,7 @@ const CaregiverDashboard = () => {
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
- const fetchData = async () => {
+  const fetchData = async () => {
     if (!auth()) {
       // User is not authenticated and cookies are expired
       navigate("/login");
@@ -47,42 +47,42 @@ const CaregiverDashboard = () => {
     setProfile(res);
     // Rest of your code here
   };
-  
+
   const isCaregiver = auth()?.role?.[0] === "ROLE_CAREGIVER";
 
 
-  function handlePrepare(order,user){
-  postAdminOrderPrepareAPI(token, order,user)
-  .then((resp) => setMsg(resp.data.message))
-  .catch((err => console.log(err)))
-}
+  function handlePrepare(order, user) {
+    postAdminOrderPrepareAPI(token, order, user)
+      .then((resp) => setMsg(resp.data.message))
+      .catch((err => console.log(err)))
+  }
 
-function handleDeliver(order, user) {
-  postAdminOrderDeliverAPI(token, order, user)
-    .then((resp) => setMsg(resp.data.message))
-    .catch((err) => console.log(err));
-}
+  function handleDeliver(order, user) {
+    postAdminOrderDeliverAPI(token, order, user)
+      .then((resp) => setMsg(resp.data.message))
+      .catch((err) => console.log(err));
+  }
 
-  useEffect(() =>{
+  useEffect(() => {
     fetchData()
 
     getAdminOrderPendingAPI(token)
       .then((resp) => setOrderList(resp.data))
       .catch((err) => console.log(err));
 
-      getAdminOrderReadyToDeliverAPI(token)
+    getAdminOrderReadyToDeliverAPI(token)
       .then((resp) => setDeliverList(resp.data))
       .catch((err) => console.log(err));
 
-      getPartnersAPI(token)
+    getPartnersAPI(token)
       .then((resp) => setPartner(resp.data))
       .catch((err) => console.log(err));
 
-      getDriversAPI(token)
+    getDriversAPI(token)
       .then((resp) => setDriver(resp.data))
       .catch((err) => console.log(err));
 
-      getAdminUserCountAPI(token)
+    getAdminUserCountAPI(token)
       .then((resp) => setUserCount(resp.data))
       .catch((err) => console.log(err));
 
@@ -101,110 +101,110 @@ function handleDeliver(order, user) {
       .catch((err) => console.log(err));
 
     getAllMenu()
-    .then((resp) =>{
-      setMenu(resp.data);
-    })
-    .catch((err)=>{
-      console.log(err);
-    });
+      .then((resp) => {
+        setMenu(resp.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
   // if user not caregiver forbid access
   if (!isCaregiver) {
     return <ForbiddenPage />;
   }
-  
- return(
-<Layout>
-<h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
-<Carousel></Carousel>
-<div className="md:flex ml-8">
-  {/* Assign Partner Task */}
-  <div className="md:w-9/12 mr-4">
-    <div className="pb-5">
-      <h4 className="font-bold text-2xl">Assign Partner Task</h4>
-      <div className="card bg-gray-100 bg-opacity-25">
-        <div className="container">
-          <div className="task-header-div">
-            <table className="w-full table-auto text-white text-center driver my-3 task-header">
-              <thead className="bg-cyan-950">
-                <tr>
-                  <th className="px-4 py-2 border-b font-normal">No</th>
-                  <th className="px-4 py-2 border-b font-normal">Meals Request List</th>
-                  <th className="px-4 py-2 border-b font-normal">Status</th>
-                  <th className="px-4 py-2 border-b font-normal">Assigned Partner</th>
-                  <th className="px-4 py-2 border-b font-normal">Select Partner</th>
-                </tr>
-              </thead>
-              <tbody className="text-black mt-5 bg-white">
-              {orderList.map((order,index) =>(
-                <tr key={order.id}>
-                  <td className="px-4 py-2 border-b">{index + 1}</td>
-                  <td className="px-4 py-2 border-b">
-                  {order.mealPackage.packageName}
-                  </td>
-                  <td className="px-4 py-2 border-b">
-                    <div className="status flex justify-center">
-                      <img src={redCircle} alt="" className="status-icon" />
-                      <span className="font-bold ms-3">
-                      {order.orderStatus}
-                      </span>
-                    </div>
-                  </td>
-                  <td className="px-4 py-2 border-b">
-                  {order.preparedBy?.name}
-                  </td>
-                  <td className="px-4 py-2 border-b">
-                  <div className="relative inline-block text-center">
-                  <div>
-                    <button
-                      type="button"
-                      className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                      id="dropdown-menu-button"
-                      onClick={() => setIsOpen(!isOpen)}
-                      aria-haspopup="true"
-                      aria-expanded={isOpen}
-                    >
-                      Select
-                    </button>
-                  </div>
-                  {isOpen && (
-                    <div
-                      className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
-                      role="menu"
-                      aria-orientation="vertical"
-                      aria-labelledby="dropdown-menu-button"
-                    >
-                      {partners.map((partners) => (
-                        <a
-                          href="#/action1"
-                          key={partners.id}
-                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                          onClick={() => handlePrepare(order.id, partners.id)}
-                        >
-                          {partners.name} {partners.status}
-                        </a>
 
+  return (
+    <Layout>
+      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
+      <Carousel></Carousel>
+      <div className="md:flex ml-8">
+        {/* Assign Partner Task */}
+        <div className="md:w-9/12 mr-4">
+          <div className="pb-5">
+            <h4 className="font-bold text-2xl">Assign Partner Task</h4>
+            <div className="card bg-gray-100 bg-opacity-25">
+              <div className="container">
+                <div className="task-header-div">
+                  <table className="w-full table-auto text-white text-center driver my-3 task-header">
+                    <thead className="bg-cyan-950">
+                      <tr>
+                        <th className="px-4 py-2 border-b font-normal">No</th>
+                        <th className="px-4 py-2 border-b font-normal">Meals Request List</th>
+                        <th className="px-4 py-2 border-b font-normal">Status</th>
+                        <th className="px-4 py-2 border-b font-normal">Assigned Partner</th>
+                        <th className="px-4 py-2 border-b font-normal">Select Partner</th>
+                      </tr>
+                    </thead>
+                    <tbody className="text-black mt-5 bg-white">
+                      {orderList.map((order, index) => (
+                        <tr key={order.id}>
+                          <td className="px-4 py-2 border-b">{index + 1}</td>
+                          <td className="px-4 py-2 border-b">
+                            {order.mealPackage.packageName}
+                          </td>
+                          <td className="px-4 py-2 border-b">
+                            <div className="status flex justify-center">
+                              <img src={redCircle} alt="" className="status-icon" />
+                              <span className="font-bold ms-3">
+                                {order.orderStatus}
+                              </span>
+                            </div>
+                          </td>
+                          <td className="px-4 py-2 border-b">
+                            {order.preparedBy?.name}
+                          </td>
+                          <td className="px-4 py-2 border-b">
+                            <div className="relative inline-block text-center">
+                              <div>
+                                <button
+                                  type="button"
+                                  className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                  id="dropdown-menu-button"
+                                  onClick={() => setIsOpen(!isOpen)}
+                                  aria-haspopup="true"
+                                  aria-expanded={isOpen}
+                                >
+                                  Select
+                                </button>
+                              </div>
+                              {isOpen && (
+                                <div
+                                  className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
+                                  role="menu"
+                                  aria-orientation="vertical"
+                                  aria-labelledby="dropdown-menu-button"
+                                >
+                                  {partners.map((partners) => (
+                                    <a
+                                      href="#/action1"
+                                      key={partners.id}
+                                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
+                                      onClick={() => handlePrepare(order.id, partners.id)}
+                                    >
+                                      {partners.name} {partners.status}
+                                    </a>
+
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
                       ))}
-                    </div>
-                  )}
+                    </tbody>
+                  </table>
                 </div>
-                  </td>
-                </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-          <div className="task-tbl-div">
-            <table className="w-full table-auto text-white text-center driver my-3 task-tbl">
-              <tbody className="text-white">
-                {/* Add table rows here */}
-              </tbody>
-            </table>
+                <div className="task-tbl-div">
+                  <table className="w-full table-auto text-white text-center driver my-3 task-tbl">
+                    <tbody className="text-white">
+                      {/* Add table rows here */}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
 
         {/* Card Meal Package List */}
         <div className="md:w-3/12 mr-2">
@@ -224,7 +224,7 @@ function handleDeliver(order, user) {
                     <td className="px-4 py-2 border-b">{data.packageName}</td>
                   </tr>
                 </tbody>
-              ))}
+              )}
             </table>
           </div>
         </div>
@@ -304,7 +304,7 @@ function handleDeliver(order, user) {
                                       href="#/action1"
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
 
-                                    onClick={() => handleDeliver(order.id, drivers.id)}
+                                      onClick={() => handleDeliver(order.id, drivers.id)}
 
                                     >
                                       {drivers.name} {drivers.status}
