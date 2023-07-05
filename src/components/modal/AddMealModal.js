@@ -1,45 +1,90 @@
-import { useState } from 'react';
-import { addMenu } from '../../api/admin-api';
+import React, { useState } from "react";
+import axios from "axios";
+import { user_type } from "../../context/context-type";
+import { useAuthUser } from "react-auth-kit";
+import { getProfile } from '../../api/profile-api';
+import { useNavigate } from 'react-router-dom';
+import ForbiddenPage from "../../pages/ForbiddenPage";
 
-const AddMealModal = ({ closeModal }) => {
-    const [mealPackage, setMealPackage] = useState('');
-    const [mainCourse, setMainCourse] = useState('');
-    const [salad, setSalad] = useState('');
-    const [soup, setSoup] = useState('');
-    const [dessert, setDessert] = useState('');
-    const [drink, setDrink] = useState('');
-    const [frozenMeal, setFrozenMeal] = useState(false);
+const AddMealModal = () => {
+    const [mealPackage, setMealPackage] = useState("");
+    const [mainCourse, setMainCourse] = useState("");
+    const [salad, setSalad] = useState("");
+    const [soup, setSoup] = useState("");
+    const [dessert, setDessert] = useState("");
+    const [drink, setDrink] = useState("");
+    const [frozenMeal, setFrozenMeal] = useState("");
     const [mealPhoto, setMealPhoto] = useState(null);
+
+    const auth = useAuthUser();
+    const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
+    const token = auth()?.token;
+    const [profile, setProfile] = useState({});
+    const role = auth()?.role[0];
+    const navigate = useNavigate();
+
+    const fetchData = async () => {
+        if (!auth()) {
+          navigate("/login");
+        }
+        const userEmail = auth()?.email;
+        const res = await getProfile(userEmail, role);
+        setProfile(res);
+        // Rest of your code here
+      };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        formData.append('mealPackage', mealPackage);
-        formData.append('mainCourse', mainCourse);
-        formData.append('salad', salad);
-        formData.append('soup', soup);
-        formData.append('dessert', dessert);
-        formData.append('drink', drink);
-        formData.append('frozenMeal', frozenMeal);
-        formData.append('mealPhoto', mealPhoto);
-
         try {
-            const token = ''; // Set the token here
-            await addMenu(token, formData);
-            closeModal();
+            const formData = new FormData();
+            formData.append("packageName", mealPackage);
+            formData.append("mainCourse", mainCourse);
+            formData.append("salad", salad);
+            formData.append("soup", soup);
+            formData.append("dessert", dessert);
+            formData.append("drink", drink);
+            formData.append("frozen", frozenMeal);
+            formData.append("packageImage", mealPhoto);
+
+            await axios.post("/menu/add", formData, {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                  "Content-Type": "multipart/form-data",
+            }
+            });
+
+            // Reset form fields
+            setMealPackage("");
+            setMainCourse("");
+            setSalad("");
+            setSoup("");
+            setDessert("");
+            setDrink("");
+            setFrozenMeal("");
+            setMealPhoto(null);
+
+            // Close the modal or show a success message
+            // ...
         } catch (error) {
-            console.error('Error adding meal:', error);
+            console.error("Error adding meal:", error);
+            // Handle error
+            // ...
         }
     };
 
+// if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
+
     return (
-        <div className="p-4 fixed z-50 flex">
+        <div className="z-50 p-4 mt-10 justify-center">
             <h2 className="text-xl font-bold mb-4">Add New Meal</h2>
 
             <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
                 <div>
-                    <label htmlFor="mealPackage" className="block font-medium mb-1">
+                    <label htmlFor="mealPackage" className="block text-gray-700 font-medium mb-2">
                         Meal Package
                     </label>
                     <input
@@ -142,7 +187,6 @@ const AddMealModal = ({ closeModal }) => {
                         type="file"
                         id="mealPhoto"
                         className="w-full border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                        value={mealPhoto}
                         onChange={(e) => setMealPhoto(e.target.files[0])}
                         required
                     />

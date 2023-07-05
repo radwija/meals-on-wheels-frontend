@@ -7,10 +7,12 @@ import { user_type } from "../../context/context-type";
 import { useAuthUser } from "react-auth-kit";
 import { getProfile } from '../../api/profile-api';
 import { useNavigate } from 'react-router-dom';
+// import Modal from "react-modal";
+// import EditProfileForm from "../form/EditProfileForm";
 
 const Members = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [users, setUsers] = useState([]);
+  const [users, setUsers] = useState([user_type]);
   const auth = useAuthUser();
   const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
   const token = auth()?.token;
@@ -33,10 +35,17 @@ const Members = () => {
       navigate("/login");
     }
     const userEmail = auth()?.email;
-    const res = await getProfile(userEmail, role);
-    setProfile(res);
-    // Rest of your code here
+    const res = await getProfile(userEmail, role)
+      .catch((error) => {
+        console.error("Error fetching profile:", error);
+        // Handle the error, such as setting a default profile or showing an error message
+      });
+    if (res) {
+      setProfile(res);
+      // Rest of your code here
+    }
   };
+  
 
   const handleActive = (id) => {
     getAdminUserActiveAPI(token, id)
@@ -46,16 +55,29 @@ const Members = () => {
 
   useEffect(() => {
     fetchData();
-    fetchUsers();
+    fetchUsers(); // Call the fetchUsers function to populate the users state
   }, [token]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
+
   const handleSelectdriver = (userId, selectedDriver) => {
     // Handle the selected driver for the member
     console.log(`User ${userId} selected ${selectedDriver} as their driver.`);
   };
+
+  // const EditProfileModal = ({ user, role, onUpdateProfile, picture }) => {
+  //   const [isOpen, setIsOpen] = useState(false);
+  
+  //   const openModal = () => {
+  //     setIsOpen(true);
+  //   };
+  
+  //   const closeModal = () => {
+  //     setIsOpen(false);
+  //   };
+  // };
   // if user not admin forbid access
   if (!isAdmin) {
     return <ForbiddenPage />;
@@ -116,7 +138,7 @@ const Members = () => {
               {users.map((user, index) => (
                 <tr key={user.id}>
                   <td className="py-2 px-4 border-b">{index + 1}</td>
-                  <td className="py-2 px-4 border-b">{user.name}</td>
+                  <td className="py-2 px-4 border-b">{user.fullName}</td>
                   <td className="py-2 px-4 border-b">{user.address}</td>
                   <td className="py-2 px-4 border-b">{user.email}</td>
                   <td className="py-2 px-4 border-b">{user.gender}</td>

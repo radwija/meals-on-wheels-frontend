@@ -163,61 +163,6 @@ const Partners = () => {
           <h1 className="text-3xl font-bold mb-5 mt-10 text-center">
             Partners
           </h1>
-          <h2 className="text-2xl font-bold mb-4">Partners</h2>
-          <table className="min-w-full bg-white border border-gray-300 mb-8">
-            <thead className="bg-blue-800 text-white">
-              <tr>
-                <th className="py-2 px-4 border-b font-medium">Partner No.</th>
-                <th className="py-2 px-4 border-b font-medium">
-                  Requested Meal
-                </th>
-                <th className="py-2 px-4 border-b font-medium">Order Status</th>
-                <th className="py-2 px-4 border-b font-medium">
-                  Assigned Partner
-                </th>
-                <th className="py-2 px-4 border-b font-medium">
-                  Choose Partner
-                </th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              {partnersData.map((partner, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border-b">{partner.partnerNo}</td>
-                  <td className="py-2 px-4 border-b">
-                    {partner.requestedMeal}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    <span
-                      className={`inline-block px-3 py-1 rounded-full ${
-                        partner.orderStatus === "Preparing"
-                          ? "bg-green-500 text-white"
-                          : "bg-red-500 text-white"
-                      }`}
-                    >
-                      {partner.orderStatus}
-                    </span>
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    {partner.assignedPartner}
-                  </td>
-                  <td className="py-2 px-4 border-b">
-                    <select
-                      value={partner.choosePartner}
-                      onChange={(e) =>
-                        handleChoosePartnerChange(index, e.target.value)
-                      }
-                      className="block w-full py-2 px-3 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                    >
-                      <option value="ABC Catering">ABC Catering</option>
-                      <option value="XYZ Catering">XYZ Catering</option>
-                      <option value="Choose">Choose</option>
-                    </select>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
 
           <h2 className="text-2xl font-bold mb-4">Partnership Request</h2>
           <table className="min-w-full bg-white border border-gray-300 mb-8">
