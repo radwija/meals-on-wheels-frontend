@@ -20,10 +20,8 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { LandingPage } from "./pages/LandingPage";
 import ContactUs from "./pages/ContactUs";
 import AdminDashboard from "./pages/AdminPanel/AdminDashboard";
-import Drivers from "./pages/AdminPanel/Drivers";
 import Members from "./pages/AdminPanel/Members";
 import Partners from "./pages/AdminPanel/Partners";
-import Volunteers from "./pages/AdminPanel/Volunteers";
 import MealOrderHistory from "./pages/AdminPanel/MealOrderHistory";
 import MealPackages from "./pages/AdminPanel/MealPackages";
 import { TermsAndConditions } from "./pages/TermsAndConditions";
@@ -130,16 +128,16 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route
+        {/* <Route
           path="/users/drivers"
           element={
             <RequireAuth loginPath="/login">
               <Drivers />
             </RequireAuth>
           }
-        />
+        /> */}
         <Route
-          path="/users/members"
+          path="/admin/user"
           element={
             <RequireAuth loginPath="/login">
               <Members />
@@ -147,47 +145,46 @@ function App() {
           }
         />
         <Route
-          path="/users/partners"
+          path="/users/partner"
           element={
             <RequireAuth loginPath="/login">
               <Partners />
             </RequireAuth>
           }
         />
-        <Route
+        {/* <Route
           path="/users/volunteers"
           element={
             <RequireAuth loginPath="/login">
               <Volunteers />
             </RequireAuth>
           }
-        />
+        /> */}
         <Route
-          path="/meal-order-tracker"
+          path="/admin/order/all"
           element={
             <RequireAuth loginPath="/login">
-              <MealOrderTracker />
+              <MealOrderHistory />
             </RequireAuth>
           }
         />
         <Route
-          path="/meal-packages"
+          path="/admin/meal"
           element={
             <RequireAuth loginPath="/login">
               <MealPackages />
             </RequireAuth>
           }
         />
+        <Route
+          path="/admin/menu/add"
+          element={
+            <RequireAuth loginPath="/login">
+              <AddMealModal />
+            </RequireAuth>
+          }
+        />
         
-        <Route path="/admin" element={<AdminDashboard />} />
-        <Route path="/users/drivers" element={<Drivers />} />
-        <Route path="/admin/user" element={<Members />} />
-        <Route path="/admin/partner" element={<Partners />} />
-        <Route path="/users/volunteers" element={<Volunteers />} />
-        <Route path="/order/all" element={<MealOrderHistory />} />
-        <Route path="/admin/meal" element={<MealPackages />} />
-        <Route path="/admin/menu/add" element={<AddMealModal />} />
-        {/* </Route> */}
       </Routes>
     </div>
   );

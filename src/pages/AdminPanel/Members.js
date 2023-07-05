@@ -1,12 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Layout from "../../components/Layout";
-import { getMemberOrderAPI } from "../../api/admin-api";
 import ForbiddenPage from "../ForbiddenPage";
-import { useAuthUser } from "react-auth-kit";
-import React, { useState, useEffect } from 'react';
-import Sidebar from './Sidebar';
-import Layout from '../../components/Layout';
 import { getAdminUserAPI, getAdminUserActiveAPI } from '../../api/admin-api';
 import { user_type } from "../../context/context-type";
 import { useAuthUser } from "react-auth-kit";
@@ -15,35 +10,26 @@ import { useNavigate } from 'react-router-dom';
 
 const Members = () => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [members, setMembers] = useState([]);
+  const [users, setUsers] = useState([]);
   const auth = useAuthUser();
   const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
-  useEffect(() => {
-    // Fetch member data
-    fetchMembers();
-  }, []);
-}
-  const fetchMembers = async () => {
-    try {
-      // Make an API call to retrieve member data
-      const token = localStorage.getItem("token");
-      const data = await getMemberOrderAPI(token);
-      setMembers(data);
-    } catch (error) {
-      console.error("Error fetching members:", error);
-  const auth = useAuthUser();
   const token = auth()?.token;
   const [profile, setProfile] = useState({});
   const role = auth()?.role[0];
   const navigate = useNavigate();
-  const [searchTerm, setSearchTerm] = useState('');
-  const [users, setUsers] = useState([user_type]);
   const [msg, setMsg] = useState("");
+
+  const fetchUsers = async () => {
+    try {
+      const data = await getAdminUserAPI(token);
+      setUsers(data);
+    } catch (error) {
+      console.error("Error fetching users:", error);
     }
+  };
 
   const fetchData = async () => {
     if (!auth()) {
-      // User is not authenticated and cookies are expired
       navigate("/login");
     }
     const userEmail = auth()?.email;
@@ -52,22 +38,20 @@ const Members = () => {
     // Rest of your code here
   };
 
-  function handleActive(id) {
+  const handleActive = (id) => {
     getAdminUserActiveAPI(token, id)
       .then((resp) => setMsg(resp.data.message))
       .catch((err) => console.log(err));
-  }
+  };
+
   useEffect(() => {
-    fetchData()
-    getAdminUserAPI(token)
-      .then((resp) => setUsers(resp.data))
-      .catch((err) => console.log(err));
+    fetchData();
+    fetchUsers();
   }, [token]);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
   };
-
   const handleSelectdriver = (userId, selectedDriver) => {
     // Handle the selected driver for the member
     console.log(`User ${userId} selected ${selectedDriver} as their driver.`);
