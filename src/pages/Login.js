@@ -3,15 +3,24 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../assets/mow_logo.png";
 import { authenticate } from "../api/login-api";
-import { useSignIn } from "react-auth-kit";
+import { useAuthUser, useIsAuthenticated, useSignIn } from "react-auth-kit";
 import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
+import { useRedirectUser } from "../hooks/redirectUser";
 const Login = () => {
   const [error, setError] = useState("");
   const signIn = useSignIn();
+  const isLogin = useIsAuthenticated();
+  const auth = useAuthUser();
+  const redirectUser = useRedirectUser();
   const navigate = useNavigate();
   const [isSubmiting, setIsSubmiting] = useState(false);
+
+  if (isLogin()) {
+    redirectUser(auth().role?.[0]);
+  }
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -43,28 +52,7 @@ const Login = () => {
           },
         });
         setIsSubmiting(false);
-
-        switch (res?.role?.[0]) {
-          case "ROLE_MEMBER":
-            navigate("/member");
-            break;
-          case "ROLE_DRIVER":
-            navigate("/driver");
-            break;
-          case "ROLE_CAREGIVER":
-            navigate("/caregiver");
-            break;
-          case "ROLE_PARTNER":
-            navigate("/partner");
-            break;
-          case "ROLE_ADMIN":
-            navigate("/admin");
-            break;
-          default:
-            // Handle any other roles or fallback to a default path
-            navigate("/profile");
-            break;
-        }
+        redirectUser(res?.role?.[0]);
       }
     },
   });

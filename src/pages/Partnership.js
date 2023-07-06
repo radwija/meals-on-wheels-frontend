@@ -4,10 +4,19 @@ import * as Yup from "yup";
 import { applyPartnership } from "../api/partnership-api";
 import Layout from "../components/Layout";
 import { Link } from "react-router-dom";
+import { useRedirectUser } from "../hooks/redirectUser";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
 
 const Partnership = () => {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const redirectUser = useRedirectUser();
+  const isLogin = useIsAuthenticated();
+  const auth = useAuthUser();
+
+  if (isLogin()) {
+    redirectUser(auth().role?.[0]);
+  }
 
   const formik = useFormik({
     initialValues: {
