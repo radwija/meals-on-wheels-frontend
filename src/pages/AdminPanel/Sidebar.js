@@ -84,16 +84,6 @@ const Sidebar = () => {
                 Meal Order History
               </Link>
             </li>
-            <li className="px-6 py-3">
-              <Link
-                to="/meal"
-                className={`hover:text-gray-300 ${isDarkMode ? 'text-white' : 'text-gray-800'
-                  }`}
-              >
-                <FontAwesomeIcon icon={faBowlFood} className="mr-3" />
-                Meal Packages
-              </Link>
-            </li>
           </ul>
         </div>
         {/* Dark mode toggle button */}
