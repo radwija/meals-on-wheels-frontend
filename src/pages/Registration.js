@@ -3,13 +3,22 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "../api/axios";
 import { getDistance } from "../api/map.-api";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
+import { useRedirectUser } from "../hooks/redirectUser";
 const Registration = () => {
   const [success, setSuccess] = useState("");
+  const isLogin = useIsAuthenticated();
+  const auth = useAuthUser();
+  const redirectUser = useRedirectUser();
   const [error, setError] = useState("");
-  const [distance, setDistance] = useState("");
   const [isSubmiting, setIsSubmiting] = useState(false);
+
+  if (isLogin()) {
+    redirectUser(auth().role?.[0]);
+  }
+
   const formik = useFormik({
     initialValues: {
       name: "",
