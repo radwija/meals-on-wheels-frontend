@@ -15,12 +15,14 @@ const AddMealModal = ({ addMeal }) => {
     const [drink, setDrink] = useState("");
     const [frozenMeal, setFrozenMeal] = useState("");
     const [mealPhoto, setMealPhoto] = useState(null);
-  
+
     const auth = useAuthUser();
+    const role = auth()?.role[0];
+    const [profile, setProfile] = useState({});
     const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
     const token = auth()?.token;
     const navigate = useNavigate();
-    
+
     const fetchData = async () => {
         if (!auth()) {
             navigate("/login");
