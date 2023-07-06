@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import axios from "../api/axios";
@@ -15,9 +15,12 @@ const Registration = () => {
   const [error, setError] = useState("");
   const [isSubmiting, setIsSubmiting] = useState(false);
 
-  if (isLogin()) {
-    redirectUser(auth().role?.[0]);
-  }
+  useEffect(() => {
+    if (isLogin()) {
+      const role = auth().role?.[0];
+      redirectUser(role);
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {
