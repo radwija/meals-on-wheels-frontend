@@ -3,7 +3,7 @@ import axios, { BASE_URL } from "./axios";
 
 // GET MEAL
 export const getAdminMealAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/meal`, {
+  return await axios.get(`${BASE_URL}admin/meal`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials: true
   })
@@ -11,7 +11,7 @@ export const getAdminMealAPI = async (token) => {
 
 // ADD MENU
 export const addMenu = async (token, formData) => {
-  return await axios.post(`${BASE_URL}/admin/menu/add`, formData, {
+  return await axios.post(`${BASE_URL}admin/menu/add`, formData, {
     headers: { 
       Authorization: `Bearer ${token}`,
       "Content-Type": "multipart/form-data" },
@@ -23,7 +23,7 @@ export const addMenu = async (token, formData) => {
 //assign driver ito order
 export const postAdminOrderDeliverAPI = async (token, orderId, driverId) => {
   return await axios.get(
-    `${BASE_URL}/admin/order/${orderId}/deliver/${driverId}`,
+    `${BASE_URL}admin/order/${orderId}/deliver/${driverId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true
@@ -35,7 +35,7 @@ export const postAdminOrderDeliverAPI = async (token, orderId, driverId) => {
 //assign partner into order
 export const postAdminOrderPrepareAPI = async (token, orderId, partnerId) => {
   return await axios.get(
-    `${BASE_URL}/admin/order/${orderId}/prepare/${partnerId}`,
+    `${BASE_URL}admin/order/${orderId}/prepare/${partnerId}`,
     {
       headers: { Authorization: `Bearer ${token}` },
       withCredentials: true
@@ -45,7 +45,7 @@ export const postAdminOrderPrepareAPI = async (token, orderId, partnerId) => {
 
 // ORDER ALL
 export const getAdminOrderAllAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/all`, {
+  return await axios.get(`${BASE_URL}admin/order/all`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
@@ -54,7 +54,7 @@ export const getAdminOrderAllAPI = async (token) => {
 // ORDER COMPLETE
 //list all complete order
 export const getAdminOrderCompleteAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/complete`, {
+  return await axios.get(`${BASE_URL}admin/order/complete`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
@@ -62,7 +62,7 @@ export const getAdminOrderCompleteAPI = async (token) => {
 
 // ORDER DELIVERY COMPLETE
 export const getAdminOrderDeliveryCompleteAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/delivery-complete`, {
+  return await axios.get(`${BASE_URL}admin/order/delivery-complete`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
@@ -70,80 +70,82 @@ export const getAdminOrderDeliveryCompleteAPI = async (token) => {
 
 // ORDER ON DELIVERY
 export const getAdminOrderOnDeliveryAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/on-delivery`, {
+  return await axios.get(`${BASE_URL}admin/order/on-delivery`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
-// ORDER PENDING
+// ORDER PENDING => use in caregiver 
 export const getAdminOrderPendingAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/pending`, {
+  return await axios.get(`${BASE_URL}admin/order/pending`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
-// ORDER PREPARED
+// USER COUNT => use in caregiver
 export const getAdminUserCountAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/user/count`, {
+  return await axios.get(`${BASE_URL}admin/user/count`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
-// ORDER READY TO DELIVER
+// ORDER READY TO DELIVER => use in caregiver
 export const getAdminOrderReadyToDeliverAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/order/ready-to-deliver`, {
+  return await axios.get(`${BASE_URL}admin/order/ready-to-deliver`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
-// ADMIN USER
+// ADMIN USER => use in caregiver
 export const getAdminUserAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/user`, {
+  return await axios.get(`${BASE_URL}admin/user`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
 export const getAdminUserActiveAPI = async (token, id) => {
-  return await axios.get(`${BASE_URL}/admin/user/${id}/activate`, {
+  return await axios.get(`${BASE_URL}admin/user/${id}/activate`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 export const getAdminPartnerAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/partner`, {
+  return await axios.get(`${BASE_URL}admin/partner`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
 export const getAdminPartnerActiveAPI = async (token, id) => {
-  return await axios.get(`${BASE_URL}/admin/partner/${id}/activate`, {
+  return await axios.get(`${BASE_URL}admin/partner/${id}/activate`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
+//GET PARTNER => use in caregiver
 export const getPartnersAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/partner`, {
+  return await axios.get(`${BASE_URL}admin/partner`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
+//GET DRIVER => use in caregiver
 export const getDriversAPI = async (token) => {
-  return await axios.get(`${BASE_URL}/admin/driver`, {
+  return await axios.get(`${BASE_URL}admin/driver`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })
 }
 
 export const assignVolunteerAPI = async (token, id, rolecode) => {
-  return await axios.get(`${BASE_URL}/admin/user/${id}/${rolecode}`, {
+  return await axios.get(`${BASE_URL}admin/user/${id}/${rolecode}`, {
     headers: { Authorization: `Bearer ${token}` },
     withCredentials : true
   })

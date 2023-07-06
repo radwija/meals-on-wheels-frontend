@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
+import axios from "../../api/axios";
 import { user_type } from "../../context/context-type";
 import { useAuthUser } from "react-auth-kit";
 import { getProfile } from '../../api/profile-api';
@@ -47,11 +47,12 @@ const AddMealModal = () => {
             formData.append("frozen", frozenMeal);
             formData.append("packageImage", mealPhoto);
 
-            await axios.post("/menu/add", formData, {
+            await axios.post("admin/menu/add", formData, {
+                withCredentials: true,
                 headers: {
                   Authorization: `Bearer ${token}`,
                   "Content-Type": "multipart/form-data",
-            }
+            } 
             });
 
             // Reset form fields
@@ -174,8 +175,8 @@ const AddMealModal = () => {
                         required
                     >
                         <option value="">Select an option</option>
-                        <option value="true">Yes</option>
-                        <option value="false">No</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
                     </select>
                 </div>
 

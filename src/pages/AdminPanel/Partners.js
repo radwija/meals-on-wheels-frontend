@@ -1,225 +1,166 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import Sidebar from "./Sidebar";
 import Layout from "../../components/Layout";
 import { FaSearch } from "react-icons/fa";
 import { useAuthUser } from "react-auth-kit";
 import ForbiddenPage from "../ForbiddenPage";
-import { getPartnersAPI } from '../../api/admin-api';
+import { getProfile } from '../../api/profile-api';
+import { getAdminPartnerAPI, getAdminPartnerActiveAPI } from '../../api/admin-api';
+import { user_type } from "../../context/context-type";
 
 const Partners = () => {
-  const [partnersData, setPartnersData] = useState([]);
-  const [partnershipRequestData, setPartnershipRequestData] = useState([]);
-  const [registeredPartnersData, setRegisteredPartnersData] = useState([]);
-
-  const [searchTerm, setSearchTerm] = useState("");
   const auth = useAuthUser();
+  const token = auth()?.token;
+  const [profile, setProfile] = useState({});
+  const role = auth()?.role[0];
+  const navigate = useNavigate();
   const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
-  const handleSearchChange = (event) => {
-    setSearchTerm(event.target.value);
-  };
+  const [partner, setPartner] = useState([user_type])
+  const [inactivePartner, setInactivePartner] = useState([user_type])
+  const [msg, setMsg] = useState("")
 
-  const filterPartners = (partner) => {
-    return partner.partnerNo.toLowerCase().includes(searchTerm.toLowerCase());
-  };
+  function handleAccept(id) {
+    getAdminPartnerActiveAPI(token, id)
+      .then((resp) => setMsg(resp.data.message))
+      .catch((err) => console.log(err))
+  }
 
-  const filteredPartners = partnersData.filter(filterPartners);
+  const fetchData = async () => {
+    if (!auth()) {
+      // User is not authenticated and cookies are expired
+      navigate("/login");
+    }
+    const userEmail = auth()?.email;
+    const res = await getProfile(userEmail, role);
+    setProfile(res);
+    // Rest of your code here
+  };
 
   useEffect(() => {
-    const fetchPartnersData = async () => {
-      try {
-        const response = await getPartnersAPI(); // Make the API call here
-        setPartnersData(response.data);
-      } catch (error) {
-        console.error('Error fetching partners data:', error);
-      }
-    };
+    fetchData()
 
-    // Call other API functions to fetch partnership request and registered partners data
-    // For example:
-    // const fetchPartnershipRequestData = async () => {
-    //   const response = await getPartnershipRequestsAPI();
-    //   setPartnershipRequestData(response.data);
-    // };
+    getAdminPartnerAPI(token)
+      .then((resp) => {
+        resp.data = resp.data
+          .filter((item) => {
+            return item.active === true
+          })
+          .map((item) => {
+            setPartner(item)
+            return item
+          })
+          setPartner(resp.data)
+      })
+      .catch((err) => console.log(err))
 
-    fetchPartnersData();
-  }, []);
+    getAdminPartnerAPI(token)
+      .then((resp) => {
+        resp.data = resp.data
+          .filter((item) => {
+            return item.active === false
+          })
+          .map((item) => {
+            setInactivePartner(item)
+            return item
+          })
+          setInactivePartner(resp.data)
+      })
+      .catch((err) => console.log(err))
+  }, [token, msg])
 
-  // Simulating API/database call to fetch data
-  useEffect(() => {
-    // Fetch partners data
-    // const fetchPartnersData = async () => {
-    //   const response = await fetch('api/partners');
-    //   const data = await response.json();
-    //   setPartnersData(data);
-    // };
-    // fetchPartnersData();
-
-    // Fetch partnership request data
-    // const fetchPartnershipRequestData = async () => {
-    //   const response = await fetch('api/partnershipRequests');
-    //   const data = await response.json();
-    //   setPartnershipRequestData(data);
-    // };
-    // fetchPartnershipRequestData();
-
-    // Fetch registered partners data
-    // const fetchRegisteredPartnersData = async () => {
-    //   const response = await fetch('api/registeredPartners');
-    //   const data = await response.json();
-    //   setRegisteredPartnersData(data);
-    // };
-    // fetchRegisteredPartnersData();
-
-    // Simulated data for demonstration
-    setPartnersData([
-      {
-        partnerNo: "Partner 1",
-        requestedMeal: "Meal Package 1",
-        orderStatus: "Preparing",
-        assignedPartner: "XYZ Catering",
-        choosePartner: "Choose",
-      },
-      {
-        partnerNo: "Partner 2",
-        requestedMeal: "Meal Package 2",
-        orderStatus: "Pending",
-        assignedPartner: "ABC Catering",
-        choosePartner: "Choose",
-      },
-    ]);
-
-    setPartnershipRequestData([
-      {
-        companyName: "We Eats",
-        image: "",
-        address: "009, 4th St. Tenejero",
-        action: "Accept",
-      },
-      {
-        companyName: "PaBliss",
-        image: "",
-        address: "121, Milan St.",
-        action: "Decline",
-      },
-    ]);
-
-    setRegisteredPartnersData([
-      {
-        companyName: "ABC Catering",
-        image: "",
-        address: "364, 4th St. London",
-        email: "abcfood@gmail.com",
-      },
-      {
-        companyName: "XYZ Catering",
-        image: "",
-        address: "100, Milan St.",
-        email: "xyzmeal@gmail.com",
-      },
-    ]);
-  }, []);
-
-  const handleAssignedPartnerChange = (index, value) => {
-    setPartnersData((prevData) => {
-      const newData = [...prevData];
-      newData[index].assignedPartner = value;
-      return newData;
-    });
-  };
-
-  const handleChoosePartnerChange = (index, value) => {
-    setPartnersData((prevData) => {
-      const newData = [...prevData];
-      newData[index].choosePartner = value;
-      return newData;
-    });
-  };
-  // if user not admin forbid access
   if (!isAdmin) {
     return <ForbiddenPage />;
   }
   
   return (
     <Layout>
-      <div className="flex min-h-screen mr-5">
-        <Sidebar />
-        <div className="flex-1 p-4">
-          {/* Search bar */}
-          <div className="mb-4 flex justify-end">
-            <div className="relative">
-              <input
-                type="text"
-                placeholder="Search partner by name or email"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                className="w-64 py-2 px-4 border border-gray-300 rounded-md pl-10 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-              />
-              <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <FaSearch className="text-gray-400" />
-              </div>
-            </div>
-          </div>
-
-          <h1 className="text-3xl font-bold mb-5 mt-10 text-center">
-            Partners
-          </h1>
-
-          <h2 className="text-2xl font-bold mb-4">Partnership Request</h2>
-          <table className="min-w-full bg-white border border-gray-300 mb-8">
-            <thead className="bg-blue-800 text-white">
-              <tr>
-                <th className="py-2 px-4 border-b font-medium">Company Name</th>
-                <th className="py-2 px-4 border-b font-medium">Image</th>
-                <th className="py-2 px-4 border-b font-medium">Address</th>
-                <th className="py-2 px-4 border-b font-medium">Action</th>
+    <div className="flex min-h-screen mr-5">
+    <Sidebar />
+    <div className="mx-auto max-w-5xl">
+  <h1 className="text-center py-5 font-bold">Manage Partner</h1>
+  <div className="mb-3">
+      <h1>Partnership Request</h1>
+  </div>
+    <div className="bg-white rounded shadow overflow-x-auto">
+      <table className="min-w-full">
+        <thead>
+          <tr className="bg-gray-200 text-gray-800">
+            <th className="py-2 px-4">Company Name</th>
+            <th className="py-2 px-4">Image</th>
+            <th className="py-2 px-4">Address</th>
+            <th className="py-2 px-4">Email</th>
+            <th className="py-2 px-4">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+  {inactivePartner.length > 0 ? (
+    inactivePartner.map((data) => (
+      <tr key={data.id} className="border-b">
+        <td className="py-2 px-4">{data.name}</td>
+        <td className="py-2 px-4">
+          <img
+            className="h-16 w-16 object-contain"
+            src={`data:image/jpeg;base64,${data?.profilePicture}`}
+            alt=""
+          />
+        </td>
+        <td className="py-2 px-4">{data.address}</td>
+        <td className="py-2 px-4">{data.email}</td>
+        <td className="py-2 px-4">
+          <button
+            className="button font-bold"
+            onClick={() => handleAccept(data.id)}
+          >
+            Accept Partnership
+          </button>
+        </td>
+      </tr>
+    ))
+  ) : (
+    <tr>
+      <td colSpan="5" className="py-2 px-4">
+        No partnership requests found.
+      </td>
+    </tr>
+  )}
+</tbody>
+      </table>
+    </div>
+  </div>
+  <div id="registered-partner" className="py-5">
+  <h1> Registered Partner</h1> 
+    <div className="bg-white rounded shadow overflow-x-auto">
+      <table className="min-w-full">
+        <thead>
+          <tr className="bg-gray-200 text-gray-800">
+            <th className="py-2 px-4">Company Name</th>
+            <th className="py-2 px-4">Image</th>
+            <th className="py-2 px-4">Address</th>
+            <th className="py-2 px-4">Email</th>
+          </tr>
+        </thead>
+        <tbody>
+          {partner.map((data) => (
+            <tr key={data.id} className="border-b">
+              <td className="py-2 px-4">{data.name}</td>
+              <td className="py-2 px-4">
+                <img
+                  className="h-16 w-16 object-contain"
+                  src={`data:image/jpeg;base64,${data?.profilePicture}`}
+                  alt=""
+                />
+              </td>
+              <td className="py-2 px-4">{data.address}</td>
+              <td className="py-2 px-4">{data.email}</td>
               </tr>
-            </thead>
-            <tbody className="text-center">
-              {partnershipRequestData.map((request, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border-b">{request.companyName}</td>
-                  <td className="py-2 px-4 border-b">{request.image}</td>
-                  <td className="py-2 px-4 border-b">{request.address}</td>
-                  <td className="py-2 px-4 border-b">
-                    <span
-                      className={`inline-block px-3 py-1 rounded-full ${
-                        request.action === "Accept"
-                          ? "bg-green-500 text-white"
-                          : "bg-red-500 text-white"
-                      }`}
-                    >
-                      {request.action}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-
-          <h2 className="text-2xl font-bold mb-4">Registered Partners</h2>
-          <table className="min-w-full bg-white border border-gray-300">
-            <thead className="bg-blue-800 text-white">
-              <tr>
-                <th className="py-2 px-4 border-b font-medium">Company Name</th>
-                <th className="py-2 px-4 border-b font-medium">Image</th>
-                <th className="py-2 px-4 border-b font-medium">Address</th>
-                <th className="py-2 px-4 border-b font-medium">Email</th>
-              </tr>
-            </thead>
-            <tbody className="text-center">
-              {registeredPartnersData.map((partner, index) => (
-                <tr key={index}>
-                  <td className="py-2 px-4 border-b">{partner.companyName}</td>
-                  <td className="py-2 px-4 border-b">{partner.image}</td>
-                  <td className="py-2 px-4 border-b">{partner.address}</td>
-                  <td className="py-2 px-4 border-b">{partner.email}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
-    </Layout>
+    </div>
+  </div>
+  </Layout>
   );
 };
 

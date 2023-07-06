@@ -21,7 +21,7 @@ export const getPartnerOrderAllAPI = async (token) => {
 
 //CREATE ORDER
 export const postPartnerOrderCreateAPI = async (token, id) =>{
-    return await axios.get( `${BASE_URL}api/partner/order/${id}/create`,{
+    return await axios.get( `${BASE_URL}api/partner/order/${id}/prepare`,{
         headers : {Authorization: `Bearer ${token}`},
         withCredentials: true
     })
@@ -29,7 +29,7 @@ export const postPartnerOrderCreateAPI = async (token, id) =>{
 
 //ORDER COMPLETE
 export const postPartnerOrderCompleteAPI=async (token, id)=> {
-    return await axios.get(`${BASE_URL}api/partner/${id}/complete`,{
+    return await axios.get(`${BASE_URL}api/partner/order/${id}/complete`,{
         headers : {Authorization: `Bearer ${token}`},
         withCredentials : true
     })
