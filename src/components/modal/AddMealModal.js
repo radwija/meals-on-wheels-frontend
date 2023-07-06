@@ -25,13 +25,13 @@ const AddMealModal = () => {
 
     const fetchData = async () => {
         if (!auth()) {
-          navigate("/login");
+            navigate("/login");
         }
         const userEmail = auth()?.email;
         const res = await getProfile(userEmail, role);
         setProfile(res);
         // Rest of your code here
-      };
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -50,9 +50,9 @@ const AddMealModal = () => {
             await axios.post("admin/menu/add", formData, {
                 withCredentials: true,
                 headers: {
-                  Authorization: `Bearer ${token}`,
-                  "Content-Type": "multipart/form-data",
-            } 
+                    Authorization: `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data",
+                }
             });
 
             // Reset form fields
@@ -74,10 +74,10 @@ const AddMealModal = () => {
         }
     };
 
-// if user not admin forbid access
-  if (!isAdmin) {
-    return <ForbiddenPage />;
-  }
+    // if user not admin forbid access
+    if (!isAdmin) {
+        return <ForbiddenPage />;
+    }
 
     return (
         <div className="z-50 p-4 mt-10 justify-center">
@@ -196,7 +196,7 @@ const AddMealModal = () => {
                 <div className="w-full col-span-2 flex justify-center">
                     <button
                         type="submit"
-                        className="w-full bg-black hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-md focus:outline-none"
+                        className="w-full bg-cyan-950 hover:bg-cyan-900 focus:bg-cyan-900 text-white font-medium py-2 px-4 rounded-md focus:outline-none"
                     >
                         Add Meal
                     </button>
