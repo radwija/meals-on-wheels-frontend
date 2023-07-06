@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import logo from "../assets/mow_logo.png";
@@ -17,9 +17,12 @@ const Login = () => {
   const navigate = useNavigate();
   const [isSubmiting, setIsSubmiting] = useState(false);
 
-  if (isLogin()) {
-    redirectUser(auth().role?.[0]);
-  }
+  useEffect(() => {
+    if (isLogin()) {
+      const role = auth().role?.[0];
+      redirectUser(role);
+    }
+  }, []);
 
   const formik = useFormik({
     initialValues: {

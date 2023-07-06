@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { applyPartnership } from "../api/partnership-api";
@@ -14,10 +14,12 @@ const Partnership = () => {
   const isLogin = useIsAuthenticated();
   const auth = useAuthUser();
 
-  if (isLogin()) {
-    redirectUser(auth().role?.[0]);
-  }
-
+  useEffect(() => {
+    if (isLogin()) {
+      const role = auth().role?.[0];
+      redirectUser(role);
+    }
+  }, []);
   const formik = useFormik({
     initialValues: {
       companyName: "",
