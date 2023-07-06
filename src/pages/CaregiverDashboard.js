@@ -35,7 +35,12 @@ const CaregiverDashboard = () => {
   const [userCount, setUserCount] = useState(user_count);
   const [menu, setMenu] = useState([menu_type]);
   const [index, setIndex] = useState(0);
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(null);
+  const [isAssign, setIsAssign] = useState(false);
+
+  const handleOpen = (index) =>{
+    setIsOpen(index)
+  }
 
   const fetchData = async () => {
     if (!auth()) {
@@ -53,13 +58,14 @@ const CaregiverDashboard = () => {
 
   function handlePrepare(order, user) {
     postAdminOrderPrepareAPI(token, order, user)
-      .then((resp) => setMsg(resp.data.message))
+      .then((resp) => setIsAssign(!isAssign))
       .catch((err => console.log(err)))
+
   }
 
   function handleDeliver(order, user) {
     postAdminOrderDeliverAPI(token, order, user)
-      .then((resp) => setMsg(resp.data.message))
+      .then((resp) => setIsAssign(!isAssign))
       .catch((err) => console.log(err));
   }
 
@@ -107,7 +113,7 @@ const CaregiverDashboard = () => {
       .catch((err) => {
         console.log(err);
       });
-  }, []);
+  }, [isAssign]);
   // if user not caregiver forbid access
   if (!isCaregiver) {
     return <ForbiddenPage />;
@@ -115,7 +121,7 @@ const CaregiverDashboard = () => {
 
   return (
     <Layout>
-      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
+      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile?.name}!</h1>
       <Carousel></Carousel>
       <div className="md:flex ml-8">
         {/* Assign Partner Task */}
@@ -137,6 +143,7 @@ const CaregiverDashboard = () => {
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
                       {orderList.map((order, index) => (
+
                         <tr key={order.id}>
                           <td className="px-4 py-2 border-b">{index + 1}</td>
                           <td className="px-4 py-2 border-b">
@@ -157,19 +164,20 @@ const CaregiverDashboard = () => {
                             <div className="relative inline-block text-center">
                               <div>
                                 <button
+                                key ={index}
                                   type="button"
                                   className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   id="dropdown-menu-button"
-                                  onClick={() => setIsOpen(!isOpen)}
+                                  onClick={() => handleOpen(index)}
                                   aria-haspopup="true"
                                   aria-expanded={isOpen}
                                 >
                                   Select
                                 </button>
                               </div>
-                              {isOpen && (
+                              {isOpen === index && (
                                 <div
-                                  className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
+                                  className="top-0 absolute left-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
                                   role="menu"
                                   aria-orientation="vertical"
                                   aria-labelledby="dropdown-menu-button"
@@ -217,7 +225,7 @@ const CaregiverDashboard = () => {
                 </tr>
               </thead>
 
-              {menu.slice(0, 7).map((data) =>
+              {menu.slice(0, 8).map((data) =>
                 <tbody key={data.id}>
 
                   <tr>
@@ -282,19 +290,20 @@ const CaregiverDashboard = () => {
                             <div className="relative inline-block text-center">
                               <div>
                                 <button
+                                  key ={index}
                                   type="button"
                                   className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   id="dropdown-menu-button"
-                                  onClick={() => setIsOpen(!isOpen)}
+                                  onClick={() => handleOpen(index)}
                                   aria-haspopup="true"
                                   aria-expanded={isOpen}
                                 >
                                   Select
                                 </button>
                               </div>
-                              {isOpen && (
+                              {isOpen === index && (
                                 <div
-                                  className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
+                                  className="top-0 absolute left-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
                                   role="menu"
                                   aria-orientation="vertical"
                                   aria-labelledby="dropdown-menu-button"
@@ -338,7 +347,7 @@ const CaregiverDashboard = () => {
                   <th className="px-4 py-2 border-b font-normal">Status</th>
                 </tr>
               </thead>
-              <tbody className="text-black">
+              <tbody className="text-black bg-white">
                 {drivers.slice(0, 6).map((drivers, index) => (
                   <tr key={drivers.id}>
                     <td className="text-black border-b">{index + 1}</td>

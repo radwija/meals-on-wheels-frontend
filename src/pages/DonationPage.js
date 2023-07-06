@@ -18,11 +18,12 @@ export const DonationPage = () => {
     const [amountSource, setAmountSource] = useState("");
     const [isTypingAmount, setTypingAmount] = useState("0");
     const amountValidation = () => {
-        if (amountSource === undefined ||
+        if (isDisabled === true ||
+            amountSource === undefined ||
             amountSource?.replace(onlyNumberRegex, "").length === 0 ||
             amountSource === "" ||
             amountSource === "0" ||
-            parseFloat(amountSource) < parseFloat("0.01") ||
+            parseFloat(amountSource) < parseFloat("5") ||
             parseFloat(amountSource) > parseFloat("9999999.99")
         ) {
             return true
@@ -80,7 +81,7 @@ export const DonationPage = () => {
                                         name="amount"
                                         disabled={isDisabled}
                                         allowNegativeValue={false}
-                                        placeholder="0.00"
+                                        placeholder="5.00"
                                         decimalsLimit={2}
                                         onValueChange={(value) => {
                                             setAmountSource(value);

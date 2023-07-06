@@ -23,7 +23,7 @@ import AdminDashboard from "./pages/AdminPanel/AdminDashboard";
 import Members from "./pages/AdminPanel/Members";
 import Partners from "./pages/AdminPanel/Partners";
 import MealOrderHistory from "./pages/AdminPanel/MealOrderHistory";
-import MealPackages from "./pages/AdminPanel/MealPackages";
+// import MealPackages from "./pages/AdminPanel/MealPackages";
 import { TermsAndConditions } from "./pages/TermsAndConditions";
 import AddMealModal from "./components/modal/AddMealModal";
 
@@ -168,14 +168,14 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route
+        {/* <Route
           path="/meal"
           element={
             <RequireAuth loginPath="/login">
               <MealPackages />
             </RequireAuth>
           }
-        />
+        /> */}
         <Route
           path="/menu/add"
           element={
@@ -184,7 +184,7 @@ function App() {
             </RequireAuth>
           }
         />
-        
+
       </Routes>
     </div>
   );

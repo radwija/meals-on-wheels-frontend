@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 import mow_navbar_logo from "../assets/mow_navbar_logo.png";
 import { Link, useLocation } from "react-router-dom";
-import { useSignOut, useAuthUser } from "react-auth-kit";
+import { useSignOut, useAuthUser, useIsAuthenticated } from "react-auth-kit";
 import { getProfile } from "../api/profile-api";
 import { useNavigate } from "react-router";
 import { Collapse } from "flowbite";
@@ -15,6 +15,7 @@ export const Navbar = ({ isProfileUpdated }) => {
   const navigate = useNavigate();
   const userEmail = auth()?.email;
   const location = useLocation();
+  const isLogin = useIsAuthenticated();
   const [isProfileExpanded, setProfileExpanded] = React.useState(false);
   const [isBurgerExpanded, setBurgerExpanded] = React.useState(false);
 
@@ -159,12 +160,15 @@ export const Navbar = ({ isProfileUpdated }) => {
               </div>
               <ul className="py-2" aria-labelledby="user-menu-button">
                 <li>
-                  <Link
-                    to={dashboardRolePath()}
-                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                  >
-                    Dashboard
-                  </Link>
+                  {
+                    role !== "ROLE_VOLUNTEER" ? <Link
+                      to={dashboardRolePath()}
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                    >
+                      Dashboard
+                    </Link> : <></>
+                  }
+
                 </li>
                 <li>
                   <Link
@@ -236,16 +240,20 @@ export const Navbar = ({ isProfileUpdated }) => {
         </div>
         <div
           id="mobile-menu-2"
-          className={`items-center justify-between ${isBurgerExpanded === true ? "" : "hidden"
-            } w-full lg:flex lg:w-auto lg:order-1`}
+          className={`items-center justify-between ${
+            isBurgerExpanded === true ? "" : "hidden"
+          } w-full lg:flex lg:w-auto lg:order-1`}
         >
           <ul className="flex flex-col font-medium p-4 lg:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 lg:flex-row lg:space-x-8 lg:mt-0 lg:border-0 lg:bg-white dark:bg-gray-800 lg:dark:bg-gray-900 dark:border-gray-700">
             <li>
               <Link
                 to={"/"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${location.pathname === "/" ? "text-navActive" : ""
-                  }`}
+                                ${
+                                  location.pathname === "/"
+                                    ? "text-navActive"
+                                    : ""
+                                }`}
               >
                 Home
               </Link>
@@ -254,34 +262,39 @@ export const Navbar = ({ isProfileUpdated }) => {
               <Link
                 to={"/donation"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${location.pathname === "/donation"
-                    ? "text-navActive"
-                    : ""
-                  }`}
+                                ${
+                                  location.pathname === "/donation"
+                                    ? "text-navActive"
+                                    : ""
+                                }`}
               >
                 Donate
               </Link>
             </li>
-            <li>
-              <Link
-                to={"/partnership"}
-                className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${location.pathname === "/partnership"
-                    ? "text-navActive"
-                    : ""
-                  }`}
-              >
-                Partnership
-              </Link>
-            </li>
+            {!isLogin() && (
+              <li>
+                <Link
+                  to={"/partnership"}
+                  className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
+                                ${
+                                  location.pathname === "/partnership"
+                                    ? "text-navActive"
+                                    : ""
+                                }`}
+                >
+                  Partnership
+                </Link>
+              </li>
+            )}
             <li>
               <Link
                 to={"/about-us"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${location.pathname === "/about-us"
-                    ? "text-navActive"
-                    : ""
-                  }`}
+                                ${
+                                  location.pathname === "/about-us"
+                                    ? "text-navActive"
+                                    : ""
+                                }`}
               >
                 About Us
               </Link>
@@ -290,10 +303,11 @@ export const Navbar = ({ isProfileUpdated }) => {
               <Link
                 to={"/contact-us"}
                 className={`block py-2 pl-3 pr-4 text-gray-900 rounded lg:hover:bg-transparent hover:text-accent lg:p-0 lg:dark:hover:text-blue-500 dark:text-white dark:hover:bg-gray-700 dark:hover:text-white lg:dark:hover:bg-transparent dark:border-gray-700 
-                                ${location.pathname === "/contact-us"
-                    ? "text-navActive"
-                    : ""
-                  }`}
+                                ${
+                                  location.pathname === "/contact-us"
+                                    ? "text-navActive"
+                                    : ""
+                                }`}
               >
                 Contact Us
               </Link>
@@ -303,4 +317,5 @@ export const Navbar = ({ isProfileUpdated }) => {
       </div>
     </nav>
   );
-};
+  }
+  export default Navbar;
