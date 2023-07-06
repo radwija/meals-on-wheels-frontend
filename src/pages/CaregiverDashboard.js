@@ -115,7 +115,7 @@ const CaregiverDashboard = () => {
 
   return (
     <Layout>
-      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
+      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile?.name}!</h1>
       <Carousel></Carousel>
       <div className="md:flex ml-8">
         {/* Assign Partner Task */}
