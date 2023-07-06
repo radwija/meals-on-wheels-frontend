@@ -29,20 +29,20 @@ const DriverDashboard = () => {
   const [msg, setMsg] = useState("");
   const [index, setIndex] = useState(0);
   const isDriver = auth()?.role?.[0] === "ROLE_DRIVER";
+  const [isPickup, setIsPickup] = useState(false);
 
   const [selectedStatus, setSelectedStatus] = useState(profile?.status)
 
   function handlePickUp(id){
     postDriverOrderCreateAPI(token, id)
-      .then((resp) => setMsg("msg"))
+      .then((resp) => setIsPickup(!isPickup))
       .catch((err) => console.log(err.response));
   }
 
   function handleComplete(id) {
     postDriverOrderCompleteAPI(token, id)
-      .then((resp) => setMsg(resp.data.message))
+      .then((resp) => setIsPickup(!isPickup))
       .catch((err) => console.log(err.response));
-    window.location.reload();
   }
 
   function handleStatusUpdate(statusCode) {
@@ -68,7 +68,7 @@ const DriverDashboard = () => {
     getDriverOrderAPI(token)
     .then((resp) => setOrderList(resp.data))
     .catch((err) => console.log(err));
-  }, []);
+  }, [isPickup]);
   
   // if user not driver forbid access
   if (!isDriver) {
@@ -77,7 +77,7 @@ const DriverDashboard = () => {
   
   return(
         <Layout>
-        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
+        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile?.name}!</h1>
         <Carousel></Carousel>
         <div className="md:flex ml-8 mt-4">
   {/* Assign Driver Task */}

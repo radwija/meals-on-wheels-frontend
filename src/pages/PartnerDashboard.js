@@ -32,16 +32,17 @@ const PartnerDashboard = () => {
   const [index, setIndex] = useState(0);
   const [menu, setMenu] = useState([menu_type]);
   const isPartner = auth()?.role?.[0] === "ROLE_PARTNER";
+  const [isPrepare, setIsPrepare] = useState(false)
 
   function handlePrepare(id) {
     postPartnerOrderCreateAPI(token, id)
-      .then((resp) => setMsg(resp.data.message))
+      .then((resp) => setIsPrepare(!isPrepare))
       .catch((err) => console.log(err.response));
   }
 
   function handleComplete(id) {
     postPartnerOrderCompleteAPI(token, id)
-      .then((resp) => setMsg(resp.data.message))
+      .then((resp) => setIsPrepare(!isPrepare))
       .catch((err) => console.log(err.response));
   }
   const fetchData = async () => {
@@ -70,7 +71,7 @@ const PartnerDashboard = () => {
     getPartnerOrderAPI(token)
     .then((resp) => setOrderList(resp.data))
     .catch((err) => console.log(err.response));
-  }, []);
+  }, [isPrepare]);
   
     // if user not partner forbid access
     if (!isPartner) {
@@ -78,7 +79,7 @@ const PartnerDashboard = () => {
     }
     return(
         <Layout>
-        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile.name}!</h1>
+        <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile?.name}!</h1>
         <Carousel></Carousel>
         <div className="container mx-auto">
         <div className="flex flex-wrap">
@@ -134,7 +135,7 @@ const PartnerDashboard = () => {
                                 .slice(11, 30)}
                             </td>
                             <td className="px-4 py-2 border-b">
-                              {order.orderStatus === "READY_TO_DELIVER" ? (
+                              {order.orderStatus === "PENDING" ? (
                                 <button
                                   className="w-full bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                                   onClick={() => {

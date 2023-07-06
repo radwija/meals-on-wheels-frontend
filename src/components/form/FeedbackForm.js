@@ -7,33 +7,47 @@ const UPLOAD_ENDPOINT = "http://localhost:8080/api/feedback";
 const FeedbackForm = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [mealPackageId, setmealPackageId] = useState(1);
+  const [mealPackageId, setMealPackageId] = useState(1);
   const [feedback, setFeedback] = useState("");
   const [status, setStatus] = useState("");
+  const [formSubmitted, setFormSubmitted] = useState(false);
   const navigate = useNavigate();
   const [itemList, setItemList] = useState([]);
 
   const handleSubmit = async (event) => {
-    setStatus(""); // Reset status
-    alert(mealPackageId)
     event.preventDefault();
-    const formData = new FormData();
+    setFormSubmitted(true);
 
+    // Validate form fields if the form has been submitted
+    if (!name || !email || !mealPackageId || !feedback) {
+      setStatus("");
+      return;
+    }
+
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email.match(emailRegex)) {
+      setStatus("Please enter a valid email address");
+      return;
+    }
+
+    setStatus(""); // Reset status
+
+    const formData = new FormData();
     formData.append("name", name);
     formData.append("email", email);
     formData.append("mealPackageId", mealPackageId);
     formData.append("feedback", feedback);
+
     axios
       .post(UPLOAD_ENDPOINT, formData, {
         headers: { "Content-Type": "application/json" },
-        withCredentials: true
+        withCredentials: true,
       })
       .then((resp) => {
         navigate(`/member`);
       })
-      .catch((err) => setStatus(err.response.data.message))
-
-
+      .catch((err) => setStatus(err.response.data.message));
   };
 
   useEffect(() => {
@@ -43,7 +57,6 @@ const FeedbackForm = () => {
       .then((response) => {
         return response.json();
       });
-
 
     let PackageCount = [];
     let itemList = [];
@@ -66,17 +79,12 @@ const FeedbackForm = () => {
   return (
     <div className="container py-10 flex items-center justify-center">
       <div className="card m-5 w-3/4 bg-white rounded flex flex-wrap">
-        <form className="p-8 flex flex-col items-start w-full sm:w-1/2"
-          onSubmit={handleSubmit}>
-          <h3 className="contact-title font-semibold text-2xl text-black mb-4">
-            Give us Feedback
-          </h3>
+        <form className="p-8 flex flex-col items-start w-full sm:w-1/2" onSubmit={handleSubmit}>
+          <h3 className="contact-title font-semibold text-2xl text-black mb-4">Give us Feedback</h3>
           <hr className="border-white" />
 
           <div className="my-4 w-full">
-            <label htmlFor="name" className="block text-lg text-gray-800 mb-2">
-              Name
-            </label>
+            <label htmlFor="name" className="block text-lg text-gray-800 mb-2">Name</label>
             <input
               type="text"
               id="name"
@@ -85,46 +93,42 @@ const FeedbackForm = () => {
               onChange={(e) => setName(e.target.value)}
               value={name}
             />
+            {formSubmitted && !name && <p className="text-red-500">Please enter your name</p>}
           </div>
 
           <div className="my-4 w-full">
-            <label htmlFor="email" className="block text-lg text-gray-800 mb-2">
-              Email
-            </label>
+            <label htmlFor="email" className="block text-lg text-gray-800 mb-2">Email</label>
             <input
               type="email"
               id="email"
               placeholder="email@example.com"
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
-              onChange={(e) => setEmail(e.target.value)} value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              value={email}
             />
+            {formSubmitted && !email && <p className="text-red-500">Please enter your email</p>}
           </div>
 
           <div className="my-4 w-full">
-            <label htmlFor="mealPackageId" className="block text-lg text-gray-800 mb-2">
-              Package Number
-            </label>
+            <label htmlFor="mealPackageId" className="block text-lg text-gray-800 mb-2">Package Number</label>
             <select
               id="mealPackageId"
               className="w-full px-4 py-2 border border-gray-300 rounded focus:outline-none focus:border-indigo-500"
-              onChange={(e) => setmealPackageId(e.target.value)}
+              onChange={(e) => setMealPackageId(e.target.value)}
               value={mealPackageId}
             >
-              <option disabled>
-                Select Meal Package Number
-              </option>
+              <option disabled>Select Meal Package Number</option>
               {itemList.map((meal, index) => (
                 <option key={index} value={meal.id}>
                   {meal.id}
                 </option>
               ))}
             </select>
+            {formSubmitted && !mealPackageId && <p className="text-red-500">Please select a package number</p>}
           </div>
 
           <div className="my-4 w-full">
-            <label htmlFor="feedback" className="block text-lg text-gray-800 mb-2">
-              Feedback
-            </label>
+            <label htmlFor="feedback" className="block text-lg text-gray-800 mb-2">Feedback</label>
             <textarea
               id="feedback"
               placeholder="Leave a comment here"
@@ -133,7 +137,10 @@ const FeedbackForm = () => {
               value={feedback}
               rows={4}
             ></textarea>
+            {formSubmitted && !feedback && <p className="text-red-500">Please enter your feedback</p>}
           </div>
+
+          {status && <p className="text-red-500">{status}</p>}
 
           <button
             type="submit"
@@ -154,8 +161,7 @@ const FeedbackForm = () => {
         </div>
       </div>
     </div>
+  );
+};
 
-
-  )
-}
 export default FeedbackForm;
