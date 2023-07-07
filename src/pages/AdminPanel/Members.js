@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Sidebar from "./Sidebar";
 import Layout from "../../components/Layout";
 import ForbiddenPage from "../ForbiddenPage";
+import Qualification from "../../components/Qualification";
 import { getAdminUserAPI, getAdminUserActiveAPI } from '../../api/admin-api';
 import { user_type } from "../../context/context-type";
 import { useAuthUser } from "react-auth-kit";
@@ -16,14 +17,23 @@ const Members = () => {
   const [profile, setProfile] = useState({});
   const role = auth()?.role[0];
   const navigate = useNavigate();
-  const [isOpen, setIsOpen] = useState(null); 
+  const [isOpen, setIsOpen] = useState(null);
   const [msg, setMsg] = useState("");
+  const [openQualification, setOpenQualification] = useState(null);
 
 
-  const handleOpen = (index) =>{
+  const handleOpen = (index) => {
     setIsOpen(index)
 
   }
+
+  const handleOpenQualification = (index) => {
+    setOpenQualification(index)
+  }
+
+  const handleCloseQualification = () => {
+    setOpenQualification(null);
+  };
 
   const fetchData = async () => {
     if (!auth()) {
@@ -40,7 +50,7 @@ const Members = () => {
       // Rest of your code here
     }
   };
-  
+
 
   function handleActive(id) {
     getAdminUserActiveAPI(token, id)
@@ -62,50 +72,57 @@ const Members = () => {
 
   return (
     <Layout>
-  <div className="flex min-h-screen mr-5">
-    <Sidebar />
-    <div className="flex-1 p-4">
-      <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Users Management</h1>
+      <div className="flex min-h-screen mr-5">
+        <Sidebar />
+        <div className="flex-1 p-4">
+          <h1 className="text-3xl font-bold mb-10 mt-10 text-center">Users Management</h1>
 
-      <h2 className="text-2xl font-bold mb-4">Users</h2>
-      {/* Members table */}
-      <div className="card mb-5">
-        <div className="container">
-          <table className="w-full table-auto text-white text-center driver my-3">
-            <thead className="bg-cyan-950">
-              <tr>
-                <th>No</th>
-                <th>Name</th>
-                <th>Address</th>
-                <th>Email</th>
-                <th>Gender</th>
-                <th>Roles</th>
-                <th>File</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white">
-              {users.map((user, index) => (
-                <tr key={user.id}>
-                  <td className="text-black">{index + 1}</td>
-                  <td className="text-black">{user.name}</td>
-                  <td className="text-black">{user.address}</td>
-                  <td className="text-black">{user.email}</td>
-                  <td className="text-black">{user.gender}</td>
-                  <td className="text-black">{user.role}</td>
-                  <td>
-                    <a className="text-blue-500" href={user.qualification}>
-                      file
-                    </a>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <h2 className="text-2xl font-bold mb-5 ml-10 mt-10 text-center">Users</h2>
+          {/* Members table */}
+          <div className="card mb-5">
+            <div className="container">
+              <table className="w-full table-auto text-white text-center driver mt-3">
+                <thead className="bg-cyan-950">
+                  <tr>
+                    <th className="px-4 py-2 border-b font-semibold">No</th>
+                    <th className="px-4 py-2 border-b font-semibold">Name</th>
+                    <th className="px-4 py-2 border-b font-semibold">Address</th>
+                    <th className="px-4 py-2 border-b font-semibold">Email</th>
+                    <th className="px-4 py-2 border-b font-semibold">Gender</th>
+                    <th className="px-4 py-2 border-b font-semibold">Roles</th>
+                    <th className="px-4 py-2 border-b font-semibold">File</th>
+                  </tr>
+                </thead>
+                <tbody className="text-center">
+                  {users.map((user, index) => (
+                    <tr key={user.id}>
+                      <td className="text-black border-b font-medium">{index + 1}</td>
+                      <td className="text-black border-b font-medium">{user.name}</td>
+                      <td className="text-black border-b font-medium">{user.address}</td>
+                      <td className="text-black border-b font-medium">{user.email}</td>
+                      <td className="text-black border-b font-medium">{user.gender}</td>
+                      <td className="text-black border-b font-medium">{user.role}</td>
+                      <td className="text-black border-b font-medium">
+                        <button className="w-full text-center focus:outline-none">
+                          <Qualification
+                            closeModal={handleCloseQualification}
+                            isOpen={openQualification === user.id}
+                            qualification={user.qualification}
+                            key={user.id}
+                            id={user.id}
+                            onClick={() => handleOpenQualification(user.id)}
+                          />
+                        </button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-</Layout>
+    </Layout>
   );
 };
 
