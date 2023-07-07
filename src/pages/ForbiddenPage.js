@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuthUser } from "react-auth-kit";
 import { useNavigate } from "react-router-dom";
+import Layout from "../components/Layout";
 
 const ForbiddenPage = () => {
   const navigate = useNavigate();
@@ -30,19 +31,21 @@ const ForbiddenPage = () => {
     }
   };
   return (
-    <div className="h-screen grid place-items-center">
-      <div className="bg-white rounded-lg w-2/4 h-1/3 grid place-content-center gap-3">
-        <h1 className="font-bold text-2xl">Access denied!</h1>
-        <p text-lg>You doesn't have permission to view this page.</p>
+    <Layout>
+      <div className="grid place-items-center mt-28">
+        <div className="bg-white rounded-lg w-2/4 py-20 grid place-content-center gap-3">
+          <h1 className="font-bold text-2xl">Access denied!</h1>
+          <p text-lg>You doesn't have permission to view this page.</p>
 
-        <button
-          className="px-6 py-3 text-white bg-accent rounded-md hover:bg-accent-dark transition-colors"
-          onClick={handleRedirect}
-        >
-          Go back
-        </button>
+          <button
+            className="px-6 py-3 text-white bg-accent rounded-md hover:bg-accent-dark transition-colors"
+            onClick={handleRedirect}
+          >
+            Go back
+          </button>
+        </div>
       </div>
-    </div>
+    </Layout>
   );
 };
 
