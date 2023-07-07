@@ -41,13 +41,25 @@ const CaregiverDashboard = () => {
   const [menu, setMenu] = useState([menu_type]);
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(null);
+  const [partnerOpenIndex, setPartnerOpenIndex] = useState(null);
+  const [driverOpenIndex, setDriverOpenIndex] = useState(null);
   const [isAssign, setIsAssign] = useState(false);
 
-  const handleOpen = (index) => {
-    if (isOpen === index) {
-      setIsOpen(null); // Close the button selection
-    } else {
-      setIsOpen(index); // Open the button selection for the specified index
+  const handleOpen = (index, type) => {
+    if (type === "partner") {
+      if (partnerOpenIndex === index) {
+        setPartnerOpenIndex(null); // Close the partner selection
+      } else {
+        setPartnerOpenIndex(index); // Open the partner selection for the specified index
+        setDriverOpenIndex(null); // Close the driver selection
+      }
+    } else if (type === "driver") {
+      if (driverOpenIndex === index) {
+        setDriverOpenIndex(null); // Close the driver selection
+      } else {
+        setDriverOpenIndex(index); // Open the driver selection for the specified index
+        setPartnerOpenIndex(null); // Close the partner selection
+      }
     }
   };
 
@@ -66,16 +78,22 @@ const CaregiverDashboard = () => {
 
   function handlePrepare(order, user) {
     postAdminOrderPrepareAPI(token, order, user)
-      .then((resp) => setIsAssign(!isAssign))
+      .then((resp) => {
+        setIsAssign(!isAssign);
+        setPartnerOpenIndex(null); // Close the partner selection
+      })
       .catch((err) => console.log(err));
   }
-
+  
   function handleDeliver(order, user) {
     postAdminOrderDeliverAPI(token, order, user)
-      .then((resp) => setIsAssign(!isAssign))
+      .then((resp) => {
+        setIsAssign(!isAssign);
+        setDriverOpenIndex(null); // Close the driver selection
+      })
       .catch((err) => console.log(err));
   }
-
+  
   useEffect(() => {
     fetchData();
 
@@ -188,30 +206,30 @@ const CaregiverDashboard = () => {
                                   type="button"
                                   className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   id="dropdown-menu-button"
-                                  onClick={() => handleOpen(index)}
+                                  onClick={() => handleOpen(index, "partner")}
                                   aria-haspopup="true"
-                                  aria-expanded={isOpen}
+                                  aria-expanded={partnerOpenIndex === index}
                                 >
                                   Select
                                 </button>
                               </div>
-                              {isOpen === index && (
+                              {partnerOpenIndex === index && (
                                 <div
                                   className="top-0 absolute left-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
                                   role="menu"
                                   aria-orientation="vertical"
                                   aria-labelledby="dropdown-menu-button"
                                 >
-                                  {partners.map((partners) => (
+                                  {partners.map((partner) => (
                                     <a
+                                      key={partner.id}
                                       href="#/action1"
-                                      key={partners.id}
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
                                       onClick={() =>
-                                        handlePrepare(order.id, partners.id)
+                                        handlePrepare(order.id, partner.id)
                                       }
                                     >
-                                      {partners.name} {partners.status}
+                                      {partner.name} {partner.status}
                                     </a>
                                   ))}
                                 </div>
@@ -314,14 +332,14 @@ const CaregiverDashboard = () => {
                                   type="button"
                                   className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   id="dropdown-menu-button"
-                                  onClick={() => handleOpen(index)}
+                                  onClick={() => handleOpen(index, "driver")}
                                   aria-haspopup="true"
-                                  aria-expanded={isOpen}
+                                  aria-expanded={driverOpenIndex === index}
                                 >
                                   Select
                                 </button>
                               </div>
-                              {isOpen === index && (
+                              {driverOpenIndex === index && (
                                 <div
                                   className="top-0 absolute left-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
                                   role="menu"
