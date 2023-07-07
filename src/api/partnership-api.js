@@ -15,7 +15,7 @@ export const applyPartnership = async (partner) => {
     if (response?.data.status) return response.data.status;
   } catch (error) {
     if (error.response && error.response.data.error) {
-      return "File size too big, make sure it's under 1 MB";
+      return "File size too big, make sure it's under 300 kb";
     } else if (error.response && error.response.data) {
       return error.response.data;
     } else {
