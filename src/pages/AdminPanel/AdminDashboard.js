@@ -222,7 +222,6 @@ const AdminDashboard = () => {
                           <td className="text-black border-b">{user.role}</td>
                           <td className="text-black border-b">
                             <div className="relative inline-block">
-                              <Qualification closeModal={handleCloseQualification} isOpen={openQualification === user.id} qualification={user.qualification} key={user.id} id={user.id} onClick={() => handleOpenQualification(user.id)} />
                               <button className="bg-blue-500 text-white py-1 px-3 rounded-md" onMouseEnter={() => handleOpen(user.id)}>
                                 Select
                               </button>
@@ -236,16 +235,13 @@ const AdminDashboard = () => {
                                   </button>
                                 </li>
                                 <li className="px-4 py-2 cursor-pointer hover:bg-gray-200">
-                                  <button
-                                    className="w-full text-left focus:outline-none"
-                                    onClick={() => handleOpenQualification(user.id)}
-                                  >
-                                    Download User File
+                                  <button className="w-full text-left focus:outline-none">
+                                  <Qualification closeModal={handleCloseQualification} isOpen={openQualification === user.id} qualification={user.qualification} key={user.id} id={user.id} onClick={() => handleOpenQualification(user.id)} />
                                   </button>
                                 </li>
-
                               </ul>
                             </div>
+
                           </td>
                         </tr>
                       ))
