@@ -41,7 +41,7 @@ const ForbiddenPage = () => {
             className="px-6 py-3 text-white bg-accent rounded-md hover:bg-accent-dark transition-colors"
             onClick={handleRedirect}
           >
-            Go back
+            Go to dashboard
           </button>
         </div>
       </div>
