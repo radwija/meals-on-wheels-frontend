@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
-import redCircle from "../assets/images/red-circle.svg"
+import redCircle from "../assets/images/red-circle.svg";
 import { getAllMenu } from "../api/main-api";
 import {
   getAdminOrderPendingAPI,
@@ -14,7 +14,12 @@ import {
   postAdminOrderDeliverAPI,
   postAdminOrderPrepareAPI,
 } from "../api/admin-api";
-import { menu_type, order_type, user_count, user_type } from "../context/context-type";
+import {
+  menu_type,
+  order_type,
+  user_count,
+  user_type,
+} from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
 import { getProfile } from "../api/profile-api";
 import ForbiddenPage from "./ForbiddenPage";
@@ -38,9 +43,13 @@ const CaregiverDashboard = () => {
   const [isOpen, setIsOpen] = useState(null);
   const [isAssign, setIsAssign] = useState(false);
 
-  const handleOpen = (index) =>{
-    setIsOpen(index)
-  }
+  const handleOpen = (index) => {
+    if (isOpen === index) {
+      setIsOpen(null); // Close the button selection
+    } else {
+      setIsOpen(index); // Open the button selection for the specified index
+    }
+  };
 
   const fetchData = async () => {
     if (!auth()) {
@@ -55,12 +64,10 @@ const CaregiverDashboard = () => {
 
   const isCaregiver = auth()?.role?.[0] === "ROLE_CAREGIVER";
 
-
   function handlePrepare(order, user) {
     postAdminOrderPrepareAPI(token, order, user)
       .then((resp) => setIsAssign(!isAssign))
-      .catch((err => console.log(err)))
-
+      .catch((err) => console.log(err));
   }
 
   function handleDeliver(order, user) {
@@ -70,7 +77,7 @@ const CaregiverDashboard = () => {
   }
 
   useEffect(() => {
-    fetchData()
+    fetchData();
 
     getAdminOrderPendingAPI(token)
       .then((resp) => setOrderList(resp.data))
@@ -121,7 +128,9 @@ const CaregiverDashboard = () => {
 
   return (
     <Layout>
-      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile?.name}!</h1>
+      <h1 className="mt-8 text-2xl font-bold text-center">
+        Hello, {profile?.name}!
+      </h1>
       <Carousel></Carousel>
       <div className="md:flex ml-8">
         {/* Assign Partner Task */}
@@ -135,15 +144,22 @@ const CaregiverDashboard = () => {
                     <thead className="bg-cyan-950">
                       <tr>
                         <th className="px-4 py-2 border-b font-normal">No</th>
-                        <th className="px-4 py-2 border-b font-normal">Meals Request List</th>
-                        <th className="px-4 py-2 border-b font-normal">Status</th>
-                        <th className="px-4 py-2 border-b font-normal">Assigned Partner</th>
-                        <th className="px-4 py-2 border-b font-normal">Select Partner</th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Meals Request List
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Assigned Partner
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Select Partner
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
                       {orderList.map((order, index) => (
-
                         <tr key={order.id}>
                           <td className="px-4 py-2 border-b">{index + 1}</td>
                           <td className="px-4 py-2 border-b">
@@ -151,7 +167,11 @@ const CaregiverDashboard = () => {
                           </td>
                           <td className="px-4 py-2 border-b">
                             <div className="status flex justify-center">
-                              <img src={redCircle} alt="" className="status-icon" />
+                              <img
+                                src={redCircle}
+                                alt=""
+                                className="status-icon"
+                              />
                               <span className="font-bold ms-3">
                                 {order.orderStatus}
                               </span>
@@ -164,7 +184,7 @@ const CaregiverDashboard = () => {
                             <div className="relative inline-block text-center">
                               <div>
                                 <button
-                                key ={index}
+                                  key={index}
                                   type="button"
                                   className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   id="dropdown-menu-button"
@@ -187,11 +207,12 @@ const CaregiverDashboard = () => {
                                       href="#/action1"
                                       key={partners.id}
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                      onClick={() => handlePrepare(order.id, partners.id)}
+                                      onClick={() =>
+                                        handlePrepare(order.id, partners.id)
+                                      }
                                     >
                                       {partners.name} {partners.status}
                                     </a>
-
                                   ))}
                                 </div>
                               )}
@@ -225,14 +246,13 @@ const CaregiverDashboard = () => {
                 </tr>
               </thead>
 
-              {menu.slice(0, 8).map((data) =>
+              {menu.slice(0, 8).map((data) => (
                 <tbody key={data.id}>
-
                   <tr>
                     <td className="px-4 py-2 border-b">{data.packageName}</td>
                   </tr>
                 </tbody>
-              )}
+              ))}
             </table>
           </div>
         </div>
@@ -266,7 +286,7 @@ const CaregiverDashboard = () => {
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
                       {deliverList.map((order, index) => (
-                        <tr key={order.id}>
+                        <tr key={`${order.id}-${index}`}>
                           <td className="px-4 py-2 border-b">{index + 1}</td>
                           <td className="px-4 py-2 border-b">
                             {order.mealPackage.packageName}
@@ -290,7 +310,7 @@ const CaregiverDashboard = () => {
                             <div className="relative inline-block text-center">
                               <div>
                                 <button
-                                  key ={index}
+                                  key={`${order.id}-${index}`}
                                   type="button"
                                   className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   id="dropdown-menu-button"
@@ -308,15 +328,16 @@ const CaregiverDashboard = () => {
                                   aria-orientation="vertical"
                                   aria-labelledby="dropdown-menu-button"
                                 >
-                                  {drivers.map((drivers) => (
+                                  {drivers.map((driver) => (
                                     <a
+                                      key={driver.id}
                                       href="#/action1"
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-
-                                      onClick={() => handleDeliver(order.id, drivers.id)}
-
+                                      onClick={() =>
+                                        handleDeliver(order.id, driver.id)
+                                      }
                                     >
-                                      {drivers.name} {drivers.status}
+                                      {driver.name} {driver.status}
                                     </a>
                                   ))}
                                 </div>
