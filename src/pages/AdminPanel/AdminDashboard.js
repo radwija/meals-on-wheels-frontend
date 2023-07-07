@@ -24,6 +24,7 @@ import { getProfile } from '../../api/profile-api';
 import { useNavigate } from 'react-router-dom';
 import AddMealModal from '../../components/modal/AddMealModal';
 import Qualification from "../../components/Qualification";
+import ForbiddenPage from "../ForbiddenPage";
 
 const AdminDashboard = () => {
   const auth = useAuthUser();
@@ -33,6 +34,7 @@ const AdminDashboard = () => {
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
 
+  const isAdmin = auth()?.role?.[0] === "ROLE_ADMIN";
   const [orderList, setOrderList] = useState([order_type]);
   const [deliverList, setDeliverList] = useState([order_type]);
   const [users, setUsers] = useState([user_type]);
@@ -162,6 +164,11 @@ const AdminDashboard = () => {
       .catch((err) => console.log(err));
   }, [isAssign]);
 
+  // if user not admin forbid access
+  if (!isAdmin) {
+    return <ForbiddenPage />;
+  }
+
 
 
   return (
@@ -236,7 +243,7 @@ const AdminDashboard = () => {
                                 </li>
                                 <li className="px-4 py-2 cursor-pointer hover:bg-gray-200">
                                   <button className="w-full text-left focus:outline-none">
-                                  <Qualification closeModal={handleCloseQualification} isOpen={openQualification === user.id} qualification={user.qualification} key={user.id} id={user.id} onClick={() => handleOpenQualification(user.id)} />
+                                    <Qualification closeModal={handleCloseQualification} isOpen={openQualification === user.id} qualification={user.qualification} key={user.id} id={user.id} onClick={() => handleOpenQualification(user.id)} />
                                   </button>
                                 </li>
                               </ul>
