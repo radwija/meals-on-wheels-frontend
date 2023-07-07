@@ -98,7 +98,7 @@ const Partners = () => {
                     inactivePartner.map((data) => (
                       <tr key={data.id} className="border-b">
                         <td className="text-black border-b font-medium">{data.name}</td>
-                        <td className="text-black border-b font-medium">
+                        <td className="text-black border-b font-medium flex justify-center items-center">
                           <img
                             className="h-16 w-16 object-contain"
                             src={`data:image/jpeg;base64,${data?.profilePicture}`}
@@ -144,7 +144,7 @@ const Partners = () => {
                   {partner.map((data) => (
                     <tr key={data.id}>
                       <td className="text-black border-b font-medium">{data.name}</td>
-                      <td className="text-black border-b font-medium">
+                      <td className="text-black border-b font-medium flex justify-center items-center">
                         <img
                           className="h-16 w-16 object-contain"
                           src={`data:image/jpeg;base64,${data?.profilePicture}`}
