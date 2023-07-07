@@ -240,7 +240,7 @@ const AdminDashboard = () => {
                                 Select
                               </button>
                               <ul
-                                className={`absolute top-0 left-20 ${
+                                className={`absolute top-full left-20 z-10 ${
                                   isOpen === user.id ? "block" : "hidden"
                                 } bg-white text-gray-700 py-2 rounded-md shadow-md`}
                               >
