@@ -26,6 +26,7 @@ import MealOrderHistory from "./pages/AdminPanel/MealOrderHistory";
 // import MealPackages from "./pages/AdminPanel/MealPackages";
 import { TermsAndConditions } from "./pages/TermsAndConditions";
 import AddMealModal from "./components/modal/AddMealModal";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
       <Routes>
         {/* <Route path="/" element={<Layout />}> */}
         {"PUBLIC ROUTES"}
+        <Route path="*" element={<NotFoundPage />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="/about-us" element={<AboutUs />} />
         <Route path="/contact-us" element={<ContactUs />} />
