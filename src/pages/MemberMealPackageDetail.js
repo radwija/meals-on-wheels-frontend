@@ -115,8 +115,6 @@ const MemberMealPackageDetail = () => {
           </div>
         </div>
       </div>
-
-
     </Layout>
   )
 }
