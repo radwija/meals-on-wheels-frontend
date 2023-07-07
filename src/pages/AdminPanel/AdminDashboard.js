@@ -234,7 +234,7 @@ const AdminDashboard = () => {
                           <td className="text-black border-b">
                             <div className="relative inline-block ">
                               <button
-                                className="bg-blue-500 text-white py-1   px-3 rounded-md"
+                                className="bg-blue-500 text-white py-1 px-3 rounded-md"
                                 onClick={() => handleOpen(user.id)}
                               >
                                 Select
@@ -363,19 +363,19 @@ const AdminDashboard = () => {
                       <table className="w-full table-auto text-white text-center driver my-3 task-header">
                         <thead className="bg-cyan-950">
                           <tr>
-                            <th className="px-4 py-2 border-b font-normal">
+                            <th className="px-4 py-2 border-b font-semibold">
                               No
                             </th>
-                            <th className="px-4 py-2 border-b font-normal">
+                            <th className="px-4 py-2 border-b font-semibold">
                               Meals Request List
                             </th>
-                            <th className="px-4 py-2 border-b font-normal">
+                            <th className="px-4 py-2 border-b font-semibold">
                               Status
                             </th>
-                            <th className="px-4 py-2 border-b font-normal">
+                            <th className="px-4 py-2 border-b font-semibold">
                               Assigned Partner
                             </th>
-                            <th className="px-4 py-2 border-b font-normal">
+                            <th className="px-4 py-2 border-b font-semibold">
                               Select Partner
                             </th>
                           </tr>
@@ -472,7 +472,7 @@ const AdminDashboard = () => {
                   <tbody className="text-black bg-white">
                     {menu.map((data) => (
                       <tr key={data.id}>
-                        <td className="text-black border-b font-medium">
+                        <td className="text-black border-b">
                           {data.packageName}
                         </td>
                       </tr>
