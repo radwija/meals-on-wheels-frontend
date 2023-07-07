@@ -3,7 +3,6 @@ import { useState } from "react";
 const Qualification = ({ qualification, isOpen, closeModal, id, onClick }) => {
   const [showModal, setShowModal] = useState(isOpen);
 
-
   return (
     <>
       <button
@@ -19,7 +18,11 @@ const Qualification = ({ qualification, isOpen, closeModal, id, onClick }) => {
           <div className="bg-white z-50 p-4 rounded-md shadow-md">
             {isOpen ? (
               <div>
-                <img src={`data:image/jpeg;base64,${qualification}`} alt="certificate" />
+                <img
+                  src={`data:image/jpeg;base64,${qualification}`}
+                  alt="certificate"
+                  className="max-h-96"
+                />
               </div>
             ) : (
               <div>No Qualification File</div>
