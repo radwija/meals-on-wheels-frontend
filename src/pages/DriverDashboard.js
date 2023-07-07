@@ -152,7 +152,7 @@ const DriverDashboard = () => {
         className="w-20 h-20 rounded-full object-cover mt-4 mb-2"
       />
       <div className="text-black">
-        <span className="font-normal">{profile.name}</span>
+        <span className="font-normal">{profile?.name}</span>
       </div>
       <div className="relative">
       <select
@@ -166,7 +166,7 @@ const DriverDashboard = () => {
     >
     <option disabled selected>
     <img src={greenCircle} alt="" className="status-icon" />
-    <span className="font-bold ms-3">{profile.status}</span>
+    <span className="font-bold ms-3">{profile?.status}</span>
   </option>
       <option value="1">
         <img src={greenCircle} alt="" className="status-icon" />

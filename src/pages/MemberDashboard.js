@@ -46,28 +46,25 @@ const MemberDashboard = () => {
             Choose the package that is to your liking.
           </h4>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {menu.map((data) => (
-            <div
-              key={data.id}
-              className="max-w-sm rounded overflow-hidden shadow-lg mx-10 my-8"
-            >
-              <img src={data.packageImage} alt="menu" className="w-full" />
-              <div className="px-6 py-4">
-                <h5 className="p-3 text-center text-xl font-bold mb-0">
-                  {data.packageName}
-                </h5>
-                <div className="flex justify-center">
-                  <Link to={`/meals-package-detail/${data.id}`}>
-                    <button className="font-semibold bg-cyan-950 hover:bg-cyan-900 text-white py-2 px-10 rounded-lg shadow-md my-3">
-                      See Detail Menu
-                    </button>
-                  </Link>
-                </div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+        {menu.map((data) => (
+          <div key={data.id} className="max-w-sm rounded overflow-hidden shadow-lg mx-10 my-8 h-full">
+            <img src={data.packageImage} alt="menu" className="w-full h-48 object-cover" />
+            <div className="px-4 py-4">
+              <h5 className="p-3 text-center text-xl font-bold mb-0">
+                {data.packageName}
+              </h5>
+              <div className="flex justify-center">
+                <Link to={`/meals-package-detail/${data.id}`}>
+                  <button className="font-semibold bg-cyan-950 hover:bg-cyan-900 text-white py-2 px-10 rounded-lg shadow-md my-3">
+                    See Detail Menu
+                  </button>
+                </Link>
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        ))}
+      </div>      
       </div>
     </Layout>
   );

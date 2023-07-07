@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
 import Layout from "../components/Layout";
 import Carousel from "../components/Carousel";
-import redCircle from "../assets/images/red-circle.svg"
+import redCircle from "../assets/images/red-circle.svg";
 import { getAllMenu } from "../api/main-api";
 import {
   getAdminOrderPendingAPI,
@@ -14,7 +14,12 @@ import {
   postAdminOrderDeliverAPI,
   postAdminOrderPrepareAPI,
 } from "../api/admin-api";
-import { menu_type, order_type, user_count, user_type } from "../context/context-type";
+import {
+  menu_type,
+  order_type,
+  user_count,
+  user_type,
+} from "../context/context-type";
 import { useAuthUser } from "react-auth-kit";
 import { getProfile } from "../api/profile-api";
 import ForbiddenPage from "./ForbiddenPage";
@@ -36,11 +41,27 @@ const CaregiverDashboard = () => {
   const [menu, setMenu] = useState([menu_type]);
   const [index, setIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(null);
+  const [partnerOpenIndex, setPartnerOpenIndex] = useState(null);
+  const [driverOpenIndex, setDriverOpenIndex] = useState(null);
   const [isAssign, setIsAssign] = useState(false);
 
-  const handleOpen = (index) =>{
-    setIsOpen(index)
-  }
+  const handleOpen = (index, type) => {
+    if (type === "partner") {
+      if (partnerOpenIndex === index) {
+        setPartnerOpenIndex(null); // Close the partner selection
+      } else {
+        setPartnerOpenIndex(index); // Open the partner selection for the specified index
+        setDriverOpenIndex(null); // Close the driver selection
+      }
+    } else if (type === "driver") {
+      if (driverOpenIndex === index) {
+        setDriverOpenIndex(null); // Close the driver selection
+      } else {
+        setDriverOpenIndex(index); // Open the driver selection for the specified index
+        setPartnerOpenIndex(null); // Close the partner selection
+      }
+    }
+  };
 
   const fetchData = async () => {
     if (!auth()) {
@@ -55,22 +76,26 @@ const CaregiverDashboard = () => {
 
   const isCaregiver = auth()?.role?.[0] === "ROLE_CAREGIVER";
 
-
   function handlePrepare(order, user) {
     postAdminOrderPrepareAPI(token, order, user)
-      .then((resp) => setIsAssign(!isAssign))
-      .catch((err => console.log(err)))
-
-  }
-
-  function handleDeliver(order, user) {
-    postAdminOrderDeliverAPI(token, order, user)
-      .then((resp) => setIsAssign(!isAssign))
+      .then((resp) => {
+        setIsAssign(!isAssign);
+        setPartnerOpenIndex(null); // Close the partner selection
+      })
       .catch((err) => console.log(err));
   }
-
+  
+  function handleDeliver(order, user) {
+    postAdminOrderDeliverAPI(token, order, user)
+      .then((resp) => {
+        setIsAssign(!isAssign);
+        setDriverOpenIndex(null); // Close the driver selection
+      })
+      .catch((err) => console.log(err));
+  }
+  
   useEffect(() => {
-    fetchData()
+    fetchData();
 
     getAdminOrderPendingAPI(token)
       .then((resp) => setOrderList(resp.data))
@@ -121,7 +146,9 @@ const CaregiverDashboard = () => {
 
   return (
     <Layout>
-      <h1 className="mt-8 text-2xl font-bold text-center">Hello, {profile?.name}!</h1>
+      <h1 className="mt-8 text-2xl font-bold text-center">
+        Hello, {profile?.name}!
+      </h1>
       <Carousel></Carousel>
       <div className="md:flex ml-8">
         {/* Assign Partner Task */}
@@ -135,15 +162,22 @@ const CaregiverDashboard = () => {
                     <thead className="bg-cyan-950">
                       <tr>
                         <th className="px-4 py-2 border-b font-normal">No</th>
-                        <th className="px-4 py-2 border-b font-normal">Meals Request List</th>
-                        <th className="px-4 py-2 border-b font-normal">Status</th>
-                        <th className="px-4 py-2 border-b font-normal">Assigned Partner</th>
-                        <th className="px-4 py-2 border-b font-normal">Select Partner</th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Meals Request List
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Status
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Assigned Partner
+                        </th>
+                        <th className="px-4 py-2 border-b font-normal">
+                          Select Partner
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
                       {orderList.map((order, index) => (
-
                         <tr key={order.id}>
                           <td className="px-4 py-2 border-b">{index + 1}</td>
                           <td className="px-4 py-2 border-b">
@@ -151,7 +185,11 @@ const CaregiverDashboard = () => {
                           </td>
                           <td className="px-4 py-2 border-b">
                             <div className="status flex justify-center">
-                              <img src={redCircle} alt="" className="status-icon" />
+                              <img
+                                src={redCircle}
+                                alt=""
+                                className="status-icon"
+                              />
                               <span className="font-bold ms-3">
                                 {order.orderStatus}
                               </span>
@@ -164,34 +202,35 @@ const CaregiverDashboard = () => {
                             <div className="relative inline-block text-center">
                               <div>
                                 <button
-                                key ={index}
+                                  key={index}
                                   type="button"
                                   className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   id="dropdown-menu-button"
-                                  onClick={() => handleOpen(index)}
+                                  onClick={() => handleOpen(index, "partner")}
                                   aria-haspopup="true"
-                                  aria-expanded={isOpen}
+                                  aria-expanded={partnerOpenIndex === index}
                                 >
                                   Select
                                 </button>
                               </div>
-                              {isOpen === index && (
+                              {partnerOpenIndex === index && (
                                 <div
                                   className="top-0 absolute left-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
                                   role="menu"
                                   aria-orientation="vertical"
                                   aria-labelledby="dropdown-menu-button"
                                 >
-                                  {partners.map((partners) => (
+                                  {partners.map((partner) => (
                                     <a
+                                      key={partner.id}
                                       href="#/action1"
-                                      key={partners.id}
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-                                      onClick={() => handlePrepare(order.id, partners.id)}
+                                      onClick={() =>
+                                        handlePrepare(order.id, partner.id)
+                                      }
                                     >
-                                      {partners.name} {partners.status}
+                                      {partner.name} {partner.status}
                                     </a>
-
                                   ))}
                                 </div>
                               )}
@@ -225,14 +264,13 @@ const CaregiverDashboard = () => {
                 </tr>
               </thead>
 
-              {menu.slice(0, 8).map((data) =>
+              {menu.slice(0, 8).map((data) => (
                 <tbody key={data.id}>
-
                   <tr>
                     <td className="px-4 py-2 border-b">{data.packageName}</td>
                   </tr>
                 </tbody>
-              )}
+              ))}
             </table>
           </div>
         </div>
@@ -266,7 +304,7 @@ const CaregiverDashboard = () => {
                     </thead>
                     <tbody className="text-black mt-5 bg-white">
                       {deliverList.map((order, index) => (
-                        <tr key={order.id}>
+                        <tr key={`${order.id}-${index}`}>
                           <td className="px-4 py-2 border-b">{index + 1}</td>
                           <td className="px-4 py-2 border-b">
                             {order.mealPackage.packageName}
@@ -290,33 +328,34 @@ const CaregiverDashboard = () => {
                             <div className="relative inline-block text-center">
                               <div>
                                 <button
-                                  key ={index}
+                                  key={`${order.id}-${index}`}
                                   type="button"
                                   className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                                   id="dropdown-menu-button"
-                                  onClick={() => handleOpen(index)}
+                                  onClick={() => handleOpen(index, "driver")}
                                   aria-haspopup="true"
-                                  aria-expanded={isOpen}
+                                  aria-expanded={driverOpenIndex === index}
                                 >
                                   Select
                                 </button>
                               </div>
-                              {isOpen === index && (
+                              {driverOpenIndex === index && (
                                 <div
                                   className="top-0 absolute left-20 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-100"
                                   role="menu"
                                   aria-orientation="vertical"
                                   aria-labelledby="dropdown-menu-button"
                                 >
-                                  {drivers.map((drivers) => (
+                                  {drivers.map((driver) => (
                                     <a
+                                      key={driver.id}
                                       href="#/action1"
                                       className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900"
-
-                                      onClick={() => handleDeliver(order.id, drivers.id)}
-
+                                      onClick={() =>
+                                        handleDeliver(order.id, driver.id)
+                                      }
                                     >
-                                      {drivers.name} {drivers.status}
+                                      {driver.name} {driver.status}
                                     </a>
                                   ))}
                                 </div>
