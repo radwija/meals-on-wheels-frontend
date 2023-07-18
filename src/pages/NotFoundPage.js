@@ -26,7 +26,10 @@ const NotFoundPage = () => {
         break;
       default:
         // Handle any other roles or fallback to a default path
-        navigate("/profile");
+        if (auth()) {
+          navigate("/profile");
+        }
+        navigate("/");
         break;
     }
   };
@@ -36,12 +39,12 @@ const NotFoundPage = () => {
         <div className="bg-white rounded-lg w-2/4 py-20 text-center">
           <h1 className="font-bold text-2xl">Page Not Found!</h1>
           <p text-lg>Page you try to access not found</p>
-
           <button
             className="px-6 py-3 mt-4 text-white bg-accent rounded-md hover:bg-accent-dark transition-colors"
             onClick={handleRedirect}
           >
-            Go to dashboard
+            {auth() ? "Go to dashboard" : "Go to home page"}
+
           </button>
         </div>
       </div>
